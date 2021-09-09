@@ -2,13 +2,11 @@ import {
   Box,
   Container,
   FormControl,
-  IconButton,
   makeStyles,
   MenuItem,
   Select,
   Typography,
 } from '@material-ui/core';
-import { GitHub } from '@material-ui/icons';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import logo from 'public/logo.svg';
@@ -49,7 +47,9 @@ export const Footer: FC = () => {
 
   function onChangeLanguage(event: ChangeEvent<{ value: unknown }>) {
     setLanguage(event.target.value as string);
-    router.push(`/${event.target.value}`);
+    router.push(router.pathname, router.asPath, {
+      locale: event.target.value as string,
+    });
   }
 
   return (
