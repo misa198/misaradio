@@ -86,7 +86,7 @@ export const Footer: FC = () => {
             </FormControl>
           </Box>
         </Box>
-        <Box
+        {/* <Box
           width="100%"
           display="flex"
           flexDirection="row"
@@ -95,7 +95,7 @@ export const Footer: FC = () => {
         >
           <Typography variant="body2">{t.footerDescription}</Typography>
           <Typography variant="body2">{t.footerCopyright}</Typography>
-        </Box>
+        </Box> */}
       </Container>
     </Box>
   );
