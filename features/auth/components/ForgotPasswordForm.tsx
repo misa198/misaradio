@@ -7,7 +7,6 @@ import {
   Typography,
 } from '@material-ui/core';
 import { indigo } from '@material-ui/core/colors';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { FC } from 'react';
 import en from 'translations/en/auth';
@@ -42,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const RegisterForm: FC = () => {
+export const ForgotPasswordForm: FC = () => {
   const { locale } = useRouter();
   const t = locale === 'vi' ? vi : en;
   const classes = useStyles();
@@ -52,36 +51,12 @@ export const RegisterForm: FC = () => {
       <form className={classes.formContainer}>
         <Box mb={1.5}>
           <Typography variant="h5" className={classes.formTitle}>
-            {t.register}
+            {t.forgotPassword}
           </Typography>
         </Box>
         <Box>
           <TextField
             label={t.email}
-            margin="normal"
-            variant="outlined"
-            fullWidth
-          />
-        </Box>
-        <Box>
-          <TextField
-            label={t.name}
-            margin="normal"
-            variant="outlined"
-            fullWidth
-          />
-        </Box>
-        <Box>
-          <TextField
-            label={t.password}
-            margin="normal"
-            variant="outlined"
-            fullWidth
-          />
-        </Box>
-        <Box>
-          <TextField
-            label={t.confirmPassword}
             margin="normal"
             variant="outlined"
             fullWidth
