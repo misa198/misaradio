@@ -65,6 +65,7 @@ export const Footer: FC = () => {
           display="flex"
           flexDirection="row"
           justifyContent="space-between"
+          alignItems="center"
           className={classes.footerContainer}
           mb={4}
         >
