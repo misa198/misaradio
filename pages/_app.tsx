@@ -20,6 +20,9 @@ const useStyles = makeStyles(() =>
       body: {
         overflowX: 'hidden',
       },
+      a: {
+        textDecoration: 'none',
+      },
     },
   }),
 );

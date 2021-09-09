@@ -1,7 +1,8 @@
-import { Box, makeStyles, Typography } from '@material-ui/core';
+import { Box, Button, makeStyles, Typography } from '@material-ui/core';
 import { useRouter } from 'next/router';
 import bannerBackground from 'public/banner.jpeg';
 import React, { FC } from 'react';
+import Link from 'next/link';
 import en from 'translations/en/banner';
 import vi from 'translations/vi/banner';
 
@@ -22,7 +23,6 @@ const useStyles = makeStyles(() => ({
     fontWeight: 500,
     lineHeight: 1.3,
   },
-  bannerSubtitle: {},
 }));
 
 export const Banner: FC = () => {
@@ -52,6 +52,15 @@ export const Banner: FC = () => {
           <Typography variant="h6" component="h6">
             {t.bannerSubtitle}
           </Typography>
+        </Box>
+        <Box mt={3}>
+          <Link href="/auth/register">
+            <a>
+              <Button variant="contained" color="primary" size="large">
+                Register
+              </Button>
+            </a>
+          </Link>
         </Box>
       </Box>
     </Box>
