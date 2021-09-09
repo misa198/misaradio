@@ -58,7 +58,7 @@ export const Footer: FC = () => {
   }
 
   return (
-    <Box width="100%" className={classes.footerRoot} pt={5} pb={1} m={0}>
+    <Box width="100%" className={classes.footerRoot} pt={2} m={0}>
       <Container>
         <Box
           width="100%"
@@ -67,7 +67,7 @@ export const Footer: FC = () => {
           justifyContent="space-between"
           alignItems="center"
           className={classes.footerContainer}
-          mb={4}
+          mb={2}
         >
           <Box className={classes.footerItem}>
             <Box p={0}>
