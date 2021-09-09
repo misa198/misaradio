@@ -7,11 +7,9 @@ import {
   Typography,
 } from '@material-ui/core';
 import { indigo } from '@material-ui/core/colors';
-import { Facebook } from '@material-ui/icons';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { FC } from 'react';
-import Link from 'next/link';
-import { FcGoogle } from 'react-icons/fc';
 import en from 'translations/en/auth';
 import vi from 'translations/vi/auth';
 
@@ -30,11 +28,6 @@ const useStyles = makeStyles((theme) => ({
   formTitle: {
     fontWeight: 'bold',
     textAlign: 'center',
-  },
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    width: '100%',
   },
   facebookButton: {
     backgroundColor: `${indigo[500]} !important`,
@@ -65,33 +58,33 @@ export const RegisterForm: FC = () => {
         <Box>
           <TextField
             label={t.email}
-            className={classes.textField}
             margin="normal"
             variant="outlined"
+            fullWidth
           />
         </Box>
         <Box>
           <TextField
             label={t.name}
-            className={classes.textField}
             margin="normal"
             variant="outlined"
+            fullWidth
           />
         </Box>
         <Box>
           <TextField
             label={t.password}
-            className={classes.textField}
             margin="normal"
             variant="outlined"
+            fullWidth
           />
         </Box>
         <Box>
           <TextField
             label={t.confirmPassword}
-            className={classes.textField}
             margin="normal"
             variant="outlined"
+            fullWidth
           />
         </Box>
 

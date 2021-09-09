@@ -57,7 +57,7 @@ export const Banner: FC = () => {
           <Link href="/auth/register">
             <a>
               <Button variant="contained" color="primary" size="large">
-                Register
+                {t.register}
               </Button>
             </a>
           </Link>

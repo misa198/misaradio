@@ -31,11 +31,6 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 'bold',
     textAlign: 'center',
   },
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    width: '100%',
-  },
   facebookButton: {
     backgroundColor: `${indigo[500]} !important`,
     color: '#fff !important',
@@ -65,17 +60,17 @@ export const LoginForm: FC = () => {
         <Box>
           <TextField
             label={t.email}
-            className={classes.textField}
             margin="normal"
             variant="outlined"
+            fullWidth
           />
         </Box>
         <Box>
           <TextField
             label={t.password}
-            className={classes.textField}
             margin="normal"
             variant="outlined"
+            fullWidth
           />
         </Box>
 
