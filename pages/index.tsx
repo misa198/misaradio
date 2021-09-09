@@ -1,6 +1,7 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
 import React from 'react';
+import { Banner } from 'components/pages/home';
 
 const Home: NextPage = () => {
   return (
@@ -8,6 +9,7 @@ const Home: NextPage = () => {
       <Head>
         <title>Misa Radio</title>
       </Head>
+      <Banner />
     </>
   );
 };

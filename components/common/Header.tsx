@@ -1,17 +1,26 @@
-import { AppBar, Box, Button, Container } from '@material-ui/core';
+import { AppBar, Box, Button, Container, makeStyles } from '@material-ui/core';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import logo from 'public/logo.svg';
 import React, { FC } from 'react';
-import { useRouter } from 'next/router';
-import vi from 'translations/vi/header';
+import Link from 'next/link';
 import en from 'translations/en/header';
+import vi from 'translations/vi/header';
+
+const useStyles = makeStyles(() => ({
+  button: {
+    width: 'fit-content',
+    whiteSpace: 'nowrap',
+  },
+}));
 
 export const Header: FC = () => {
   const { locale } = useRouter();
   const t = locale === 'vi' ? vi : en;
+  const classes = useStyles();
 
   return (
-    <AppBar position="static" color="transparent" elevation={0}>
+    <AppBar position="fixed" color="transparent" elevation={0}>
       <Container>
         <Box
           component="div"
@@ -20,14 +29,27 @@ export const Header: FC = () => {
           flexDirection="row"
           alignItems="center"
           justifyContent="space-between"
-          py={0.5}
+          py={1.2}
           p={0}
         >
           <Box component="div" p={0}>
-            <Image src={logo} alt="misa-radio-logo" width={120} height={50} />
+            <Link href="/">
+              <a>
+                <Image
+                  src={logo}
+                  alt="misa-radio-logo"
+                  width={120}
+                  height={50}
+                />
+              </a>
+            </Link>
           </Box>
           <Box component="div" p={0}>
-            <Button variant="contained" color="primary">
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.button}
+            >
               {t.login}
             </Button>
           </Box>

@@ -11,4 +11,9 @@ export const theme = createTheme({
       main: red[600],
     },
   },
+  typography: {
+    allVariants: {
+      color: '#fff',
+    },
+  },
 });
