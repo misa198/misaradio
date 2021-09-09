@@ -45,13 +45,17 @@ export const Header: FC = () => {
             </Link>
           </Box>
           <Box component="div" p={0}>
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.button}
-            >
-              {t.login}
-            </Button>
+            <Link href="/auth/login">
+              <a>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.button}
+                >
+                  {t.login}
+                </Button>
+              </a>
+            </Link>
           </Box>
         </Box>
       </Container>

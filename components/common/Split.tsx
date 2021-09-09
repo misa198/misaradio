@@ -3,6 +3,7 @@ import React, { FC } from 'react';
 
 const useStyles = makeStyles(() => ({
   splitRoot: {
+    margin: 0,
     width: '100%',
     height: '0.5rem',
     backgroundColor: '#222',
