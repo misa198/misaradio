@@ -4,10 +4,11 @@ import {
   makeStyles,
   Paper,
   TextField,
-  Typography,
+  Typography
 } from '@material-ui/core';
 import { indigo } from '@material-ui/core/colors';
 import { Facebook } from '@material-ui/icons';
+import { googleClientId } from 'constants/config';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { FC } from 'react';
@@ -88,7 +89,7 @@ export const LoginForm: FC = () => {
         </Box>
         <Box mt={1.5}>
           <GoogleLogin
-            clientId="771590027336-pd5q1mo51tf7m1b27eki00tdcmmi3min.apps.googleusercontent.com"
+            clientId={googleClientId}
             render={(renderProps) => (
               <Button
                 variant="contained"
