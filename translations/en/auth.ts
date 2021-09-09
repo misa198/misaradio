@@ -6,4 +6,7 @@ export default {
   password: 'Password',
   confirmPassword: 'Confirm Password',
   forgotPassword: 'Forgot Password?',
+  confirm: 'Confirm',
+  facebook: 'Login with Facebook',
+  google: 'Login with Google',
 };

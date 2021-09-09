@@ -1,4 +1,5 @@
-import { Banner } from 'components/pages/home';
+import { AuthContainer } from 'components/pages/auth';
+import { LoginForm } from 'features/auth/components/LoginForm';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -6,7 +7,7 @@ import React from 'react';
 import en from 'translations/en/auth';
 import vi from 'translations/vi/auth';
 
-const Home: NextPage = () => {
+const Login: NextPage = () => {
   const { locale } = useRouter();
   const t = locale === 'vi' ? vi : en;
 
@@ -15,9 +16,11 @@ const Home: NextPage = () => {
       <Head>
         <title>{t.login}</title>
       </Head>
-      <Banner />
+      <AuthContainer>
+        <LoginForm />
+      </AuthContainer>
     </>
   );
 };
 
-export default Home;
+export default Login;

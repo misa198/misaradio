@@ -6,7 +6,7 @@ export const theme = createTheme({
     type: 'dark',
     background: {
       default: '#000',
-      paper: '#000',
+      paper: 'rgba(0, 0, 0, 0.7)',
     },
     primary: {
       main: red[600],
