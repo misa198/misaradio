@@ -3,4 +3,5 @@ export default {
   member: 'Added by',
   duration: 'Duration',
   channel: 'Channel',
+  addMessage: 'Add a song and listen now',
 };

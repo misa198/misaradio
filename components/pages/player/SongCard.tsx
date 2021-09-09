@@ -2,6 +2,9 @@ import { Box, Grid, Typography, makeStyles } from '@material-ui/core';
 import React, { FC } from 'react';
 
 const useStyles = makeStyles(() => ({
+  songCardRoot: {
+    userSelect: 'none',
+  },
   songCardImg: {
     width: '100%',
     height: 'auto',
@@ -22,7 +25,7 @@ export const SongCard: FC = () => {
   const classes = useStyles();
 
   return (
-    <Box>
+    <Box className={classes.songCardRoot}>
       <Grid container spacing={2}>
         <Grid item xs={4}>
           <img
