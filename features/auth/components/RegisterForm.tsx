@@ -29,14 +29,6 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 'bold',
     textAlign: 'center',
   },
-  facebookButton: {
-    backgroundColor: `${indigo[500]} !important`,
-    color: '#fff !important',
-  },
-  googleButton: {
-    backgroundColor: 'white !important',
-    color: '#000',
-  },
   link: {
     textDecoration: 'underline',
   },
