@@ -22,6 +22,11 @@ const useStyles = makeStyles((theme) => ({
   footerContainer: {
     marin: 0,
   },
+  footerItem: {
+    width: 'fit-content',
+    margin: 0,
+    padding: 0,
+  },
   footerLanguage: {
     padding: 0,
   },
@@ -63,15 +68,12 @@ export const Footer: FC = () => {
           className={classes.footerContainer}
           mb={4}
         >
-          <Box p={0}>
+          <Box className={classes.footerItem}>
             <Box p={0}>
               <Image src={logo} alt="misa-radio-logo" width={120} height={50} />
             </Box>
-            <Box maxWidth={200} p={0}>
-              <Typography variant="body2">{t.footerDescription}</Typography>
-            </Box>
           </Box>
-          <Box p={0}>
+          <Box className={classes.footerItem}>
             <FormControl variant="outlined" className={classes.formControl}>
               <Select
                 labelId="language"
@@ -83,6 +85,16 @@ export const Footer: FC = () => {
               </Select>
             </FormControl>
           </Box>
+        </Box>
+        <Box
+          width="100%"
+          display="flex"
+          flexDirection="row"
+          justifyContent="space-between"
+          pb={1}
+        >
+          <Typography variant="body2">{t.footerDescription}</Typography>
+          <Typography variant="body2">{t.footerCopyright}</Typography>
         </Box>
       </Container>
     </Box>
