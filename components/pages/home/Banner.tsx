@@ -20,7 +20,7 @@ const useStyles = makeStyles(() => ({
   },
   bannerTitle: {
     fontWeight: 500,
-    lineHeight: 1.5,
+    lineHeight: 1.3,
   },
   bannerSubtitle: {},
 }));
@@ -38,11 +38,11 @@ export const Banner: FC = () => {
       alignItems="center"
       justifyContent="center"
     >
-      <Box textAlign="center" px={4} maxWidth={640}>
+      <Box textAlign="center" px={4} maxWidth={750}>
         <Box mb={1}>
           <Typography
-            variant="h3"
-            component="h3"
+            variant="h2"
+            component="h2"
             className={classes.bannerTitle}
           >
             {t.bannerTitle}

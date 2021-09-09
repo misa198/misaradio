@@ -29,7 +29,7 @@ export const Header: FC = () => {
           flexDirection="row"
           alignItems="center"
           justifyContent="space-between"
-          py={1.2}
+          py={1.3}
           p={0}
         >
           <Box component="div" p={0}>
