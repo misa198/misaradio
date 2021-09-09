@@ -8,6 +8,9 @@ const useStyles = makeStyles(() => ({
   videoBox: {
     padding: '0 !important',
   },
+  iframeBox: {
+    pointerEvents: 'none',
+  },
 }));
 
 export const VideoBox: FC = () => {
@@ -17,7 +20,7 @@ export const VideoBox: FC = () => {
 
   return (
     <Box display="flex" flexDirection="column" className={classes.videoBox}>
-      <Box>
+      <Box className={classes.iframeBox}>
         <iframe
           style={{ width: '100%' }}
           frameBorder="0"
