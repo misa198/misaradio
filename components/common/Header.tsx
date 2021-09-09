@@ -20,7 +20,7 @@ export const Header: FC = () => {
   const classes = useStyles();
 
   return (
-    <AppBar position="fixed" color="transparent" elevation={0}>
+    <AppBar position="absolute" color="transparent" elevation={0}>
       <Container>
         <Box
           component="div"
