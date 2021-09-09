@@ -8,9 +8,9 @@ import {
 } from '@material-ui/core';
 import { indigo } from '@material-ui/core/colors';
 import { Facebook } from '@material-ui/icons';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { FC } from 'react';
-import Link from 'next/link';
 import { FcGoogle } from 'react-icons/fc';
 import en from 'translations/en/auth';
 import vi from 'translations/vi/auth';
@@ -106,6 +106,15 @@ export const LoginForm: FC = () => {
             <a>
               <Typography variant="body2" className={classes.link}>
                 {t.forgotPassword}
+              </Typography>
+            </a>
+          </Link>
+        </Box>
+        <Box mt={1} textAlign="center">
+          <Link href="/auth/change-password">
+            <a>
+              <Typography variant="body2" className={classes.link}>
+                {t.changePassword}
               </Typography>
             </a>
           </Link>

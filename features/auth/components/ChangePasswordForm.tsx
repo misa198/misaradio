@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const RegisterForm: FC = () => {
+export const ChangePasswordForm: FC = () => {
   const { locale } = useRouter();
   const t = locale === 'vi' ? vi : en;
   const classes = useStyles();
@@ -39,7 +39,7 @@ export const RegisterForm: FC = () => {
       <form className={classes.formContainer}>
         <Box mb={1.5}>
           <Typography variant="h5" className={classes.formTitle}>
-            {t.register}
+            {t.changePassword}
           </Typography>
         </Box>
         <Box>
@@ -52,25 +52,28 @@ export const RegisterForm: FC = () => {
         </Box>
         <Box>
           <TextField
-            label={t.name}
+            label={t.oldPassword}
             margin="normal"
             variant="outlined"
+            type="password"
             fullWidth
           />
         </Box>
         <Box>
           <TextField
-            label={t.password}
+            label={t.newPassword}
             margin="normal"
             variant="outlined"
+            type="password"
             fullWidth
           />
         </Box>
         <Box>
           <TextField
-            label={t.confirmPassword}
+            label={t.confirmNewPassword}
             margin="normal"
             variant="outlined"
+            type="password"
             fullWidth
           />
         </Box>
