@@ -1,8 +1,11 @@
 import { configureStore, ThunkAction, combineReducers } from '@reduxjs/toolkit';
 import { createWrapper } from 'next-redux-wrapper';
 import { Action } from 'redux';
+import lobbyReducer from 'features/lobby/lobbySlice';
 
-const rootReducer = combineReducers({});
+const rootReducer = combineReducers({
+  lobby: lobbyReducer,
+});
 
 const store = configureStore({
   reducer: rootReducer,

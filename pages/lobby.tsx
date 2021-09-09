@@ -1,11 +1,12 @@
 import { Box, makeStyles } from '@material-ui/core';
+import { useAppSelector } from 'app/hooks';
 import { CreateForm } from 'features/lobby/components/CreateForm';
 import { JoinForm } from 'features/lobby/components/JoinForm';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import bannerBackground from 'public/banner.jpeg';
-import React, { useState } from 'react';
+import React from 'react';
 import en from 'translations/en/lobby';
 import vi from 'translations/vi/lobby';
 
@@ -38,6 +39,7 @@ const Lobby: NextPage = () => {
   const { locale } = useRouter();
   const t = locale === 'vi' ? vi : en;
   const classes = useStyles();
+  const option = useAppSelector((state) => state.lobby.option);
 
   return (
     <>
@@ -50,8 +52,7 @@ const Lobby: NextPage = () => {
         alignItems="center"
         justifyContent="center"
       >
-        <JoinForm />
-        <CreateForm />
+        {option === 'join' ? <JoinForm /> : <CreateForm />}
       </Box>
     </>
   );

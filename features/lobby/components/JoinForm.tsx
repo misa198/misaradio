@@ -6,10 +6,12 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core';
+import { useAppDispatch } from 'app/hooks';
 import { useRouter } from 'next/router';
 import React, { FC } from 'react';
 import en from 'translations/en/lobby';
 import vi from 'translations/vi/lobby';
+import { authActions } from '../lobbySlice';
 
 const useStyles = makeStyles((theme) => ({
   formRoot: {
@@ -33,6 +35,11 @@ export const JoinForm: FC = () => {
   const { locale } = useRouter();
   const t = locale === 'vi' ? vi : en;
   const classes = useStyles();
+  const dispatch = useAppDispatch();
+
+  function switchForm() {
+    dispatch(authActions.switch('create'));
+  }
 
   return (
     <Paper elevation={0} className={classes.formRoot}>
@@ -57,7 +64,13 @@ export const JoinForm: FC = () => {
           </Button>
         </Box>
         <Box mt={1}>
-          <Button variant="outlined" color="primary" size="large" fullWidth>
+          <Button
+            variant="outlined"
+            color="primary"
+            size="large"
+            fullWidth
+            onClick={switchForm}
+          >
             {t.create}
           </Button>
         </Box>
