@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const JoinForm: FC = () => {
+export const CreateForm: FC = () => {
   const { locale } = useRouter();
   const t = locale === 'vi' ? vi : en;
   const classes = useStyles();
@@ -39,12 +39,12 @@ export const JoinForm: FC = () => {
       <form className={classes.formContainer}>
         <Box mb={1.5}>
           <Typography variant="h5" className={classes.formTitle}>
-            {t.join}
+            {t.create}
           </Typography>
         </Box>
         <Box>
           <TextField
-            label={t.code}
+            label={t.name}
             margin="normal"
             variant="outlined"
             fullWidth
@@ -58,7 +58,7 @@ export const JoinForm: FC = () => {
         </Box>
         <Box mt={1}>
           <Button variant="outlined" color="primary" size="large" fullWidth>
-            {t.create}
+            {t.join}
           </Button>
         </Box>
       </form>
