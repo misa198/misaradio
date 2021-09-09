@@ -8,6 +8,7 @@ import { wrapper } from 'app/store';
 import { DefaultLayout } from 'components/layout';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
+import NextNprogress from 'nextjs-progressbar';
 import React, { FC } from 'react';
 import { theme } from 'themes';
 
@@ -44,6 +45,16 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
           <Component {...pageProps} />
         </DefaultLayout>
       </ThemeProvider>
+      <NextNprogress
+        color="#e53935"
+        startPosition={0.3}
+        stopDelayMs={200}
+        height={4}
+        showOnShallow={true}
+        options={{
+          showSpinner: false,
+        }}
+      />
     </>
   );
 };
