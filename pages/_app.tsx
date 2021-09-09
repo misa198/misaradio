@@ -1,4 +1,5 @@
 import { CssBaseline } from '@material-ui/core';
+import { wrapper } from 'app/store';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import { FC } from 'react';
@@ -17,4 +18,4 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => (
   </>
 );
 
-export default MyApp;
+export default wrapper.withRedux(MyApp);
