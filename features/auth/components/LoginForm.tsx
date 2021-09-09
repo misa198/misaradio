@@ -11,6 +11,7 @@ import { Facebook } from '@material-ui/icons';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { FC } from 'react';
+import { GoogleLogin } from 'react-google-login';
 import { FcGoogle } from 'react-icons/fc';
 import en from 'translations/en/auth';
 import vi from 'translations/vi/auth';
@@ -37,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   },
   googleButton: {
     backgroundColor: 'white !important',
-    color: '#000',
+    color: '#000 !important',
   },
   link: {
     textDecoration: 'underline',
@@ -48,6 +49,12 @@ export const LoginForm: FC = () => {
   const { locale } = useRouter();
   const t = locale === 'vi' ? vi : en;
   const classes = useStyles();
+
+  const responseGoogle = (response: any) => {
+    console.log(response);
+  };
+
+  function onGoogleLogin() {}
 
   return (
     <Paper elevation={0} className={classes.formRoot}>
@@ -80,15 +87,25 @@ export const LoginForm: FC = () => {
           </Button>
         </Box>
         <Box mt={1.5}>
-          <Button
-            variant="contained"
-            size="large"
-            fullWidth
-            startIcon={<FcGoogle />}
-            className={classes.googleButton}
-          >
-            {t.google}
-          </Button>
+          <GoogleLogin
+            clientId="771590027336-pd5q1mo51tf7m1b27eki00tdcmmi3min.apps.googleusercontent.com"
+            render={(renderProps) => (
+              <Button
+                variant="contained"
+                size="large"
+                fullWidth
+                startIcon={<FcGoogle />}
+                className={classes.googleButton}
+                disabled={renderProps.disabled}
+                onClick={renderProps.onClick}
+              >
+                {t.google}
+              </Button>
+            )}
+            onSuccess={responseGoogle}
+            onFailure={responseGoogle}
+            cookiePolicy={'single_host_origin'}
+          />
         </Box>
         <Box mt={1.5}>
           <Button

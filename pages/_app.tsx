@@ -49,7 +49,7 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
         color="#e53935"
         startPosition={0.3}
         stopDelayMs={200}
-        height={4}
+        height={3}
         showOnShallow={true}
         options={{
           showSpinner: false,
