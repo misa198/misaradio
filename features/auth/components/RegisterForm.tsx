@@ -29,9 +29,6 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 'bold',
     textAlign: 'center',
   },
-  link: {
-    textDecoration: 'underline',
-  },
 }));
 
 export const RegisterForm: FC = () => {
