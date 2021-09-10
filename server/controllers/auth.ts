@@ -31,13 +31,15 @@ export const login = async (req: Request, res: Response) => {
   try {
     const user = await User.findOne({ email }).exec();
     if (!user) {
-      return res.status(401).send({ message: 'Unauthorized' });
+      return res.status(401).send({ message: 'User not found' });
     }
     if (!user.password)
-      return res.status(401).send({ message: 'Unauthorized' });
+      return res.status(401).send({ message: 'Wrong password' });
+    if (!user.verified)
+      return res.status(401).send({ message: 'Email need to be verified' });
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(401).send({ message: 'Unauthorized' });
+      return res.status(401).send({ message: 'Wrong password' });
     }
     const token = jwtService.signToken(email, user.name);
     return res.send({ data: token });
