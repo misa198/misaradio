@@ -1,4 +1,5 @@
 import { Box, Grid, Typography, makeStyles } from '@material-ui/core';
+import Image from 'next/image';
 import React, { FC } from 'react';
 
 const useStyles = makeStyles(() => ({
@@ -28,9 +29,10 @@ export const SongCard: FC = () => {
     <Box className={classes.songCardRoot}>
       <Grid container spacing={2}>
         <Grid item xs={4}>
-          <img
+          <Image
             src="https://i.ytimg.com/vi/3bJkVSMs4dw/maxresdefault.jpg"
             className={classes.songCardImg}
+            alt="song"
           />
         </Grid>
         <Grid item xs={8}>

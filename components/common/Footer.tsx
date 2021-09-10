@@ -10,8 +10,6 @@ import {
 import { GitHub, Link } from '@material-ui/icons';
 import { useRouter } from 'next/router';
 import React, { ChangeEvent, FC, useEffect, useState } from 'react';
-import en from 'translations/en/footer';
-import vi from 'translations/vi/footer';
 
 const useStyles = makeStyles((theme) => ({
   footerRoot: {
@@ -43,12 +41,12 @@ const useStyles = makeStyles((theme) => ({
 export const Footer: FC = () => {
   const router = useRouter();
   const { locale } = router;
-  const t = locale === 'vi' ? vi : en;
   const classes = useStyles();
   const [language, setLanguage] = useState('en');
 
   useEffect(() => {
     setLanguage(locale as string);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function onChangeLanguage(event: ChangeEvent<{ value: unknown }>) {
@@ -88,8 +86,8 @@ export const Footer: FC = () => {
                 value={language}
                 onChange={onChangeLanguage}
               >
-                <MenuItem value={'vi'}>Tiếng Việt</MenuItem>
-                <MenuItem value={'en'}>English</MenuItem>
+                <MenuItem value="vi">Tiếng Việt</MenuItem>
+                <MenuItem value="en">English</MenuItem>
               </Select>
             </FormControl>
           </Box>

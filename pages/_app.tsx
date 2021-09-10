@@ -2,7 +2,7 @@ import {
   createStyles,
   CssBaseline,
   makeStyles,
-  ThemeProvider
+  ThemeProvider,
 } from '@material-ui/core';
 import { wrapper } from 'app/store';
 import { DefaultLayout } from 'components/layout';
@@ -53,7 +53,7 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
         startPosition={0.3}
         stopDelayMs={200}
         height={3}
-        showOnShallow={true}
+        showOnShallow
         options={{
           showSpinner: false,
         }}

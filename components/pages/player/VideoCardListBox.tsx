@@ -1,8 +1,7 @@
-import { Box, Button, Typography, makeStyles } from '@material-ui/core';
-import React, { FC } from 'react';
+import { Box, Button, makeStyles, Typography } from '@material-ui/core';
 import { Add, MusicNote } from '@material-ui/icons';
-import { SongCard } from '.';
 import { useRouter } from 'next/router';
+import React, { FC } from 'react';
 import en from 'translations/en/player';
 import vi from 'translations/vi/player';
 
