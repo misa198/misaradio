@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
-import { login, LoginResponse } from './authThunk';
+import { login, LoginResponse, loginByGoogle } from './authThunk';
 
 export interface AuthState {
   login: {
@@ -38,6 +38,25 @@ const authSlice = createSlice({
       },
     );
     builder.addCase(login.rejected, (state, action) => {
+      state.login.loading = false;
+      state.login.error = action.error.message as string;
+      toast.error(action.error.message);
+    });
+
+    builder.addCase(loginByGoogle.pending, (state) => {
+      state.login.loading = true;
+      state.login.error = null;
+      state.login.loggedIn = false;
+    });
+    builder.addCase(
+      loginByGoogle.fulfilled,
+      (state, action: PayloadAction<LoginResponse>) => {
+        state.login.loading = false;
+        state.login.loggedIn = true;
+        Cookies.set('token', action.payload.data);
+      },
+    );
+    builder.addCase(loginByGoogle.rejected, (state, action) => {
       state.login.loading = false;
       state.login.error = action.error.message as string;
       toast.error(action.error.message);
