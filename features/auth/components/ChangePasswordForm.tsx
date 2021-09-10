@@ -5,6 +5,7 @@ import {
   Paper,
   TextField,
   Typography,
+  LinearProgress,
 } from '@material-ui/core';
 import { useRouter } from 'next/router';
 import React, { FC } from 'react';
@@ -19,6 +20,8 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: theme.spacing(2),
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4),
+    position: 'relative',
+    overflow: 'hidden',
   },
   formContainer: {
     width: '100%',
@@ -26,6 +29,11 @@ const useStyles = makeStyles((theme) => ({
   formTitle: {
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+  loading: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
   },
 }));
 
@@ -36,6 +44,9 @@ export const ChangePasswordForm: FC = () => {
 
   return (
     <Paper elevation={0} className={classes.formRoot}>
+      <Box width="100%" className={classes.loading}>
+        <LinearProgress color="primary" />
+      </Box>
       <form className={classes.formContainer}>
         <Box mb={1.5}>
           <Typography variant="h5" className={classes.formTitle}>

@@ -1,3 +1,4 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Box,
   Button,
@@ -5,17 +6,21 @@ import {
   Paper,
   TextField,
   Typography,
+  LinearProgress,
 } from '@material-ui/core';
 import { indigo } from '@material-ui/core/colors';
-import { Facebook } from '@material-ui/icons';
+import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { googleClientId } from 'constants/config';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { FC } from 'react';
 import { GoogleLogin } from 'react-google-login';
+import { useForm } from 'react-hook-form';
 import { FcGoogle } from 'react-icons/fc';
 import en from 'translations/en/auth';
 import vi from 'translations/vi/auth';
+import * as yup from 'yup';
+import { login } from '../authThunk';
 
 const useStyles = makeStyles((theme) => ({
   formRoot: {
@@ -25,6 +30,8 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: theme.spacing(2),
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4),
+    position: 'relative',
+    overflow: 'hidden',
   },
   formContainer: {
     width: '100%',
@@ -44,22 +51,55 @@ const useStyles = makeStyles((theme) => ({
   link: {
     textDecoration: 'underline',
   },
+  loading: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+  },
 }));
+
+interface LoginFormFields {
+  email: string;
+  password: string;
+}
+
+const schema = yup.object().shape({
+  email: yup.string().email().required(),
+  password: yup.string().min(6).required(),
+});
 
 export const LoginForm: FC = () => {
   const { locale } = useRouter();
   const t = locale === 'vi' ? vi : en;
   const classes = useStyles();
+  const dispatch = useAppDispatch();
+  const loading = useAppSelector((state) => state.auth.login.loading);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
 
   const responseGoogle = (response: any) => {
     console.log(response);
   };
 
-  function onGoogleLogin() {}
+  function onLoginByEmail(data: LoginFormFields) {
+    dispatch(login(data));
+  }
 
   return (
     <Paper elevation={0} className={classes.formRoot}>
-      <form className={classes.formContainer}>
+      <Box width="100%" className={classes.loading}>
+        {loading && <LinearProgress color="primary" />}
+      </Box>
+      <form
+        onSubmit={handleSubmit(onLoginByEmail)}
+        className={classes.formContainer}
+      >
         <Box mb={1.5}>
           <Typography variant="h5" className={classes.formTitle}>
             {t.login}
@@ -67,23 +107,34 @@ export const LoginForm: FC = () => {
         </Box>
         <Box>
           <TextField
+            {...register('email')}
             label={t.email}
             margin="normal"
             variant="outlined"
             fullWidth
+            helperText={errors.email?.message}
           />
         </Box>
         <Box>
           <TextField
+            {...register('password')}
             label={t.password}
             margin="normal"
             variant="outlined"
             fullWidth
+            helperText={errors.password?.message}
           />
         </Box>
 
         <Box mt={1.5}>
-          <Button variant="contained" color="primary" size="large" fullWidth>
+          <Button
+            variant="contained"
+            color="primary"
+            size="large"
+            fullWidth
+            type="submit"
+            disabled={loading}
+          >
             {t.confirm}
           </Button>
         </Box>
@@ -97,7 +148,7 @@ export const LoginForm: FC = () => {
                 fullWidth
                 startIcon={<FcGoogle />}
                 className={classes.googleButton}
-                disabled={renderProps.disabled}
+                disabled={renderProps.disabled || loading}
                 onClick={renderProps.onClick}
               >
                 {t.google}

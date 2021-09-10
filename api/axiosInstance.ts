@@ -12,6 +12,13 @@ axiosInstance.interceptors.response.use(
     return response.data;
   },
   function (error) {
-    return Promise.reject(error);
+    if (error.response) {
+      if (error.response.data) {
+        return Promise.reject({
+          message: error.response.data.message || 'Error',
+        });
+      }
+    }
+    return Promise.reject({ message: 'Error' });
   },
 );

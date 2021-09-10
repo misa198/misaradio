@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
 import { login, LoginResponse } from './authThunk';
 
 export interface AuthState {
@@ -39,6 +40,7 @@ const authSlice = createSlice({
     builder.addCase(login.rejected, (state, action) => {
       state.login.loading = false;
       state.login.error = action.error.message as string;
+      toast.error(action.error.message);
     });
   },
 });

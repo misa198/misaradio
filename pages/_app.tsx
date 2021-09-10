@@ -2,7 +2,7 @@ import {
   createStyles,
   CssBaseline,
   makeStyles,
-  ThemeProvider,
+  ThemeProvider
 } from '@material-ui/core';
 import { wrapper } from 'app/store';
 import { DefaultLayout } from 'components/layout';
@@ -10,6 +10,8 @@ import { AppProps } from 'next/app';
 import Head from 'next/head';
 import NextNprogress from 'nextjs-progressbar';
 import React, { FC } from 'react';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { theme } from 'themes';
 
 const useStyles = makeStyles(() =>
@@ -45,6 +47,7 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
           <Component {...pageProps} />
         </DefaultLayout>
       </ThemeProvider>
+      <ToastContainer />
       <NextNprogress
         color="#e53935"
         startPosition={0.3}

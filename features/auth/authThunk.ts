@@ -6,9 +6,6 @@ export interface LoginResponse {
 }
 
 export const login = createAsyncThunk<LoginResponse, LoginPayload>(
-  'blogs/fetchBlogs',
-  async (query) => {
-    const res = await postLogin(query);
-    return res.data;
-  },
+  'auth/login',
+  async (query) => postLogin(query),
 );
