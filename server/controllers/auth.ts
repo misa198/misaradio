@@ -102,7 +102,6 @@ export const verifyEmail = async (req: Request, res: Response) => {
 
 export const changePassword = async (req: Request, res: Response) => {
   const { email, password, newPassword } = req.body;
-  console.log(req.body);
   try {
     const user = await User.findOne({ email });
     if (!user) {
