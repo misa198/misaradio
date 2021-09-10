@@ -3,8 +3,7 @@ import jwt from 'jsonwebtoken';
 const jwtSecret = process.env.JWT_SECRET || 'login';
 const jwtEmailSecret = process.env.JWT_EMAIL_SECRET || 'email';
 const jwtForgotPasswordSecret = process.env.JWT_FORGOT_PASSWORD_SECRET || 'fp';
-const jwtResetPasswordSecret = process.env.JWT_RESET_PASSWORD_SECRET || 'rp';
-
+const expiresIn = process.env.JWT_EMAIL_TEMP_EXPIRE || '5m';
 export const signToken = (email: string, name: string) => {
   return jwt.sign({ email, name }, jwtSecret);
 };
@@ -14,7 +13,7 @@ export const verifyToken = (token: string) => {
 };
 
 export const signEmailToken = (email: string) => {
-  return jwt.sign({ email }, jwtEmailSecret);
+  return jwt.sign({ email }, jwtEmailSecret, { expiresIn });
 };
 
 export const verifyEmailToken = (token: string) => {
@@ -22,7 +21,7 @@ export const verifyEmailToken = (token: string) => {
 };
 
 export const signForgotPasswordToken = (email: string) => {
-  return jwt.sign({ email }, jwtForgotPasswordSecret);
+  return jwt.sign({ email }, jwtForgotPasswordSecret, { expiresIn });
 };
 
 export const verifyForgotPasswordToken = (token: string) => {
