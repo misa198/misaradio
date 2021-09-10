@@ -4,7 +4,7 @@ import {
   makeStyles,
   Paper,
   TextField,
-  Typography
+  Typography,
 } from '@material-ui/core';
 import { indigo } from '@material-ui/core/colors';
 import { Facebook } from '@material-ui/icons';
@@ -108,7 +108,7 @@ export const LoginForm: FC = () => {
             cookiePolicy={'single_host_origin'}
           />
         </Box>
-        <Box mt={1.5}>
+        {/* <Box mt={1.5}>
           <Button
             variant="contained"
             size="large"
@@ -118,7 +118,7 @@ export const LoginForm: FC = () => {
           >
             {t.facebook}
           </Button>
-        </Box>
+        </Box> */}
         <Box mt={2} textAlign="center">
           <Link href="/auth/forgot-password">
             <a>
