@@ -1,4 +1,5 @@
 import { Box, Button, makeStyles, Typography } from '@material-ui/core';
+import { useAppSelector } from 'app/hooks';
 import { useRouter } from 'next/router';
 import bannerBackground from 'public/banner.jpeg';
 import React, { FC } from 'react';
@@ -30,6 +31,7 @@ export const Banner: FC = () => {
   const { locale } = useRouter();
   const t = locale === 'vi' ? vi : en;
   const classes = useStyles();
+  const isLoggedIn = useAppSelector((state) => state.auth.login.loggedIn);
 
   return (
     <Box
@@ -51,17 +53,27 @@ export const Banner: FC = () => {
         </Box>
         <Box>
           <Typography variant="h6" component="p">
-            {t.bannerSubtitle}
+            {isLoggedIn ? t.loggedInBannerSubtitle : t.bannerSubtitle}
           </Typography>
         </Box>
         <Box mt={3}>
-          <Link href="/auth/register">
-            <a>
-              <Button variant="contained" color="primary" size="large">
-                {t.register}
-              </Button>
-            </a>
-          </Link>
+          {isLoggedIn ? (
+            <Link href="/lobby">
+              <a>
+                <Button variant="contained" color="primary" size="large">
+                  {t.lobby}
+                </Button>
+              </a>
+            </Link>
+          ) : (
+            <Link href="/auth/register">
+              <a>
+                <Button variant="contained" color="primary" size="large">
+                  {t.register}
+                </Button>
+              </a>
+            </Link>
+          )}
         </Box>
       </Box>
     </Box>
