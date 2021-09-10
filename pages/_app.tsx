@@ -10,6 +10,7 @@ import { AppProps } from 'next/app';
 import Head from 'next/head';
 import NextNprogress from 'nextjs-progressbar';
 import React, { FC } from 'react';
+import { ConnectedRouter } from 'connected-next-router';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { theme } from 'themes';
@@ -44,7 +45,9 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <DefaultLayout>
-          <Component {...pageProps} />
+          <ConnectedRouter>
+            <Component {...pageProps} />
+          </ConnectedRouter>
         </DefaultLayout>
       </ThemeProvider>
       <ToastContainer />
