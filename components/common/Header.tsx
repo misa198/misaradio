@@ -1,5 +1,16 @@
-import { AppBar, Box, Button, Container, makeStyles } from '@material-ui/core';
-import { useAppSelector } from 'app/hooks';
+import {
+  AppBar,
+  Box,
+  Button,
+  Container,
+  makeStyles,
+  Popover,
+  Typography,
+} from '@material-ui/core';
+import { AccountCircle, ExitToApp } from '@material-ui/icons';
+import { useAppDispatch, useAppSelector } from 'app/hooks';
+import { authActions } from 'features/auth/authSlice';
+import Cookies from 'js-cookie';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -13,13 +24,47 @@ const useStyles = makeStyles(() => ({
     width: 'fit-content',
     whiteSpace: 'nowrap',
   },
+  accountButton: {
+    textTransform: 'none',
+  },
+  boxDropdown: {
+    padding: '0.5rem 1rem',
+    cursor: 'pointer',
+    marginTop: '1rem',
+    borderRadius: '5px',
+  },
+  typography: {
+    marginRight: '0.7rem',
+  },
 }));
 
 export const Header: FC = () => {
-  const { locale } = useRouter();
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const { locale } = router;
   const t = locale === 'vi' ? vi : en;
   const classes = useStyles();
   const isLoggedIn = useAppSelector((state) => state.auth.login.loggedIn);
+  const user = useAppSelector((state) => state.auth.login.user);
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
+    null,
+  );
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
+
+  function handleClick(event: React.MouseEvent<HTMLButtonElement>) {
+    setAnchorEl(event.currentTarget);
+  }
+
+  function handleClose() {
+    setAnchorEl(null);
+  }
+
+  function handleLogout() {
+    Cookies.remove('token');
+    dispatch(authActions.clear());
+    router.push('/');
+  }
 
   return (
     <AppBar position="absolute" color="transparent" elevation={0}>
@@ -29,13 +74,12 @@ export const Header: FC = () => {
           width="100%"
           display="flex"
           flexDirection="row"
-          alignItems="center"
           justifyContent="space-between"
           pt={2}
           pb={1.3}
           p={0}
         >
-          <Box component="div" p={0}>
+          <Box component="div" p={0} width="fit-content">
             <Link href="/">
               <a>
                 <Image
@@ -47,8 +91,8 @@ export const Header: FC = () => {
               </a>
             </Link>
           </Box>
-          {!isLoggedIn && (
-            <Box component="div" p={0}>
+          {!isLoggedIn ? (
+            <Box component="div" p={0} width="fit-content">
               <Link href="/auth/login">
                 <a>
                   <Button
@@ -60,6 +104,44 @@ export const Header: FC = () => {
                   </Button>
                 </a>
               </Link>
+            </Box>
+          ) : (
+            <Box component="div" p={0} width="fit-content">
+              <Button
+                variant="outlined"
+                color="inherit"
+                className={classes.accountButton}
+                endIcon={<AccountCircle />}
+                size="medium"
+                onClick={handleClick}
+              >
+                {user?.name}
+              </Button>
+              <Popover
+                id={id}
+                open={open}
+                anchorEl={anchorEl}
+                onClose={handleClose}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'center',
+                }}
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'center',
+                }}
+              >
+                <Box
+                  display="flex"
+                  flexDirection="row"
+                  alignItems="center"
+                  className={classes.boxDropdown}
+                  onClick={handleLogout}
+                >
+                  <Typography className={classes.typography}>Logout</Typography>
+                  <ExitToApp />
+                </Box>
+              </Popover>
             </Box>
           )}
         </Box>
