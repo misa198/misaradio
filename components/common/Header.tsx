@@ -7,6 +7,7 @@ import {
   Menu,
   MenuItem,
   Popover,
+  CircularProgress,
 } from '@material-ui/core';
 import { AccountCircle, ExitToApp } from '@material-ui/icons';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
@@ -119,7 +120,8 @@ export const Header: FC = () => {
                 size="large"
                 onClick={handleClick}
               >
-                {userName}
+                {!userName && <CircularProgress size={18} color="inherit" />}
+                {userName && userName}
               </Button>
               <Popover
                 id={id}
