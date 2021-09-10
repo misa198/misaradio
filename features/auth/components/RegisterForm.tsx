@@ -6,7 +6,7 @@ import {
   makeStyles,
   Paper,
   TextField,
-  Typography
+  Typography,
 } from '@material-ui/core';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { useRouter } from 'next/router';
