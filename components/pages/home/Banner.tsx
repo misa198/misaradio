@@ -50,7 +50,7 @@ export const Banner: FC = () => {
           </Typography>
         </Box>
         <Box>
-          <Typography variant="h6" component="h6">
+          <Typography variant="h6" component="p">
             {t.bannerSubtitle}
           </Typography>
         </Box>
