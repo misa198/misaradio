@@ -1,15 +1,14 @@
 import { Request, Response, NextFunction } from 'express';
 import * as joi from 'joi';
 
-const changePasswordValidator = (
+const resetPasswordValidator = (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
   const schema = joi.object({
-    email: joi.string().email().required(),
+    token: joi.string().required(),
     password: joi.string().min(6).required(),
-    newPassword: joi.string().min(6).required(),
   });
 
   const { error, value } = schema.validate(req.body);
@@ -20,4 +19,4 @@ const changePasswordValidator = (
   next();
 };
 
-export default changePasswordValidator;
+export default resetPasswordValidator;

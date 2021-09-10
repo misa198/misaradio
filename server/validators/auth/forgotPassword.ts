@@ -10,8 +10,6 @@ const forgotPasswordRequestValidator = (
     email: joi.string().email().required(),
   });
 
-  console.log('body', req.body);
-
   const { error, value } = schema.validate(req.body);
   if (error) {
     return res.status(400).send({ message: 'Bad request' });

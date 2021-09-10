@@ -144,19 +144,20 @@ export const forgotPasswordRequest = async (req: Request, res: Response) => {
   }
 };
 
-export const verifyForgotPassword = async (req: Request, res: Response) => {
-  const token = req.query.t as string;
+export const resetPassword = async (req: Request, res: Response) => {
+  const { password, token } = req.body;
   try {
-    if (!token) {
-      return res.redirect('/404');
-    }
     const verified = jwtService.verifyForgotPasswordToken(token) as {
       email: string;
     };
-    if (verified) {
-      return res.send({ message: 'Ok' });
+    const user = await User.findOne({ email: verified.email });
+    if (!user) {
+      return res.status(404).send({ message: 'User not found' });
     }
-    return res.status(400).send({ message: 'Bad request' });
+    const hashedPassword = await bcrypt.hash(password, bcrypt.genSaltSync(10));
+    user.password = hashedPassword;
+    await user.save();
+    return res.send({ message: 'Password changed' });
   } catch (e) {
     return res.status(400).send({ message: 'Bad request' });
   }
