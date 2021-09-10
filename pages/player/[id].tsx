@@ -10,7 +10,7 @@ import vi from 'translations/vi/player';
 const useStyles = makeStyles((theme) => ({
   pageRoot: {
     paddingBottom: '70px',
-    paddingTop: '120px',
+    padding: '120px 0',
   },
   container: {
     padding: 0,

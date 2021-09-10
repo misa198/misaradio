@@ -15,8 +15,11 @@ import vi from 'translations/vi/footer';
 
 const useStyles = makeStyles((theme) => ({
   footerRoot: {
-    backgroundColor: theme.palette.background.default,
+    // backgroundColor: theme.palette.background.default,
     color: theme.palette.text.primary,
+    position: 'fixed',
+    bottom: 0,
+    left: 0,
   },
   footerContainer: {
     marin: 0,
