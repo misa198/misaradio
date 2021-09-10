@@ -1,3 +1,4 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Box,
   Button,
@@ -8,9 +9,13 @@ import {
   Typography,
 } from '@material-ui/core';
 import { useRouter } from 'next/router';
+import { useAppDispatch, useAppSelector } from 'app/hooks';
+import { useForm } from 'react-hook-form';
 import React, { FC } from 'react';
 import en from 'translations/en/auth';
 import vi from 'translations/vi/auth';
+import * as yup from 'yup';
+import { forgotPassword } from '../authThunk';
 
 const useStyles = makeStyles((theme) => ({
   formRoot: {
@@ -37,17 +42,43 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+interface ForgotPasswordFormFields {
+  email: string;
+}
+
 export const ForgotPasswordForm: FC = () => {
   const { locale } = useRouter();
   const t = locale === 'vi' ? vi : en;
   const classes = useStyles();
+  const dispatch = useAppDispatch();
+  const loading = useAppSelector((state) => state.auth.forgotPassword.loading);
+
+  const schema = yup.object().shape({
+    email: yup.string().email(t.emailValidation).required(t.requiredValidation),
+  });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+
+  function onSubmit(data: ForgotPasswordFormFields) {
+    dispatch(
+      forgotPassword({
+        email: data.email,
+      }),
+    );
+  }
 
   return (
     <Paper elevation={0} className={classes.formRoot}>
       <Box width="100%" className={classes.loading}>
-        <LinearProgress color="primary" />
+        {loading && <LinearProgress color="primary" />}
       </Box>
-      <form className={classes.formContainer}>
+      <form onSubmit={handleSubmit(onSubmit)} className={classes.formContainer}>
         <Box mb={1.5}>
           <Typography variant="h5" className={classes.formTitle}>
             {t.forgotPassword}
@@ -59,11 +90,19 @@ export const ForgotPasswordForm: FC = () => {
             margin="normal"
             variant="outlined"
             fullWidth
+            {...register('email')}
+            helperText={errors.email?.message}
           />
         </Box>
 
         <Box mt={1.5}>
-          <Button variant="contained" color="primary" size="large" fullWidth>
+          <Button
+            variant="contained"
+            color="primary"
+            size="large"
+            fullWidth
+            type="submit"
+          >
             {t.confirm}
           </Button>
         </Box>

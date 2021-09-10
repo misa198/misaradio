@@ -41,3 +41,11 @@ export interface ChangePasswordPayload {
 export const postChangePassword = (payload: ChangePasswordPayload) => {
   return axiosInstance.post('/auth/change-password', payload);
 };
+
+export interface ForgotPasswordPayload {
+  email: string;
+}
+
+export const postForgotPassword = (payload: ForgotPasswordPayload) => {
+  return axiosInstance.post('/auth/forgot-password', payload);
+};

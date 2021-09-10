@@ -115,11 +115,11 @@ export const LoginForm: FC = () => {
         </Box>
         <Box>
           <TextField
-            {...register('email')}
             label={t.email}
             margin="normal"
             variant="outlined"
             fullWidth
+            {...register('email')}
             helperText={errors.email?.message}
           />
         </Box>

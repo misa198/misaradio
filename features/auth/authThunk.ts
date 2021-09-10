@@ -1,8 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
   ChangePasswordPayload,
+  ForgotPasswordPayload,
   LoginPayload,
   postChangePassword,
+  postForgotPassword,
   postLogin,
   postLoginByGoogle,
   postRegister,
@@ -51,5 +53,14 @@ export const changePassword = createAsyncThunk<void, ChangePasswordPayload>(
     await postChangePassword(query);
     dispatch(push('/auth/login'));
     toast.success('Change password successfully');
+  },
+);
+
+export const forgotPassword = createAsyncThunk<void, ForgotPasswordPayload>(
+  'auth/forgotPassword',
+  async (query, { dispatch }) => {
+    await postForgotPassword(query);
+    dispatch(push('/auth/forgot-password'));
+    toast.success('We have sent you a confirmation email');
   },
 );
