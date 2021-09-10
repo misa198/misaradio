@@ -5,7 +5,7 @@ config({
 
 import express, { Request, Response } from 'express';
 import next from 'next';
-import connectDb from './database';
+import connectDb from './database/mongo';
 import authRouter from './routes/auth';
 
 const dev = process.env.NODE_ENV !== 'production';
@@ -16,6 +16,7 @@ const server = express();
 
 (async () => {
   connectDb();
+  require('./database/redis');
   await app.prepare();
 
   server.use(express.json());

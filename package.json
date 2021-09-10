@@ -16,6 +16,7 @@
     "@material-ui/icons": "^4.11.2",
     "@reduxjs/toolkit": "^1.6.1",
     "@types/react-beautiful-dnd": "^13.1.2",
+    "async-redis": "^2.0.0",
     "axios": "^0.21.4",
     "bcryptjs": "^2.4.3",
     "connected-next-router": "^4.0.1",
@@ -38,6 +39,7 @@
     "react-icons": "^4.2.0",
     "react-redux": "^7.2.5",
     "react-toastify": "^8.0.2",
+    "redis": "^3.1.2",
     "redux": "^4.1.1",
     "yup": "^0.32.9"
   },
@@ -49,6 +51,7 @@
     "@types/nodemailer": "^6.4.4",
     "@types/react": "17.0.20",
     "@types/react-redux": "^7.1.18",
+    "@types/redis": "^2.8.32",
     "@typescript-eslint/eslint-plugin": "^4.31.0",
     "@typescript-eslint/parser": "^4.31.0",
     "eslint": "^7.32.0",
