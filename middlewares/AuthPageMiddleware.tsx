@@ -1,3 +1,4 @@
+// Return to home page if user logged in and has a token
 import { useAppDispatch } from 'app/hooks';
 import { push } from 'connected-next-router';
 import Cookies from 'js-cookie';
