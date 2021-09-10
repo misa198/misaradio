@@ -13,6 +13,7 @@ export default {
   confirm: 'Confirm',
   facebook: 'Login with Facebook',
   google: 'Login with Google',
+  nameValidation: 'Maximum 20 characters',
   emailValidation: 'Invalid email',
   passwordValidation: 'At least 8 characters',
   confirmPasswordValidation: "Passwords don't match",

@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { User } from 'models/User';
 import { toast } from 'react-toastify';
-import { login, loginByGoogle } from './authThunk';
+import { login, loginByGoogle, register } from './authThunk';
 
 export interface AuthState {
   login: {
@@ -10,6 +10,10 @@ export interface AuthState {
     loggedIn: boolean;
     user?: User;
   };
+  register: {
+    loading: boolean;
+    error: string | null;
+  };
 }
 
 const initialState: AuthState = {
@@ -17,6 +21,10 @@ const initialState: AuthState = {
     loading: false,
     error: null,
     loggedIn: false,
+  },
+  register: {
+    loading: false,
+    error: null,
   },
 };
 
@@ -60,6 +68,19 @@ const authSlice = createSlice({
     builder.addCase(loginByGoogle.rejected, (state, action) => {
       state.login.loading = false;
       state.login.error = action.error.message as string;
+      toast.error(action.error.message);
+    });
+
+    builder.addCase(register.pending, (state) => {
+      state.register.loading = true;
+      state.register.error = null;
+    });
+    builder.addCase(register.fulfilled, (state) => {
+      state.register.loading = false;
+    });
+    builder.addCase(register.rejected, (state, action) => {
+      state.register.loading = false;
+      state.register.error = action.error.message as string;
       toast.error(action.error.message);
     });
   },

@@ -21,3 +21,13 @@ export const getUserByToken = async (token: string) => {
   });
   return res;
 };
+
+export interface RegisterPayload {
+  email: string;
+  password: string;
+  name: string;
+}
+
+export const postRegister = (payload: RegisterPayload) => {
+  return axiosInstance.post('/auth/register', payload);
+};
