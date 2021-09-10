@@ -8,7 +8,9 @@ import {
   postLogin,
   postLoginByGoogle,
   postRegister,
+  postResetPassword,
   RegisterPayload,
+  ResetPasswordPayload,
 } from 'api/authApi';
 import { push } from 'connected-next-router';
 import Cookies from 'js-cookie';
@@ -60,7 +62,16 @@ export const forgotPassword = createAsyncThunk<void, ForgotPasswordPayload>(
   'auth/forgotPassword',
   async (query, { dispatch }) => {
     await postForgotPassword(query);
-    dispatch(push('/auth/forgot-password'));
+    dispatch(push('/auth/login'));
     toast.success('We have sent you a confirmation email');
+  },
+);
+
+export const resetPassword = createAsyncThunk<void, ResetPasswordPayload>(
+  'auth/resetPassword',
+  async (query, { dispatch }) => {
+    await postResetPassword(query);
+    dispatch(push('/auth/login'));
+    toast.success('Reset password successfully');
   },
 );

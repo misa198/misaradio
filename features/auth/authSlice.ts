@@ -7,6 +7,7 @@ import {
   login,
   loginByGoogle,
   register,
+  resetPassword,
 } from './authThunk';
 
 export interface AuthState {
@@ -28,6 +29,10 @@ export interface AuthState {
     loading: boolean;
     error: string | null;
   };
+  resetPassword: {
+    loading: boolean;
+    error: string | null;
+  };
 }
 
 const initialState: AuthState = {
@@ -45,6 +50,10 @@ const initialState: AuthState = {
     error: null,
   },
   forgotPassword: {
+    loading: false,
+    error: null,
+  },
+  resetPassword: {
     loading: false,
     error: null,
   },
@@ -129,6 +138,19 @@ const authSlice = createSlice({
     builder.addCase(forgotPassword.rejected, (state, action) => {
       state.forgotPassword.loading = false;
       state.forgotPassword.error = action.error.message as string;
+      toast.error(action.error.message);
+    });
+
+    builder.addCase(resetPassword.pending, (state) => {
+      state.resetPassword.loading = true;
+      state.resetPassword.error = null;
+    });
+    builder.addCase(resetPassword.fulfilled, (state) => {
+      state.resetPassword.loading = false;
+    });
+    builder.addCase(resetPassword.rejected, (state, action) => {
+      state.resetPassword.loading = false;
+      state.resetPassword.error = action.error.message as string;
       toast.error(action.error.message);
     });
   },

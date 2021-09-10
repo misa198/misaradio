@@ -7,6 +7,7 @@ export default {
   confirmPassword: 'Xác nhận mật khẩu',
   forgotPassword: 'Quên mật khẩu',
   changePassword: 'Đổi mật khẩu',
+  resetPassword: 'Đặt lại mật khẩu',
   oldPassword: 'Mật khẩu cũ',
   newPassword: 'Mật khẩu mới',
   confirmNewPassword: 'Xác nhận mật khẩu mới',

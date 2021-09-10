@@ -49,3 +49,12 @@ export interface ForgotPasswordPayload {
 export const postForgotPassword = (payload: ForgotPasswordPayload) => {
   return axiosInstance.post('/auth/forgot-password', payload);
 };
+
+export interface ResetPasswordPayload {
+  password: string;
+  token: string;
+}
+
+export const postResetPassword = (payload: ResetPasswordPayload) => {
+  return axiosInstance.post('/auth/reset-password', payload);
+};

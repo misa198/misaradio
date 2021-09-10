@@ -7,6 +7,7 @@ export default {
   confirmPassword: 'Confirm password',
   forgotPassword: 'Forgot password',
   changePassword: 'Change password',
+  resetPassword: 'Reset password',
   oldPassword: 'Old password',
   newPassword: 'New password',
   confirmNewPassword: 'Confirm new password',
