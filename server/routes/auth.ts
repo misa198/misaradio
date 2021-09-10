@@ -9,5 +9,6 @@ const router = Router();
 router.post('/google', googleAuthValidator, controller.googleAuth);
 router.post('/login', loginValidator, controller.login);
 router.post('/register', registerValidator, controller.register);
+router.get('/verify-email', controller.verifyEmail);
 
 export default router;

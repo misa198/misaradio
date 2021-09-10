@@ -61,7 +61,7 @@ export const register = async (req: Request, res: Response) => {
       mailService.sendMail(
         email,
         'Verify email',
-        `${process.env.APP_URL}/verify-email?t=${jwtService.signEmailToken(
+        `${process.env.APP_URL}/api/verify-email?t=${jwtService.signEmailToken(
           email,
         )}`,
       );
@@ -69,5 +69,27 @@ export const register = async (req: Request, res: Response) => {
     return res.send({ data: savedUser._id });
   } catch (e) {
     return res.status(401).send({ message: 'Unauthorized' });
+  }
+};
+
+export const verifyEmail = async (req: Request, res: Response) => {
+  const token = req.query.t as string;
+  try {
+    if (!token) {
+      return res.redirect('/404');
+    }
+    const verified = jwtService.verifyEmailToken(token) as { email: string };
+    if (verified) {
+      const user = await User.findOne({ email: verified.email });
+      if (user) {
+        if (user.verified) return res.redirect('/auth/login');
+        user.verified = true;
+        await user.save();
+        return res.redirect('/auth/login');
+      }
+    }
+    return res.redirect('/404');
+  } catch (e) {
+    return res.redirect('/404');
   }
 };
