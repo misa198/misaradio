@@ -102,6 +102,7 @@ export const verifyEmail = async (req: Request, res: Response) => {
 
 export const changePassword = async (req: Request, res: Response) => {
   const { email, password, newPassword } = req.body;
+  console.log(req.body);
   try {
     const user = await User.findOne({ email });
     if (!user) {
@@ -119,6 +120,6 @@ export const changePassword = async (req: Request, res: Response) => {
     await user.save();
     return res.send({ message: 'Password changed' });
   } catch (e) {
-    return res.status(401).send({ message: 'Unauthorized' });
+    return res.status(400).send({ message: 'Bad request' });
   }
 };

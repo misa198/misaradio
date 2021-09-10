@@ -12,7 +12,10 @@ const changePasswordValidator = (
     newPassword: joi.string().min(6).required(),
   });
 
+  console.log('body', req.body);
+
   const { error, value } = schema.validate(req.body);
+  console.log(error, value);
   if (error) {
     return res.status(400).send({ message: 'Bad request' });
   }
