@@ -55,15 +55,21 @@ export const register = async (req: Request, res: Response) => {
     if (existedUser) {
       return res.status(409).send({ message: 'Email is already taken' });
     }
-    const user = new User({ email, password, name, verified: false });
+    const hashedPassword = await bcrypt.hash(password, bcrypt.genSaltSync(10));
+    const user = new User({
+      email,
+      password: hashedPassword,
+      name,
+      verified: false,
+    });
     const savedUser = await user.save();
     try {
       mailService.sendMail(
         email,
         'Verify email',
-        `${process.env.APP_URL}/api/verify-email?t=${jwtService.signEmailToken(
-          email,
-        )}`,
+        `${
+          process.env.APP_URL
+        }/api/auth/verify-email?t=${jwtService.signEmailToken(email)}`,
       );
     } catch (e) {}
     return res.send({ data: savedUser._id });
@@ -91,5 +97,28 @@ export const verifyEmail = async (req: Request, res: Response) => {
     return res.redirect('/404');
   } catch (e) {
     return res.redirect('/404');
+  }
+};
+
+export const changePassword = async (req: Request, res: Response) => {
+  const { email, password, newPassword } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(401).send({ message: 'User not found' });
+    }
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).send({ message: 'Wrong password' });
+    }
+    const hashedPassword = await bcrypt.hash(
+      newPassword,
+      bcrypt.genSaltSync(10),
+    );
+    user.password = hashedPassword;
+    await user.save();
+    return res.send({ message: 'Password changed' });
+  } catch (e) {
+    return res.status(401).send({ message: 'Unauthorized' });
   }
 };
