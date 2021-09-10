@@ -136,7 +136,7 @@ export const forgotPasswordRequest = async (req: Request, res: Response) => {
       mailService.sendMail(
         email,
         'Reset password',
-        `${process.env.APP_URL}/auth/reset-password?t=${token}`,
+        `${process.env.APP_URL}/auth/forgot-password/${token}`,
       );
     } catch (e) {}
     return res.send({ message: 'Email was be sent' });
