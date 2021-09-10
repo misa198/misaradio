@@ -16,9 +16,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import logo from 'public/logo.svg';
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 import en from 'translations/en/header';
 import vi from 'translations/vi/header';
+import { formatName } from 'utils/formatName';
 
 const useStyles = makeStyles(() => ({
   button: {
@@ -44,6 +45,10 @@ export const Header: FC = () => {
   const classes = useStyles();
   const isLoggedIn = useAppSelector((state) => state.auth.login.loggedIn);
   const user = useAppSelector((state) => state.auth.login.user);
+  const userName = useMemo(() => {
+    if (user) return formatName(user.name);
+    return '';
+  }, [user]);
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null,
   );
@@ -114,7 +119,7 @@ export const Header: FC = () => {
                 size="large"
                 onClick={handleClick}
               >
-                {user?.name}
+                {userName}
               </Button>
               <Popover
                 id={id}
