@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import bcrypt from 'bcryptjs';
 import User from '../models/User';
 import { getGoogleUserProfile } from '../services/google';
 import * as jwtService from '../services/jwt';
@@ -19,6 +20,41 @@ export const googleAuth = async (req: Request, res: Response) => {
         return res.send({ data: token });
       }
     });
+  } catch (e) {
+    return res.status(401).send({ message: 'Unauthorized' });
+  }
+};
+
+export const login = async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+  try {
+    const user = await User.findOne({ email }).exec();
+    if (!user) {
+      return res.status(401).send({ message: 'Unauthorized' });
+    }
+    if (!user.password)
+      return res.status(401).send({ message: 'Unauthorized' });
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).send({ message: 'Unauthorized' });
+    }
+    const token = jwtService.signToken(email, user.name);
+    return res.send({ data: token });
+  } catch (e) {
+    return res.status(401).send({ message: 'Unauthorized' });
+  }
+};
+
+export const register = async (req: Request, res: Response) => {
+  const { email, password, name } = req.body;
+  try {
+    const existedUser = await User.findOne({ email });
+    if (existedUser) {
+      return res.status(409).send({ message: 'Email is already taken' });
+    }
+    const user = new User({ email, password, name });
+    const savedUser = await user.save();
+    return res.send({ data: savedUser._id });
   } catch (e) {
     return res.status(401).send({ message: 'Unauthorized' });
   }

@@ -1,13 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 import * as joi from 'joi';
 
-const googleAuthValidator = (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
+const loginValidator = (req: Request, res: Response, next: NextFunction) => {
   const schema = joi.object({
-    accessToken: joi.string().required(),
+    email: joi.string().email().required(),
+    password: joi.string().min(6).required(),
   });
 
   const { error, value } = schema.validate(req.body);
@@ -18,4 +15,4 @@ const googleAuthValidator = (
   next();
 };
 
-export default googleAuthValidator;
+export default loginValidator;
