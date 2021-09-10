@@ -13,4 +13,8 @@ export default {
   confirm: 'Confirm',
   facebook: 'Login with Facebook',
   google: 'Login with Google',
+  emailValidation: 'Invalid email',
+  passwordValidation: 'At least 8 characters',
+  confirmPasswordValidation: "Passwords don't match",
+  requiredValidation: 'Must be filled',
 };

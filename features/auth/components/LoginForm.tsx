@@ -63,17 +63,20 @@ interface LoginFormFields {
   password: string;
 }
 
-const schema = yup.object().shape({
-  email: yup.string().email().required(),
-  password: yup.string().min(6).required(),
-});
-
 export const LoginForm: FC = () => {
   const { locale } = useRouter();
   const t = locale === 'vi' ? vi : en;
   const classes = useStyles();
   const dispatch = useAppDispatch();
   const loading = useAppSelector((state) => state.auth.login.loading);
+
+  const schema = yup.object().shape({
+    email: yup.string().email(t.emailValidation).required(t.requiredValidation),
+    password: yup
+      .string()
+      .min(6, t.passwordValidation)
+      .required(t.requiredValidation),
+  });
 
   const {
     register,

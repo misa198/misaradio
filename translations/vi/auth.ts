@@ -13,4 +13,8 @@ export default {
   confirm: 'Xác nhận',
   facebook: 'Đăng nhập với Facebook',
   google: 'Đăng nhập với Google',
+  emailValidation: 'Email không hợp lệ',
+  passwordValidation: 'Tối thiểu 8 ký tự',
+  confirmPasswordValidation: 'Mật khẩu không trùng nhau',
+  requiredValidation: 'Không được bỏ trống',
 };
