@@ -1,13 +1,12 @@
 import {
   Box,
   Button,
+  LinearProgress,
   makeStyles,
   Paper,
   TextField,
   Typography,
-  LinearProgress,
 } from '@material-ui/core';
-import { indigo } from '@material-ui/core/colors';
 import { useRouter } from 'next/router';
 import React, { FC } from 'react';
 import en from 'translations/en/auth';
