@@ -20,7 +20,7 @@ const server = express();
 
   server.use(express.json());
   server.use('/api/auth', authRouter);
-  server.use((req: Request, res: Response) => {
+  server.all('*', (req: Request, res: Response) => {
     handle(req, res);
   });
 

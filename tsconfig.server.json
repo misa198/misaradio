@@ -1,4 +1,5 @@
 {
+  "extends": "./tsconfig.json",
   "compilerOptions": {
     "module": "commonjs",
     "esModuleInterop": true,
@@ -11,5 +12,8 @@
   },
   "include": [
     "server/**/*"
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }
