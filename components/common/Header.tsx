@@ -4,8 +4,9 @@ import {
   Button,
   Container,
   makeStyles,
+  Menu,
+  MenuItem,
   Popover,
-  Typography,
 } from '@material-ui/core';
 import { AccountCircle, ExitToApp } from '@material-ui/icons';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
@@ -27,14 +28,11 @@ const useStyles = makeStyles(() => ({
   accountButton: {
     textTransform: 'none',
   },
-  boxDropdown: {
-    padding: '0.5rem 1rem',
-    cursor: 'pointer',
-    marginTop: '1rem',
-    borderRadius: '5px',
+  menu: {
+    marginTop: '3rem',
   },
-  typography: {
-    marginRight: '0.7rem',
+  menuIcon: {
+    marginLeft: '0.5rem',
   },
 }));
 
@@ -74,6 +72,7 @@ export const Header: FC = () => {
           width="100%"
           display="flex"
           flexDirection="row"
+          alignItems="center"
           justifyContent="space-between"
           pt={2}
           pb={1.3}
@@ -131,16 +130,22 @@ export const Header: FC = () => {
                   horizontal: 'center',
                 }}
               >
-                <Box
-                  display="flex"
-                  flexDirection="row"
-                  alignItems="center"
-                  className={classes.boxDropdown}
-                  onClick={handleLogout}
+                <Menu
+                  anchorEl={anchorEl}
+                  keepMounted
+                  open={Boolean(anchorEl)}
+                  onClose={handleClose}
+                  className={classes.menu}
                 >
-                  <Typography className={classes.typography}>Logout</Typography>
-                  <ExitToApp />
-                </Box>
+                  <MenuItem
+                    onClick={() => {
+                      handleClose();
+                      handleLogout();
+                    }}
+                  >
+                    Logout <ExitToApp className={classes.menuIcon} />
+                  </MenuItem>
+                </Menu>
               </Popover>
             </Box>
           )}
