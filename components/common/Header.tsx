@@ -29,7 +29,7 @@ const useStyles = makeStyles(() => ({
     textTransform: 'none',
   },
   menu: {
-    marginTop: '3rem',
+    marginTop: '3.5rem',
   },
   menuIcon: {
     marginLeft: '0.5rem',
@@ -72,7 +72,6 @@ export const Header: FC = () => {
           width="100%"
           display="flex"
           flexDirection="row"
-          alignItems="center"
           justifyContent="space-between"
           pt={2}
           pb={1.3}
@@ -97,6 +96,7 @@ export const Header: FC = () => {
                   <Button
                     variant="contained"
                     color="primary"
+                    size="large"
                     className={classes.button}
                   >
                     {t.login}
@@ -111,7 +111,7 @@ export const Header: FC = () => {
                 color="inherit"
                 className={classes.accountButton}
                 endIcon={<AccountCircle />}
-                size="medium"
+                size="large"
                 onClick={handleClick}
               >
                 {user?.name}
