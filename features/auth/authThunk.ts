@@ -1,10 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
+  ChangePasswordPayload,
   LoginPayload,
+  postChangePassword,
   postLogin,
   postLoginByGoogle,
-  RegisterPayload,
   postRegister,
+  RegisterPayload,
 } from 'api/authApi';
 import { push } from 'connected-next-router';
 import Cookies from 'js-cookie';
@@ -40,5 +42,14 @@ export const register = createAsyncThunk<void, RegisterPayload>(
     await postRegister(query);
     dispatch(push('/auth/login'));
     toast.success('Register successfully, please verify your email');
+  },
+);
+
+export const changePassword = createAsyncThunk<void, ChangePasswordPayload>(
+  'auth/changePassword',
+  async (query, { dispatch }) => {
+    await postChangePassword(query);
+    dispatch(push('/auth/login'));
+    toast.success('Change password successfully');
   },
 );

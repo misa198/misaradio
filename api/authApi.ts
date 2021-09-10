@@ -31,3 +31,13 @@ export interface RegisterPayload {
 export const postRegister = (payload: RegisterPayload) => {
   return axiosInstance.post('/auth/register', payload);
 };
+
+export interface ChangePasswordPayload {
+  email: string;
+  password: string;
+  newPassword: string;
+}
+
+export const postChangePassword = (payload: ChangePasswordPayload) => {
+  return axiosInstance.post('/auth/change-password', payload);
+};
