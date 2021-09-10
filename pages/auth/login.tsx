@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import en from 'translations/en/auth';
 import vi from 'translations/vi/auth';
-// import { AuthPageMiddleware } from 'middlewares';
+
 const AuthPageMiddleware = dynamic(
   () => import('middlewares/AuthPageMiddleware'),
 );

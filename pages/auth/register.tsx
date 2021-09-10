@@ -1,11 +1,16 @@
 import { AuthContainer } from 'components/pages/auth';
 import { RegisterForm } from 'features/auth/components/RegisterForm';
 import { NextPage } from 'next';
+import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React from 'react';
 import en from 'translations/en/auth';
 import vi from 'translations/vi/auth';
+
+const AuthPageMiddleware = dynamic(
+  () => import('middlewares/AuthPageMiddleware'),
+);
 
 const Login: NextPage = () => {
   const { locale } = useRouter();
@@ -17,7 +22,9 @@ const Login: NextPage = () => {
         <title>{t.register}</title>
       </Head>
       <AuthContainer>
-        <RegisterForm />
+        <AuthPageMiddleware>
+          <RegisterForm />
+        </AuthPageMiddleware>
       </AuthContainer>
     </>
   );
