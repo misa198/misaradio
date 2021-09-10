@@ -21,6 +21,7 @@ router.post(
   forgotPasswordRequestValidator,
   controller.forgotPasswordRequest,
 );
+router.get('/forgot-password', controller.verifyForgotPassword);
 router.get('/verify-email', controller.verifyEmail);
 
 export default router;

@@ -143,3 +143,21 @@ export const forgotPasswordRequest = async (req: Request, res: Response) => {
     return res.status(400).send({ message: 'Bad request' });
   }
 };
+
+export const verifyForgotPassword = async (req: Request, res: Response) => {
+  const token = req.query.t as string;
+  try {
+    if (!token) {
+      return res.redirect('/404');
+    }
+    const verified = jwtService.verifyForgotPasswordToken(token) as {
+      email: string;
+    };
+    if (verified) {
+      return res.send({ message: 'Ok' });
+    }
+    return res.status(400).send({ message: 'Bad request' });
+  } catch (e) {
+    return res.status(400).send({ message: 'Bad request' });
+  }
+};
