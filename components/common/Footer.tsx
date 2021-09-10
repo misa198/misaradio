@@ -2,14 +2,13 @@ import {
   Box,
   Container,
   FormControl,
+  IconButton,
   makeStyles,
   MenuItem,
   Select,
-  Typography,
 } from '@material-ui/core';
-import Image from 'next/image';
+import { GitHub, Link } from '@material-ui/icons';
 import { useRouter } from 'next/router';
-import logo from 'public/logo.svg';
 import React, { ChangeEvent, FC, useEffect, useState } from 'react';
 import en from 'translations/en/footer';
 import vi from 'translations/vi/footer';
@@ -71,7 +70,13 @@ export const Footer: FC = () => {
         >
           <Box className={classes.footerItem}>
             <Box p={0}>
-              <Image src={logo} alt="misa-radio-logo" width={120} height={50} />
+              {/* <Image src={logo} alt="misa-radio-logo" width={120} height={50} /> */}
+              <IconButton aria-label="volume" size="medium" color="inherit">
+                <GitHub fontSize="medium" />
+              </IconButton>
+              <IconButton aria-label="volume" size="medium" color="inherit">
+                <Link fontSize="medium" />
+              </IconButton>
             </Box>
           </Box>
           <Box className={classes.footerItem}>
@@ -87,16 +92,6 @@ export const Footer: FC = () => {
             </FormControl>
           </Box>
         </Box>
-        {/* <Box
-          width="100%"
-          display="flex"
-          flexDirection="row"
-          justifyContent="space-between"
-          pb={1}
-        >
-          <Typography variant="body2">{t.footerDescription}</Typography>
-          <Typography variant="body2">{t.footerCopyright}</Typography>
-        </Box> */}
       </Container>
     </Box>
   );
