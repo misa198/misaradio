@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import User from '../models/User';
 import { getGoogleUserProfile } from '../services/google';
 import * as jwtService from '../services/jwt';
+import * as mailService from '../services/mail';
 
 export const googleAuth = async (req: Request, res: Response) => {
   const accessToken = req.body!.accessToken as string;
@@ -13,7 +14,7 @@ export const googleAuth = async (req: Request, res: Response) => {
       } else {
         const existedUser = await User.findOne({ email });
         if (!existedUser) {
-          const user = new User({ email, name });
+          const user = new User({ email, name, verified: true });
           await user.save();
         }
         const token = jwtService.signToken(email, name);
@@ -52,8 +53,17 @@ export const register = async (req: Request, res: Response) => {
     if (existedUser) {
       return res.status(409).send({ message: 'Email is already taken' });
     }
-    const user = new User({ email, password, name });
+    const user = new User({ email, password, name, verified: false });
     const savedUser = await user.save();
+    try {
+      mailService.sendMail(
+        email,
+        'Verify email',
+        `${process.env.APP_URL}/verify-email?t=${jwtService.signEmailToken(
+          email,
+        )}`,
+      );
+    } catch (e) {}
     return res.send({ data: savedUser._id });
   } catch (e) {
     return res.status(401).send({ message: 'Unauthorized' });
