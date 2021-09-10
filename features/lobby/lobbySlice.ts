@@ -7,7 +7,7 @@ export interface LobbyState {
 }
 
 const initialState: LobbyState = {
-  option: 'join',
+  option: 'create',
 };
 
 const lobbySlice = createSlice({
@@ -20,6 +20,6 @@ const lobbySlice = createSlice({
   },
 });
 
-export const authActions = lobbySlice.actions;
+export const lobbyActions = lobbySlice.actions;
 
 export default lobbySlice.reducer;

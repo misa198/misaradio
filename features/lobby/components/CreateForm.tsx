@@ -11,7 +11,7 @@ import { useRouter } from 'next/router';
 import React, { FC } from 'react';
 import en from 'translations/en/lobby';
 import vi from 'translations/vi/lobby';
-import { authActions } from '../lobbySlice';
+import { lobbyActions } from '../lobbySlice';
 
 const useStyles = makeStyles((theme) => ({
   formRoot: {
@@ -38,7 +38,7 @@ export const CreateForm: FC = () => {
   const dispatch = useAppDispatch();
 
   function switchForm() {
-    dispatch(authActions.switch('join'));
+    dispatch(lobbyActions.switch('join'));
   }
 
   return (
