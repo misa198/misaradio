@@ -10,5 +10,5 @@ export const postLogin = ({ email, password }: LoginPayload) => {
 };
 
 export const postLoginByGoogle = (accessToken: string) => {
-  return axiosInstance.post('/auth/login/google', { accessToken });
+  return axiosInstance.post('/auth/google', { accessToken });
 };

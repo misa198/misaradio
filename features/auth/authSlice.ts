@@ -1,7 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import Cookies from 'js-cookie';
+import { createSlice } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
-import { login, LoginResponse, loginByGoogle } from './authThunk';
+import { login, loginByGoogle } from './authThunk';
 
 export interface AuthState {
   login: {
@@ -29,14 +28,10 @@ const authSlice = createSlice({
       state.login.error = null;
       state.login.loggedIn = false;
     });
-    builder.addCase(
-      login.fulfilled,
-      (state, action: PayloadAction<LoginResponse>) => {
-        state.login.loading = false;
-        state.login.loggedIn = true;
-        Cookies.set('token', action.payload.data);
-      },
-    );
+    builder.addCase(login.fulfilled, (state) => {
+      state.login.loading = false;
+      state.login.loggedIn = true;
+    });
     builder.addCase(login.rejected, (state, action) => {
       state.login.loading = false;
       state.login.error = action.error.message as string;
@@ -48,14 +43,10 @@ const authSlice = createSlice({
       state.login.error = null;
       state.login.loggedIn = false;
     });
-    builder.addCase(
-      loginByGoogle.fulfilled,
-      (state, action: PayloadAction<LoginResponse>) => {
-        state.login.loading = false;
-        state.login.loggedIn = true;
-        Cookies.set('token', action.payload.data);
-      },
-    );
+    builder.addCase(loginByGoogle.fulfilled, (state) => {
+      state.login.loading = false;
+      state.login.loggedIn = true;
+    });
     builder.addCase(loginByGoogle.rejected, (state, action) => {
       state.login.loading = false;
       state.login.error = action.error.message as string;

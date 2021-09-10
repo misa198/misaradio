@@ -17,4 +17,5 @@ export default {
   passwordValidation: 'At least 8 characters',
   confirmPasswordValidation: "Passwords don't match",
   requiredValidation: 'Must be filled',
+  commonErrorMessage: 'Something wrong',
 };

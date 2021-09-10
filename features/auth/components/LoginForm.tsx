@@ -2,11 +2,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Box,
   Button,
+  LinearProgress,
   makeStyles,
   Paper,
   TextField,
   Typography,
-  LinearProgress,
 } from '@material-ui/core';
 import { indigo } from '@material-ui/core/colors';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
@@ -17,10 +17,11 @@ import React, { FC } from 'react';
 import { GoogleLogin } from 'react-google-login';
 import { useForm } from 'react-hook-form';
 import { FcGoogle } from 'react-icons/fc';
+import { toast } from 'react-toastify';
 import en from 'translations/en/auth';
 import vi from 'translations/vi/auth';
 import * as yup from 'yup';
-import { login } from '../authThunk';
+import { login, loginByGoogle } from '../authThunk';
 
 const useStyles = makeStyles((theme) => ({
   formRoot: {
@@ -86,8 +87,12 @@ export const LoginForm: FC = () => {
     resolver: yupResolver(schema),
   });
 
-  const responseGoogle = (response: any) => {
-    console.log(response);
+  const onLoginByGoogleFulfilled = (response: any) => {
+    dispatch(loginByGoogle(response.accessToken));
+  };
+
+  const onLoginByGoogleRejected = () => {
+    toast.error(t.commonErrorMessage);
   };
 
   function onLoginByEmail(data: LoginFormFields) {
@@ -157,8 +162,8 @@ export const LoginForm: FC = () => {
                 {t.google}
               </Button>
             )}
-            onSuccess={responseGoogle}
-            onFailure={responseGoogle}
+            onSuccess={onLoginByGoogleFulfilled}
+            onFailure={onLoginByGoogleRejected}
             cookiePolicy="single_host_origin"
           />
         </Box>

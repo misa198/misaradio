@@ -17,4 +17,5 @@ export default {
   passwordValidation: 'Tối thiểu 8 ký tự',
   confirmPasswordValidation: 'Mật khẩu không trùng nhau',
   requiredValidation: 'Không được bỏ trống',
+  commonErrorMessage: 'Đã có lỗi xảy ra',
 };
