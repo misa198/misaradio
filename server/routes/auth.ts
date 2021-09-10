@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import loginValidator from 'server/validators/auth/login';
-import registerValidator from 'server/validators/auth/register';
+import loginValidator from '../validators/auth/login';
+import registerValidator from '../validators/auth/register';
 import * as controller from '../controllers/auth';
 import googleAuthValidator from '../validators/auth/googleAuth';
 
