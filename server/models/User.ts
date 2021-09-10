@@ -13,10 +13,6 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
-  avatar: {
-    type: String,
-    required: true,
-  },
 });
 
 export default mongoose.model('User', UserSchema);

@@ -1,9 +1,12 @@
 import { config } from 'dotenv';
-config();
+config({
+  path: `${__dirname}/../.env.local`,
+});
 
 import express, { Request, Response } from 'express';
 import next from 'next';
 import connectDb from './database';
+import authRouter from './routes/auth';
 
 const dev = process.env.NODE_ENV !== 'production';
 const port = process.env.PORT || 3000;
@@ -15,6 +18,8 @@ const server = express();
   connectDb();
   await app.prepare();
 
+  server.use(express.json());
+  server.use('/api/auth', authRouter);
   server.use((req: Request, res: Response) => {
     handle(req, res);
   });
