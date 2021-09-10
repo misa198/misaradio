@@ -105,7 +105,7 @@ export const changePassword = async (req: Request, res: Response) => {
   try {
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(401).send({ message: 'User not found' });
+      return res.status(404).send({ message: 'User not found' });
     }
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
@@ -118,6 +118,27 @@ export const changePassword = async (req: Request, res: Response) => {
     user.password = hashedPassword;
     await user.save();
     return res.send({ message: 'Password changed' });
+  } catch (e) {
+    return res.status(400).send({ message: 'Bad request' });
+  }
+};
+
+export const forgotPasswordRequest = async (req: Request, res: Response) => {
+  const { email } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).send({ message: 'User not found' });
+    }
+    const token = jwtService.signForgotPasswordToken(email);
+    try {
+      mailService.sendMail(
+        email,
+        'Reset password',
+        `${process.env.APP_URL}/auth/forgot-password?t=${token}`,
+      );
+    } catch (e) {}
+    return res.send({ message: 'Email was be sent' });
   } catch (e) {
     return res.status(400).send({ message: 'Bad request' });
   }
