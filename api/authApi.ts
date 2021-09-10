@@ -12,3 +12,12 @@ export const postLogin = ({ email, password }: LoginPayload) => {
 export const postLoginByGoogle = (accessToken: string) => {
   return axiosInstance.post('/auth/google', { accessToken });
 };
+
+export const getUserByToken = async (token: string) => {
+  const res = await axiosInstance.get('/auth/user', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return res;
+};

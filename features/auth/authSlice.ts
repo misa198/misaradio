@@ -1,4 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { User } from 'models/User';
 import { toast } from 'react-toastify';
 import { login, loginByGoogle } from './authThunk';
 
@@ -7,6 +8,7 @@ export interface AuthState {
     loading: boolean;
     error: string | null;
     loggedIn: boolean;
+    user?: User;
   };
 }
 
@@ -21,7 +23,15 @@ const initialState: AuthState = {
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    setUser: (state, action: PayloadAction<User>) => {
+      state.login.user = action.payload;
+      state.login.loggedIn = true;
+    },
+    clear: (state) => {
+      state.login = initialState.login;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(login.pending, (state) => {
       state.login.loading = true;

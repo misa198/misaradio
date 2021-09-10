@@ -6,11 +6,11 @@ import {
 } from '@material-ui/core';
 import { wrapper } from 'app/store';
 import { DefaultLayout } from 'components/layout';
+import { ConnectedRouter } from 'connected-next-router';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import NextNprogress from 'nextjs-progressbar';
 import React, { FC } from 'react';
-import { ConnectedRouter } from 'connected-next-router';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { theme } from 'themes';

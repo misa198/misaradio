@@ -1,8 +1,10 @@
 import { Box, makeStyles } from '@material-ui/core';
 import { useAppSelector } from 'app/hooks';
+import { wrapper } from 'app/store';
 import { CreateForm } from 'features/lobby/components/CreateForm';
 import { JoinForm } from 'features/lobby/components/JoinForm';
-import { NextPage } from 'next';
+import { authSSR } from 'libs/authSSR';
+import { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import bannerBackground from 'public/banner.jpeg';
@@ -57,5 +59,16 @@ const Lobby: NextPage = () => {
     </>
   );
 };
+
+export const getServerSideProps: GetServerSideProps =
+  wrapper.getServerSideProps((store) => async (context) => {
+    const res = await authSSR(
+      context.req.cookies,
+      store.dispatch,
+      context.res,
+      true,
+    );
+    return res;
+  });
 
 export default Lobby;

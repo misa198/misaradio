@@ -1,6 +1,8 @@
 import { Box, Container, Grid, makeStyles, Paper } from '@material-ui/core';
+import { wrapper } from 'app/store';
 import { VideoBox, VideoCardListBox } from 'components/pages/player';
-import { NextPage } from 'next';
+import { authSSR } from 'libs/authSSR';
+import { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React from 'react';
@@ -52,5 +54,16 @@ const Player: NextPage = () => {
     </>
   );
 };
+
+export const getServerSideProps: GetServerSideProps =
+  wrapper.getServerSideProps((store) => async (context) => {
+    const res = await authSSR(
+      context.req.cookies,
+      store.dispatch,
+      context.res,
+      true,
+    );
+    return res;
+  });
 
 export default Player;
