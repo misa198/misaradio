@@ -1,4 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import Cookies from 'js-cookie';
+import { login, LoginResponse } from './authThunk';
 
 export interface AuthState {
   login: {
@@ -16,20 +18,28 @@ const initialState: AuthState = {
   },
 };
 
-export interface LoginPayload {
-  email: string;
-  password: string;
-}
-
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {
-    login(state) {
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(login.pending, (state) => {
       state.login.loading = true;
       state.login.error = null;
       state.login.loggedIn = false;
-    },
+    });
+    builder.addCase(
+      login.fulfilled,
+      (state, action: PayloadAction<LoginResponse>) => {
+        state.login.loading = false;
+        state.login.loggedIn = true;
+        Cookies.set('token', action.payload.data);
+      },
+    );
+    builder.addCase(login.rejected, (state, action) => {
+      state.login.loading = false;
+      state.login.error = action.error.message as string;
+    });
   },
 });
 
