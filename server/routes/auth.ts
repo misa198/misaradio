@@ -6,6 +6,7 @@ import googleAuthValidator from '../validators/auth/googleAuth';
 import loginValidator from '../validators/auth/login';
 import registerValidator from '../validators/auth/register';
 import resetPasswordValidator from '../validators/auth/resetPassword';
+import authMiddleware from '../middlewares/auth';
 
 const router = Router();
 
@@ -22,7 +23,12 @@ router.post(
   forgotPasswordRequestValidator,
   controller.forgotPasswordRequest,
 );
-router.post('/reset-password', resetPasswordValidator, controller.resetPassword);
+router.post(
+  '/reset-password',
+  resetPasswordValidator,
+  controller.resetPassword,
+);
 router.get('/verify-email', controller.verifyEmail);
+router.get('/user', authMiddleware, controller.getUser);
 
 export default router;

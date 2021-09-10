@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
+import { UserRequest } from '../types/UserRequest';
 import User from '../models/User';
 import { getGoogleUserProfile } from '../services/google';
 import * as jwtService from '../services/jwt';
@@ -160,5 +161,24 @@ export const resetPassword = async (req: Request, res: Response) => {
     return res.send({ message: 'Password changed' });
   } catch (e) {
     return res.status(400).send({ message: 'Bad request' });
+  }
+};
+
+export const getUser = async (req: Request, res: Response) => {
+  const { email } = (req as UserRequest).user;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).send({ message: 'User not found' });
+    }
+    return res.send({
+      data: {
+        id: user._id,
+        email: user.email,
+        name: user.name,
+      },
+    });
+  } catch (e) {
+    return res.status(401).send({ message: 'Unauthorized' });
   }
 };
