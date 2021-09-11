@@ -11,6 +11,7 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
       if (payload) {
         (req as UserRequest).user = payload as {
           email: string;
+          name: string;
         };
         return next();
       }

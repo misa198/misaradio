@@ -1,5 +1,6 @@
 import ytsr, { Video } from 'ytsr';
 import { Song } from '../types/Song';
+import { timeStringToMilliseconds } from '../utils/time';
 
 export const search = async (query: string, user: string) => {
   const res = await ytsr(query, { pages: 1 });
@@ -7,15 +8,17 @@ export const search = async (query: string, user: string) => {
   const result: Song[] = [];
   for (let i = 0; i < 10; i++) {
     if (i <= videos.length) {
-      result.push({
-        id: videos[i].id,
-        title: videos[i].title,
-        author: videos[i].author.name,
-        platform: 'youtube',
-        cover: videos[i].bestThumbnail.url,
-        duration: 0,
-        orderBy: user,
-      });
+      if (videos[i]) {
+        result.push({
+          id: videos[i].id,
+          title: videos[i].title,
+          author: videos[i].author?.name || '',
+          platform: 'youtube',
+          cover: videos[i].bestThumbnail.url || '',
+          duration: timeStringToMilliseconds(videos[0].duration || '0'),
+          orderBy: user,
+        });
+      }
     } else break;
   }
   return result;
