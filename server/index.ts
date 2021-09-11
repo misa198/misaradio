@@ -8,6 +8,7 @@ import http from 'http';
 import next from 'next';
 import connectDb from './database/mongo';
 import authRouter from './routes/auth';
+import songRouter from './routes/songs';
 
 const dev = process.env.NODE_ENV !== 'production';
 const port = process.env.PORT || 3000;
@@ -18,12 +19,12 @@ export const httpServer = http.createServer(server);
 
 (async () => {
   connectDb();
-  require('./database/redis');
   require('./socket');
   // await app.prepare();
 
   server.use(express.json());
   server.use('/api/auth', authRouter);
+  server.use('/api/songs', songRouter);
   // server.all('*', (req: Request, res: Response) => {
   //   handle(req, res);
   // });

@@ -25,7 +25,7 @@ io.on('connection', (socket: Socket) => {
     if (!user) return socket.emit('error', 'Unauthorized');
     try {
       const _payload = createRoomValidator(payload);
-      const roomId = await roomsService.createRoom(_payload.name, user);
+      const roomId = roomsService.createRoom(_payload.name, user);
       socket.emit('create-room-success', { roomId });
     } catch (e: any) {
       socket.emit('error', e.message);
@@ -38,11 +38,10 @@ io.on('connection', (socket: Socket) => {
     if (!user) return socket.emit('error', 'Unauthorized');
     try {
       const _payload = joinRoomValidator(payload);
-      const room = await roomsService.joinRoom(_payload.roomId, user);
-      const startAt = Date.now() - (room.playing?.startTime || 0);
+      const room = roomsService.joinRoom(_payload.roomId, user);
+      socket.join(room.id);
       socket.emit('join-room-success', {
         room,
-        startAt,
       });
       io.to(_payload.roomId).emit('join-room', {
         user,
