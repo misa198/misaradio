@@ -5,9 +5,10 @@ import { authSSR } from 'libs/authSSR';
 import { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useEffect } from 'react';
 import en from 'translations/en/player';
 import vi from 'translations/vi/player';
+import useSocket from 'app/socket';
 
 const useStyles = makeStyles((theme) => ({
   pageRoot: {
@@ -26,45 +27,47 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Player: NextPage = () => {
-  const { locale } = useRouter();
+  const router = useRouter();
+  const { locale } = router;
   const t = locale === 'vi' ? vi : en;
   const classes = useStyles();
+  const socket = useSocket();
+
+  useEffect(() => {
+    if (!socket) {
+      router.push('/lobby');
+    }
+  }, [router, socket]);
 
   return (
     <>
       <Head>
         <title>{t.title} - Misa Radio</title>
       </Head>
-      <Container className={classes.pageRoot}>
-        <Box display="flex" justifyContent="center" alignItems="center">
-          <Grid container spacing={3} className={classes.container}>
-            <Grid item xs={12} md={8}>
-              <Paper className={classes.paper}>
-                <VideoBox />
-              </Paper>
+      {socket && (
+        <Container className={classes.pageRoot}>
+          <Box display="flex" justifyContent="center" alignItems="center">
+            <Grid container spacing={3} className={classes.container}>
+              <Grid item xs={12} md={8}>
+                <Paper className={classes.paper}>
+                  <VideoBox />
+                </Paper>
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <Paper className={classes.paper}>
+                  <VideoCardListBox />
+                </Paper>
+              </Grid>
             </Grid>
-            <Grid item xs={12} md={4}>
-              <Paper className={classes.paper}>
-                <VideoCardListBox />
-              </Paper>
-            </Grid>
-          </Grid>
-        </Box>
-      </Container>
+          </Box>
+        </Container>
+      )}
     </>
   );
 };
 
 export const getServerSideProps: GetServerSideProps =
   wrapper.getServerSideProps((store) => async (context) => {
-    if (typeof window === 'undefined') {
-      return {
-        redirect: {
-          destination: '/lobby',
-          permanent: false,
-        },
-      };
-    }
     const res = await authSSR(
       context.req.cookies,
       store.dispatch,

@@ -9,7 +9,6 @@ import {
 } from '@material-ui/core';
 import { useAppDispatch } from 'app/hooks';
 import useSocket from 'app/socket';
-import { push } from 'connected-next-router';
 import { useRouter } from 'next/router';
 import React, { FC, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -42,7 +41,8 @@ interface CreateRoomFormFields {
 }
 
 export const CreateForm: FC = () => {
-  const { locale } = useRouter();
+  const router = useRouter();
+  const { locale } = router;
   const t = locale === 'vi' ? vi : en;
   const classes = useStyles();
   const dispatch = useAppDispatch();
@@ -76,12 +76,12 @@ export const CreateForm: FC = () => {
   useEffect((): any => {
     if (socket) {
       socket.on('create-room-success', (payload: { roomId: string }) => {
-        dispatch(push(`/player/${payload.roomId}`));
         toast.success(t.createRoomSuccess);
+        router.push(`/player/${payload.roomId}`);
       });
       return () => socket.off('create-room-success');
     }
-  }, [dispatch, socket, t.createRoomSuccess]);
+  }, [router, socket, t.createRoomSuccess]);
 
   return (
     <Paper elevation={0} className={classes.formRoot}>
