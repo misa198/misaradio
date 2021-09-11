@@ -6,7 +6,11 @@ import {
   Paper,
   Modal,
   Fade,
+  Typography,
+  IconButton,
+  Tooltip,
 } from '@material-ui/core';
+import { InsertLink } from '@material-ui/icons';
 import { wrapper } from 'app/store';
 import { VideoBox, VideoCardListBox } from 'components/pages/player';
 import { authSSR } from 'libs/authSSR';
@@ -22,11 +26,16 @@ import { ModalPopup } from 'features/player/components/ModalPopup';
 const useStyles = makeStyles((theme) => ({
   pageRoot: {
     minHeight: '100vh',
-    paddingBottom: '70px',
-    padding: '120px 0',
+    paddingBottom: '120px',
+    paddingTop: '100px',
   },
   container: {
     padding: 0,
+  },
+  roomName: {
+    fontSize: '1.5rem',
+    fontWeight: 'bold',
+    marginRight: '5px',
   },
   paper: {
     textAlign: 'center',
@@ -38,14 +47,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  paper2: {
-    width: '360px',
-    backgroundColor: '#212121',
-    border: 'none',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-    borderRadius: '8px',
   },
 }));
 
@@ -79,6 +80,14 @@ const Player: NextPage = () => {
       {socket && (
         <>
           <Container className={classes.pageRoot}>
+            <Box mb={2.2} display="flex" alignItems="center">
+              <Typography className={classes.roomName}>MisaRoom</Typography>
+              <Tooltip title={t.copyRoomCode}>
+                <IconButton aria-label="copy">
+                  <InsertLink />
+                </IconButton>
+              </Tooltip>
+            </Box>
             <Box display="flex" justifyContent="center" alignItems="center">
               <Grid container spacing={3} className={classes.container}>
                 <Grid item xs={12} md={8}>

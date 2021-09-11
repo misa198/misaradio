@@ -6,4 +6,5 @@ export default {
   addMessage: 'Add a song and listen now',
   search: 'Search',
   searchSomething: 'Search for a song',
+  copyRoomCode: 'Copy room code',
 };

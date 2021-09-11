@@ -6,4 +6,5 @@ export default {
   addMessage: 'Thêm bài hát và thưởng thức',
   search: 'Tìm kiếm',
   searchSomething: 'Tìm kiếm gì đó',
+  copyRoomCode: 'Sao chép mã phòng',
 };
