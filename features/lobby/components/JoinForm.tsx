@@ -88,6 +88,7 @@ export const JoinForm: FC = () => {
             fullWidth
             {...register('code')}
             helperText={errors.code?.message}
+            autoComplete="off"
           />
         </Box>
 

@@ -99,6 +99,7 @@ export const CreateForm: FC = () => {
             fullWidth
             {...register('name')}
             helperText={errors.name?.message}
+            autoComplete="off"
           />
         </Box>
 
