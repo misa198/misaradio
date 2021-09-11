@@ -14,10 +14,14 @@ io.attach(httpServer);
 io.on('connection', (socket: Socket) => {
   // Leave all rooms that be created or joined when disconnected
   socket.on('disconnect', () => {
-    const roomId = roomsService.leaveRooms(socket.id);
-    io.to(roomId).emit('leave-room', {
-      userId: socket.id,
-    });
+    try {
+      const roomId = roomsService.leaveRooms(socket.id);
+      io.to(roomId).emit('leave-room', {
+        userId: socket.id,
+      });
+    } catch (e: any) {
+      socket.emit('error', e.message);
+    }
   });
 
   // Create room
