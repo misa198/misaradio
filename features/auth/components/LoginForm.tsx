@@ -131,6 +131,7 @@ export const LoginForm: FC = () => {
             variant="outlined"
             fullWidth
             helperText={errors.password?.message}
+            type="password"
           />
         </Box>
 
