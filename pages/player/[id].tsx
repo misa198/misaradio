@@ -10,7 +10,7 @@ import {
   IconButton,
   Tooltip,
 } from '@material-ui/core';
-import { InsertLink } from '@material-ui/icons';
+import { FilterNone } from '@material-ui/icons';
 import { wrapper } from 'app/store';
 import { VideoBox, VideoCardListBox } from 'components/pages/player';
 import { authSSR } from 'libs/authSSR';
@@ -84,7 +84,7 @@ const Player: NextPage = () => {
               <Typography className={classes.roomName}>MisaRoom</Typography>
               <Tooltip title={t.copyRoomCode}>
                 <IconButton aria-label="copy">
-                  <InsertLink />
+                  <FilterNone fontSize="small" />
                 </IconButton>
               </Tooltip>
             </Box>
