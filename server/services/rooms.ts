@@ -40,15 +40,18 @@ export const createRoom = async (name: string, user: User) => {
 
 export const joinRoom = async (roomId: string, user: User) => {
   const room = await getRoom(roomId);
-  room.users.push(user);
-  let joinedRooms = await getObject(`${user.id}_joined`);
-  joinedRooms = joinedRooms ? (joinedRooms as Room[]) : [];
-  joinedRooms.push(roomId);
-  await Promise.all([
-    setString(`${user.id}_joined`, joinedRooms),
-    setObject(roomId, room),
-  ]);
-  return room;
+  if (room) {
+    room.users.push(user);
+    let joinedRooms = await getObject(`${user.id}_joined`);
+    joinedRooms = joinedRooms ? (joinedRooms as Room[]) : [];
+    joinedRooms.push(roomId);
+    await Promise.all([
+      setString(`${user.id}_joined`, joinedRooms),
+      setObject(roomId, room),
+    ]);
+    return room;
+  }
+  throw { message: 'Room not found' };
 };
 
 const leaveRoom = async (roomId: string, userId: string) => {

@@ -39,7 +39,14 @@ io.on('connection', (socket: Socket) => {
     try {
       const _payload = joinRoomValidator(payload);
       const room = await roomsService.joinRoom(_payload.roomId, user);
-      socket.emit('join-room-success', { room });
+      const startAt = Date.now() - (room.playing?.startTime || 0);
+      socket.emit('join-room-success', {
+        room,
+        startAt,
+      });
+      io.to(_payload.roomId).emit('join-room', {
+        user,
+      });
     } catch (e: any) {
       socket.emit('error', e.message);
     }
