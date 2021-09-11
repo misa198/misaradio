@@ -46,7 +46,6 @@ const useStyles = makeStyles((theme) => ({
     color: '#fff !important',
   },
   googleButton: {
-    backgroundColor: 'white !important',
     color: '#000 !important',
   },
   link: {
@@ -152,6 +151,7 @@ export const LoginForm: FC = () => {
             clientId={googleClientId}
             render={(renderProps) => (
               <Button
+                color="inherit"
                 variant="contained"
                 size="large"
                 fullWidth
