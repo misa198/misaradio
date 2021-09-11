@@ -22,7 +22,11 @@ const initialState: PlayerState = {
 const playerSlice = createSlice({
   name: 'player',
   initialState,
-  reducers: {},
+  reducers: {
+    clearSearchResult(state) {
+      state.search.data = [];
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(searchSongs.pending, (state) => {
       state.search.loading = true;

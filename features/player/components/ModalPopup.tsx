@@ -15,6 +15,7 @@ import React, { ChangeEvent, FC, useEffect, useState, FormEvent } from 'react';
 import en from 'translations/en/player';
 import vi from 'translations/vi/player';
 import { searchSongs } from '../playerThunk';
+import { playerActions } from '../playerSlice';
 
 const useStyles = makeStyles((theme) => ({
   modalRoot: {
@@ -92,6 +93,8 @@ export const ModalPopup: FC = () => {
           query,
         }),
       );
+    } else {
+      dispatch(playerActions.clearSearchResult());
     }
   }
 
@@ -107,6 +110,7 @@ export const ModalPopup: FC = () => {
       }, 500);
       return () => clearTimeout(timeOutId);
     }
+    dispatch(playerActions.clearSearchResult());
   }, [query, dispatch, type]);
 
   return (
