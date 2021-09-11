@@ -3,7 +3,7 @@ import { Song } from '../types/Song';
 
 const scdl = new SoundCloud();
 
-scdl.connect().then(() => console.log('Connected to Soundcloud'));
+scdl.connect().then(() => console.log('> Connected to Soundcloud'));
 
 export const search = async (query: string, user: string) => {
   const res = await scdl.search({

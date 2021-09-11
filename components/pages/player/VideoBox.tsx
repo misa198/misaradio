@@ -85,7 +85,7 @@ export const VideoBox: FC = () => {
             </IconButton>
           )}
         </Box>
-        <iframe
+        {/* <iframe
           style={{ width: '100%', pointerEvents: 'none' }}
           frameBorder="0"
           allowFullScreen
@@ -94,6 +94,15 @@ export const VideoBox: FC = () => {
           width="640"
           height="400"
           src="https://www.youtube.com/embed/jXpdAJcrTVs?autoplay=1&amp;controls=0&amp;mute=0&amp;start=1&amp;enablejsapi=1&amp;widgetid=1"
+        /> */}
+        <iframe
+          title="SoundCloud"
+          width="100%"
+          height="450"
+          scrolling="no"
+          frameBorder="no"
+          allow="autoplay"
+          src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/556627674&color=%23e53935&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
         />
       </Box>
 
