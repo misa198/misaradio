@@ -1,13 +1,13 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Song } from 'models/Song';
 import { toast } from 'react-toastify';
-import { searchSongs } from './playerThunk';
+import { searchSongs, SearchResponse } from './playerThunk';
 
 export interface PlayerState {
   search: {
     loading: boolean;
     error: boolean;
-    results: Song[];
+    data: Song[];
   };
 }
 
@@ -15,7 +15,7 @@ const initialState: PlayerState = {
   search: {
     loading: false,
     error: false,
-    results: [],
+    data: [],
   },
 };
 
@@ -27,10 +27,15 @@ const playerSlice = createSlice({
     builder.addCase(searchSongs.pending, (state) => {
       state.search.loading = true;
       state.search.error = false;
+      state.search.data = [];
     });
-    builder.addCase(searchSongs.fulfilled, (state) => {
-      state.search.loading = false;
-    });
+    builder.addCase(
+      searchSongs.fulfilled,
+      (state, action: PayloadAction<SearchResponse>) => {
+        state.search.loading = false;
+        state.search.data = action.payload.data;
+      },
+    );
     builder.addCase(searchSongs.rejected, (state, action) => {
       state.search.loading = false;
       state.search.error = true;

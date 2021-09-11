@@ -8,9 +8,10 @@ import {
 } from '@material-ui/core';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
-import { useAppDispatch } from 'app/hooks';
+import { useAppDispatch, useAppSelector } from 'app/hooks';
+import { SongCard } from 'components/pages/player';
 import { useRouter } from 'next/router';
-import React, { ChangeEvent, FC, useEffect, useState } from 'react';
+import React, { ChangeEvent, FC, useEffect, useState, FormEvent } from 'react';
 import en from 'translations/en/player';
 import vi from 'translations/vi/player';
 import { searchSongs } from '../playerThunk';
@@ -68,6 +69,8 @@ export const ModalPopup: FC = () => {
   const [type, setType] = useState('youtube');
   const [query, setQuery] = useState('');
   const dispatch = useAppDispatch();
+  const loading = useAppSelector((state) => state.player.search.loading);
+  const result = useAppSelector((state) => state.player.search.data);
 
   const handleChange = (
     _event: React.MouseEvent<HTMLElement>,
@@ -78,6 +81,18 @@ export const ModalPopup: FC = () => {
 
   function handleQueryChange(e: ChangeEvent<HTMLInputElement>) {
     setQuery(e.target.value);
+  }
+
+  function onSubmit(e: FormEvent) {
+    e.preventDefault();
+    if (query) {
+      dispatch(
+        searchSongs({
+          type,
+          query,
+        }),
+      );
+    }
   }
 
   useEffect((): any => {
@@ -98,7 +113,7 @@ export const ModalPopup: FC = () => {
     <Container>
       <Box className={classes.modalRoot}>
         <Box mb={2}>
-          <form className={classes.formContainer}>
+          <form className={classes.formContainer} onSubmit={onSubmit}>
             <Box
               display="flex"
               flexDirection="row"
@@ -138,18 +153,16 @@ export const ModalPopup: FC = () => {
         <Box
           display="flex"
           flexDirection="column"
-          justifyContent="space-between"
           alignItems="center"
           flexGrow={1}
           className={classes.resultList}
         >
-          <CircularProgress />
-          {/* <Box mb={1}>
-            <SongCard />
-          </Box>
-          <Box mb={1}>
-            <SongCard />
-          </Box> */}
+          {loading && <CircularProgress />}
+          {result.map((song) => (
+            <Box mb={1.5} key={song.id} width="100%">
+              <SongCard song={song} />
+            </Box>
+          ))}
         </Box>
       </Box>
     </Container>
