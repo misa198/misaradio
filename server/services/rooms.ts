@@ -8,6 +8,7 @@ import {
   setString,
 } from '../services/redis';
 import { Room } from '../types/Room';
+import { Song } from '../types/Song';
 import { User } from '../types/User';
 
 export const getRoom = async (roomId: string) => {
@@ -70,4 +71,13 @@ export const leaveRooms = async (userId: string) => {
   rooms.forEach((room) => {
     leaveRoom(room, userId);
   });
+};
+
+export const orderSong = async (roomId: string, userId: string, song: Song) => {
+  const room = (await getRoom(roomId)) as Room;
+  if (!room) throw { message: 'Room not found' };
+  const user = room.users.find((user) => user.id === userId);
+  if (!user) throw { message: 'Not allowed' };
+  room.queue.push(song);
+  await setObject(roomId, room);
 };

@@ -1,6 +1,10 @@
 import { Socket } from 'socket.io';
 import { httpServer } from '../index';
 import * as roomsService from '../services/rooms';
+import { Song } from '../types/Song';
+import { orderSongValidator } from '../validators/rooms/orderSong';
+import { createRoomValidator } from '../validators/rooms/createRoom';
+import { joinRoomValidator } from '../validators/rooms/joinRoom';
 import { authSocket } from './socketAuth';
 const socketIO = require('socket.io');
 
@@ -19,15 +23,38 @@ io.on('connection', (socket: Socket) => {
   socket.on('create-room', async (payload: { name: string }) => {
     const user = authSocket(socket);
     if (!user) return socket.emit('error', 'Unauthorized');
-    const roomId = roomsService.createRoom(payload.name, user);
-    socket.emit('create-room-success', { roomId });
+    try {
+      const _payload = createRoomValidator(payload);
+      const roomId = await roomsService.createRoom(_payload.name, user);
+      socket.emit('create-room-success', { roomId });
+    } catch (e: any) {
+      socket.emit('error', e.message);
+    }
   });
 
   // Join room
   socket.on('join-room', async (payload: { roomId: string }) => {
     const user = authSocket(socket);
     if (!user) return socket.emit('error', 'Unauthorized');
-    const room = await roomsService.joinRoom(payload.roomId, user);
-    socket.emit('join-room-success', { room });
+    try {
+      const _payload = joinRoomValidator(payload);
+      const room = await roomsService.joinRoom(_payload.roomId, user);
+      socket.emit('join-room-success', { room });
+    } catch (e: any) {
+      socket.emit('error', e.message);
+    }
+  });
+
+  // Order song
+  socket.on('order-song', async (payload: { roomId: string; song: Song }) => {
+    const user = authSocket(socket);
+    if (!user) return socket.emit('error', 'Unauthorized');
+    try {
+      const { roomId, song } = orderSongValidator(payload);
+      await roomsService.orderSong(roomId, user.id, song);
+      io.in(roomId).emit('order-song-success', { song });
+    } catch (e: any) {
+      socket.emit('error', e.message);
+    }
   });
 });
