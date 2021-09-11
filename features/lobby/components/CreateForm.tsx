@@ -48,7 +48,7 @@ export const CreateForm: FC = () => {
   const dispatch = useAppDispatch();
   const socket = useSocket();
   const schema = yup.object().shape({
-    name: yup.string().max(10, t.nameMaxLength).required(t.require),
+    name: yup.string().max(20, t.nameMaxLength).required(t.require),
   });
 
   const {

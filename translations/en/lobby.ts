@@ -5,7 +5,7 @@ export default {
   code: 'Code',
   name: 'Name',
   confirm: 'Confirm',
-  nameMaxLength: 'Maximum 10 characters',
+  nameMaxLength: 'Maximum 20 characters',
   codeLength: '6 characters',
   require: 'This field is required',
   socketNull: 'Initiating connection, wait a few seconds',
