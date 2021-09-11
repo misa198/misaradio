@@ -13,7 +13,7 @@ import songRouter from './routes/songs';
 const dev = process.env.NODE_ENV !== 'production';
 const port = process.env.PORT || 3000;
 const app = next({ dev });
-const handle = app.getRequestHandler();
+const handler = app.getRequestHandler();
 const server = express();
 export const httpServer = http.createServer(server);
 
@@ -25,9 +25,8 @@ export const httpServer = http.createServer(server);
   server.use(express.json());
   server.use('/api/auth', authRouter);
   server.use('/api/songs', songRouter);
-  server.all('*', (req: Request, res: Response) => {
-    handle(req, res);
-  });
+
+  server.all('*', (req: Request, res: Response) => handler(req, res));
 
   httpServer.listen(port, () => {
     console.log(`> Ready on http://localhost:${port}`);

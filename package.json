@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "nodemon",
     "build:next": "next build",
-    "build:server": "tsc --project tsconfig.server.json",
+    "build:server": "rm -rf dist && tsc --project tsconfig.server.json",
     "build": "npm run build:next && npm run build:server",
     "start": "NODE_ENV=production node dist/index.js",
     "lint": "next lint"

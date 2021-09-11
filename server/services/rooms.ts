@@ -51,6 +51,8 @@ export const leaveRooms = (userId: string) => {
   for (const room of roomsToLeave) {
     leaveRoom(room, userId);
   }
+  const roomIds = roomsToLeave.map((room) => room.id);
+  return roomIds;
 };
 
 export const orderSong = (roomId: string, userId: string, song: Song) => {

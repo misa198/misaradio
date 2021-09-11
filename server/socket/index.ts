@@ -6,9 +6,10 @@ import { orderSongValidator } from '../validators/rooms/orderSong';
 import { createRoomValidator } from '../validators/rooms/createRoom';
 import { joinRoomValidator } from '../validators/rooms/joinRoom';
 import { authSocket } from './socketAuth';
-const socketIO = require('socket.io');
+import socketIO from 'socket.io';
 
-export const io = socketIO(httpServer);
+export const io = new socketIO.Server();
+io.attach(httpServer);
 
 io.on('connection', (socket: Socket) => {
   // Leave all rooms that be created or joined when disconnected
