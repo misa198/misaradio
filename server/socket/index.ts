@@ -12,7 +12,7 @@ export const io = socketIO(httpServer);
 
 io.on('connection', (socket: Socket) => {
   // Leave all rooms that be created or joined when disconnected
-  socket.on('disconnect', async () => {
+  socket.on('disconnect', () => {
     const roomId = roomsService.leaveRooms(socket.id);
     io.to(roomId).emit('leave-room', {
       userId: socket.id,
@@ -20,7 +20,7 @@ io.on('connection', (socket: Socket) => {
   });
 
   // Create room
-  socket.on('create-room', async (payload: { name: string }) => {
+  socket.on('create-room', (payload: { name: string }) => {
     const user = authSocket(socket);
     if (!user) return socket.emit('error', 'Unauthorized');
     try {
@@ -33,7 +33,7 @@ io.on('connection', (socket: Socket) => {
   });
 
   // Join room
-  socket.on('join-room', async (payload: { roomId: string }) => {
+  socket.on('join-room', (payload: { roomId: string }) => {
     const user = authSocket(socket);
     if (!user) return socket.emit('error', 'Unauthorized');
     try {
@@ -52,12 +52,12 @@ io.on('connection', (socket: Socket) => {
   });
 
   // Order song
-  socket.on('order-song', async (payload: { roomId: string; song: Song }) => {
+  socket.on('order-song', (payload: { roomId: string; song: Song }) => {
     const user = authSocket(socket);
     if (!user) return socket.emit('error', 'Unauthorized');
     try {
       const { roomId, song } = orderSongValidator(payload);
-      const room = await roomsService.orderSong(roomId, user.id, song);
+      const room = roomsService.orderSong(roomId, user.id, song);
       io.in(roomId).emit('order-song-success', {
         room,
       });
