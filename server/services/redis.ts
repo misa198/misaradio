@@ -2,7 +2,7 @@ import client from '../database/redis';
 
 export const getObject = async (key: string) => {
   const value = await client.get(key);
-  const parsedValue = JSON.parse(value);
+  const parsedValue = value ? JSON.parse(value) : null;
   return parsedValue;
 };
 
@@ -16,4 +16,8 @@ export const getString = async (key: string) => {
 
 export const setString = async (key: string, value: string) => {
   return client.set(key, value);
+};
+
+export const removeKey = async (key: string) => {
+  return client.del(key);
 };
