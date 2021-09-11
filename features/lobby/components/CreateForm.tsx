@@ -1,3 +1,4 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Box,
   Button,
@@ -7,10 +8,15 @@ import {
   Typography,
 } from '@material-ui/core';
 import { useAppDispatch } from 'app/hooks';
+import useSocket from 'app/socket';
+import { push } from 'connected-next-router';
 import { useRouter } from 'next/router';
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import en from 'translations/en/lobby';
 import vi from 'translations/vi/lobby';
+import * as yup from 'yup';
 import { lobbyActions } from '../lobbySlice';
 
 const useStyles = makeStyles((theme) => ({
@@ -31,19 +37,55 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+interface CreateRoomFormFields {
+  name: string;
+}
+
 export const CreateForm: FC = () => {
   const { locale } = useRouter();
   const t = locale === 'vi' ? vi : en;
   const classes = useStyles();
   const dispatch = useAppDispatch();
+  const socket = useSocket();
+  const schema = yup.object().shape({
+    name: yup.string().max(10, t.nameMaxLength).required(t.require),
+  });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
 
   function switchForm() {
     dispatch(lobbyActions.switch('join'));
   }
 
+  function onSubmit(value: CreateRoomFormFields) {
+    if (socket)
+      socket.emit('create-room', {
+        name: value.name,
+      });
+    else {
+      toast.info(t.socketNull);
+    }
+  }
+
+  useEffect((): any => {
+    if (socket) {
+      socket.on('create-room-success', (payload: { roomId: string }) => {
+        dispatch(push(`/player/${payload.roomId}`));
+        toast.success(t.createRoomSuccess);
+      });
+      return () => socket.off('create-room-success');
+    }
+  }, [dispatch, socket, t.createRoomSuccess]);
+
   return (
     <Paper elevation={0} className={classes.formRoot}>
-      <form className={classes.formContainer}>
+      <form onSubmit={handleSubmit(onSubmit)} className={classes.formContainer}>
         <Box mb={1.5}>
           <Typography variant="h5" className={classes.formTitle}>
             {t.create}
@@ -55,11 +97,19 @@ export const CreateForm: FC = () => {
             margin="normal"
             variant="outlined"
             fullWidth
+            {...register('name')}
+            helperText={errors.name?.message}
           />
         </Box>
 
         <Box mt={1.5}>
-          <Button variant="contained" color="primary" size="large" fullWidth>
+          <Button
+            variant="contained"
+            color="primary"
+            size="large"
+            fullWidth
+            type="submit"
+          >
             {t.confirm}
           </Button>
         </Box>

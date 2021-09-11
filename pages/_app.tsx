@@ -4,7 +4,7 @@ import {
   makeStyles,
   ThemeProvider,
 } from '@material-ui/core';
-import useSocket from 'app/socket';
+import { useInitSocket } from 'app/socket';
 import { wrapper } from 'app/store';
 import { DefaultLayout } from 'components/layout';
 import { ConnectedRouter } from 'connected-next-router';
@@ -34,7 +34,7 @@ const useStyles = makeStyles(() =>
 
 const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
   useStyles();
-  useSocket();
+  useInitSocket();
 
   return (
     <>

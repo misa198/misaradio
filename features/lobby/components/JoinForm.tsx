@@ -7,6 +7,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import { useAppDispatch } from 'app/hooks';
+import useSocket from 'app/socket';
 import { useRouter } from 'next/router';
 import React, { FC } from 'react';
 import en from 'translations/en/lobby';
@@ -36,6 +37,7 @@ export const JoinForm: FC = () => {
   const t = locale === 'vi' ? vi : en;
   const classes = useStyles();
   const dispatch = useAppDispatch();
+  const socket = useSocket();
 
   function switchForm() {
     dispatch(lobbyActions.switch('create'));
