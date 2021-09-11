@@ -57,6 +57,14 @@ const Player: NextPage = () => {
 
 export const getServerSideProps: GetServerSideProps =
   wrapper.getServerSideProps((store) => async (context) => {
+    if (typeof window === 'undefined') {
+      return {
+        redirect: {
+          destination: '/lobby',
+          permanent: false,
+        },
+      };
+    }
     const res = await authSSR(
       context.req.cookies,
       store.dispatch,
