@@ -12,7 +12,11 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export const VideoCardListBox: FC = () => {
+interface PropTypes {
+  handleOpen: () => void;
+}
+
+export const VideoCardListBox: FC<PropTypes> = ({ handleOpen }) => {
   const { locale } = useRouter();
   const t = locale === 'vi' ? vi : en;
   const classes = useStyles();
@@ -31,7 +35,12 @@ export const VideoCardListBox: FC = () => {
         </Box>
       </Box>
       <Box pt={1}>
-        <Button variant="contained" color="primary" fullWidth>
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          onClick={handleOpen}
+        >
           <Add />
         </Button>
       </Box>

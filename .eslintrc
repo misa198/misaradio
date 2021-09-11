@@ -48,6 +48,7 @@
     "react/prop-types": "off",
     "react/jsx-props-no-spreading": "off",
     "@next/next/link-passhref": "off",
+    "@next/next/no-img-element": "off",
     "prettier/prettier": [
       "error",
       {

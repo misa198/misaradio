@@ -29,10 +29,12 @@ export const SongCard: FC = () => {
     <Box className={classes.songCardRoot}>
       <Grid container spacing={2}>
         <Grid item xs={4}>
-          <Image
+          <img
             src="https://i.ytimg.com/vi/3bJkVSMs4dw/maxresdefault.jpg"
             className={classes.songCardImg}
             alt="song"
+            width="100%"
+            height="auto"
           />
         </Grid>
         <Grid item xs={8}>

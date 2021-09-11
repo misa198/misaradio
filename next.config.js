@@ -6,4 +6,7 @@ module.exports = {
     defaultLocale: 'vi',
     localeDetection: true,
   },
+  images: {
+    domains: ['i.ytimg.com'],
+  },
 };

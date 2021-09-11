@@ -4,4 +4,6 @@ export default {
   duration: 'Độ dài',
   channel: 'Tác giả',
   addMessage: 'Thêm bài hát và thưởng thức',
+  search: 'Tìm kiếm',
+  searchSomething: 'Tìm kiếm gì đó',
 };
