@@ -12,7 +12,8 @@ const useStyles = makeStyles(() => ({
       rgba(0,0,0,0.9) 100%
     ), url(${bannerBackground.src})`,
     backgroundPosition: 'center',
-    padding: '120px 0',
+    paddingTop: '120px',
+    paddingBottom: '120px',
     width: '100vw',
     minHeight: '100vh',
   },
