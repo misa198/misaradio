@@ -6,6 +6,7 @@ import {
 } from 'connected-next-router';
 import authReducer from 'features/auth/authSlice';
 import lobbyReducer from 'features/lobby/lobbySlice';
+import playerReducer from 'features/player/playerSlice';
 import { createWrapper, HYDRATE, MakeStore } from 'next-redux-wrapper';
 import { AppContext } from 'next/app';
 import Router from 'next/router';
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   lobby: lobbyReducer,
   auth: authReducer,
   router: routerReducer,
+  player: playerReducer,
 });
 
 const reducer: Reducer<AppState, AnyAction> = (state, action) => {

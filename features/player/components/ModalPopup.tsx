@@ -1,21 +1,19 @@
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Box,
+  CircularProgress,
   Container,
   makeStyles,
   TextField,
   Typography,
-  CircularProgress,
 } from '@material-ui/core';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
-import React, { FC, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
+import { useAppDispatch } from 'app/hooks';
+import { useRouter } from 'next/router';
+import React, { ChangeEvent, FC, useEffect, useState } from 'react';
 import en from 'translations/en/player';
 import vi from 'translations/vi/player';
-import { useRouter } from 'next/router';
-import { SongCard } from 'components/pages/player';
+import { searchSongs } from '../playerThunk';
 
 const useStyles = makeStyles((theme) => ({
   modalRoot: {
@@ -68,36 +66,39 @@ export const ModalPopup: FC = () => {
   const t = locale === 'vi' ? vi : en;
   const classes = useStyles();
   const [type, setType] = useState('youtube');
+  const [query, setQuery] = useState('');
+  const dispatch = useAppDispatch();
 
   const handleChange = (
-    event: React.MouseEvent<HTMLElement>,
+    _event: React.MouseEvent<HTMLElement>,
     nextValue: string,
   ) => {
     setType(nextValue);
   };
 
-  const schema = yup.object().shape({
-    name: yup.string().max(20).required(),
-  });
+  function handleQueryChange(e: ChangeEvent<HTMLInputElement>) {
+    setQuery(e.target.value);
+  }
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
-
-  function onSubmit(value) {}
+  useEffect((): any => {
+    if (query) {
+      const timeOutId = setTimeout(() => {
+        dispatch(
+          searchSongs({
+            type,
+            query,
+          }),
+        );
+      }, 500);
+      return () => clearTimeout(timeOutId);
+    }
+  }, [query, dispatch, type]);
 
   return (
     <Container>
       <Box className={classes.modalRoot}>
         <Box mb={2}>
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className={classes.formContainer}
-          >
+          <form className={classes.formContainer}>
             <Box
               display="flex"
               flexDirection="row"
@@ -128,9 +129,8 @@ export const ModalPopup: FC = () => {
                 margin="normal"
                 variant="outlined"
                 fullWidth
-                {...register('name')}
-                helperText={errors.name?.message}
                 placeholder={`${t.searchSomething} ...`}
+                onChange={handleQueryChange}
               />
             </Box>
           </form>

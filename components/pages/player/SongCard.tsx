@@ -1,5 +1,4 @@
-import { Box, Grid, Typography, makeStyles } from '@material-ui/core';
-import Image from 'next/image';
+import { Box, Grid, makeStyles, Typography } from '@material-ui/core';
 import React, { FC } from 'react';
 
 const useStyles = makeStyles(() => ({
