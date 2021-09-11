@@ -78,6 +78,14 @@ export const orderSong = async (roomId: string, userId: string, song: Song) => {
   if (!room) throw { message: 'Room not found' };
   const user = room.users.find((user) => user.id === userId);
   if (!user) throw { message: 'Not allowed' };
-  room.queue.push(song);
+  if (room.queue.length === 0) {
+    room.playing = {
+      song,
+      startTime: Date.now(),
+    };
+  } else {
+    room.queue.push(song);
+  }
   await setObject(roomId, room);
+  return room;
 };

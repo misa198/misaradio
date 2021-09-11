@@ -51,8 +51,10 @@ io.on('connection', (socket: Socket) => {
     if (!user) return socket.emit('error', 'Unauthorized');
     try {
       const { roomId, song } = orderSongValidator(payload);
-      await roomsService.orderSong(roomId, user.id, song);
-      io.in(roomId).emit('order-song-success', { song });
+      const room = await roomsService.orderSong(roomId, user.id, song);
+      io.in(roomId).emit('order-song-success', {
+        room,
+      });
     } catch (e: any) {
       socket.emit('error', e.message);
     }
