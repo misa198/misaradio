@@ -13,4 +13,6 @@ export default {
   leftRoom:
     'Are you sure you want to leave this page. After you leave, if the room is empty, it will be deleted.',
   roomCodeCopied: 'Copied room code',
+  orderSongPending: 'Request has been sent, please wait a moment',
+  orderSongSuccess: 'A song has just been added to the queue',
 };

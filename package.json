@@ -48,6 +48,7 @@
     "socket.io-client": "^4.2.0",
     "use-clipboard-copy": "^0.2.0",
     "youtube-player": "^5.5.2",
+    "ytdl-core": "^4.9.1",
     "ytsr": "^3.5.3",
     "yup": "^0.32.9"
   },

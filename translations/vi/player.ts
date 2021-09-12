@@ -13,4 +13,6 @@ export default {
   leftRoom:
     'Bạn có chắc chắn muốn rời khỏi trang này?. Sau khi bạn rời đi, nếu phòng không còn người, nó sẽ bị xoá.',
   roomCodeCopied: 'Đã sao chép mã phòng',
+  orderSongPending: 'Yêu cầu đã được gửi, vui lòng đợi trong giây lát',
+  orderSongSuccess: 'Một bài hát vừa được thêm vào hàng đợi',
 };

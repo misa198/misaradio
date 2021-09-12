@@ -9,13 +9,15 @@ import {
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
+import useSocket from 'app/socket';
 import { SongCard } from 'components/pages/player';
 import { useRouter } from 'next/router';
-import React, { ChangeEvent, FC, useEffect, useState, FormEvent } from 'react';
+import React, { ChangeEvent, FC, FormEvent, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import en from 'translations/en/player';
 import vi from 'translations/vi/player';
-import { searchSongs } from '../playerThunk';
 import { playerActions } from '../playerSlice';
+import { searchSongs } from '../playerThunk';
 
 const useStyles = makeStyles((theme) => ({
   modalRoot: {
@@ -77,6 +79,7 @@ export const ModalPopup: FC = () => {
   const dispatch = useAppDispatch();
   const loading = useAppSelector((state) => state.player.search.loading);
   const result = useAppSelector((state) => state.player.search.data);
+  const socket = useSocket();
 
   const handleChange = (
     _event: React.MouseEvent<HTMLElement>,
@@ -100,6 +103,17 @@ export const ModalPopup: FC = () => {
       );
     } else {
       dispatch(playerActions.clearSearchResult());
+    }
+  }
+
+  function onSelect(id: string) {
+    if (socket) {
+      toast.info(t.orderSongPending);
+      socket.emit('order-song', {
+        roomId: router.query.id,
+        type,
+        id,
+      });
     }
   }
 
@@ -173,6 +187,7 @@ export const ModalPopup: FC = () => {
               key={song.id}
               width="100%"
               className={classes.resultItem}
+              onClick={() => onSelect(song.id)}
             >
               <SongCard song={song} />
             </Box>

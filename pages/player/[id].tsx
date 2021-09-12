@@ -22,8 +22,9 @@ import {
 import { ModalPopup } from 'features/player/components/ModalPopup';
 import { playerActions } from 'features/player/playerSlice';
 import { authSSR } from 'libs/authSSR';
-import { Room } from 'models/Room';
+import { Playing, Room } from 'models/Room';
 import { RoomUser } from 'models/RoomUser';
+import { Song } from 'models/Song';
 import { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -148,6 +149,22 @@ const Player: NextPage = () => {
       return () => socket.off('leave-room');
     }
   }, [socket, router, t.joinedRoom, dispatch, currentUser]);
+
+  useEffect((): any => {
+    if (socket) {
+      socket.on(
+        'order-song-success',
+        (payload: { queue: Song[]; playing: Playing }) => {
+          toast.success(t.orderSongSuccess);
+          dispatch(playerActions.updateQueue(payload.queue));
+          if (payload.playing.song.uniqueId !== room?.playing?.song.uniqueId) {
+            dispatch(playerActions.updatePlaying(payload.playing));
+          }
+        },
+      );
+      return () => socket.off('order-song-success');
+    }
+  }, [dispatch, room?.playing?.song.uniqueId, socket, t.orderSongSuccess]);
 
   return (
     <>
