@@ -1,5 +1,5 @@
 export default {
-  bannerTitle: 'Không giới hạn cùng với Youtube và SoundCloud',
+  bannerTitle: 'Không giới hạn cùng với Youtube và Misa Radio',
   bannerSubtitle: 'Tạo một tài khoản để tham gia cùng với bạn bè',
   loggedInBannerSubtitle: 'Đi tới phòng chờ để tạo hoặc tham gia một phòng',
   register: 'Đăng ký',

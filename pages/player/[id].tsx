@@ -174,11 +174,19 @@ const Player: NextPage = () => {
     }
   }, [dispatch, socket]);
 
+  useEffect((): any => {
+    if (socket) {
+      socket.on('order-song-success', (payload: { queue: Song[] }) => {
+        dispatch(playerActions.updateQueue(payload.queue));
+      });
+      return () => socket.off('order-song-success');
+    }
+  }, [dispatch, socket]);
+
   return (
     <>
       <Head>
         <title>{t.title} - Misa Radio</title>
-        <script src="https://w.soundcloud.com/player/api.js" />
       </Head>
       {socket && room && (
         <>
