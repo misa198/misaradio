@@ -122,9 +122,17 @@ const Player: NextPage = () => {
 
   useEffect((): any => {
     if (socket) {
-      socket.on('join-room-success', (payload: { room: Room }) => {
-        dispatch(playerActions.setRoom(payload.room));
-      });
+      socket.on(
+        'join-room-success',
+        (payload: { room: Room; startAt: number }) => {
+          dispatch(
+            playerActions.setRoom({
+              room: payload.room,
+              startAt: payload.startAt,
+            }),
+          );
+        },
+      );
       return () => socket.off('join-room-success');
     }
   }, [socket, router, dispatch]);
@@ -165,6 +173,15 @@ const Player: NextPage = () => {
       return () => socket.off('order-song-success');
     }
   }, [dispatch, room?.playing?.song.uniqueId, socket, t.orderSongSuccess]);
+
+  useEffect((): any => {
+    if (socket) {
+      socket.on('playing', (payload: { userId: string }) => {
+        dispatch(playerActions.removeUser(payload.userId));
+      });
+      return () => socket.off('playing');
+    }
+  }, [socket, router, t.joinedRoom, dispatch, currentUser]);
 
   return (
     <>

@@ -51,8 +51,13 @@ io.on('connection', (socket: Socket) => {
       } else {
         const room = roomsService.joinRoom(_payload.roomId, user);
         socket.join(room.id);
+        let startAt = 0;
+        if (room.playing) {
+          startAt = Date.now() - room.playing.startTime;
+        }
         socket.emit('join-room-success', {
           room,
+          startAt,
         });
         socket.to(_payload.roomId).emit('join-room', {
           user,

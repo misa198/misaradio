@@ -12,6 +12,7 @@ export interface PlayerState {
     data: Song[];
   };
   room?: Room;
+  startAt: number;
 }
 
 const initialState: PlayerState = {
@@ -20,6 +21,7 @@ const initialState: PlayerState = {
     error: false,
     data: [],
   },
+  startAt: 0,
 };
 
 const playerSlice = createSlice({
@@ -29,8 +31,11 @@ const playerSlice = createSlice({
     clearSearchResult(state) {
       state.search.data = [];
     },
-    setRoom(state, action: PayloadAction<Room>) {
-      state.room = action.payload;
+    setRoom(state, action: PayloadAction<{ room: Room; startAt: number }>) {
+      if (action.payload.room.playing) {
+        state.startAt = action.payload.startAt;
+      }
+      state.room = action.payload.room;
     },
     addUser(state, action: PayloadAction<RoomUser>) {
       if (state.room) state.room.users.push(action.payload);
