@@ -74,6 +74,7 @@ const VideoBox: FC = () => {
   const startAt = useAppSelector((state) => state.player.startAt);
   const [youtubeEmbedPlayerOpts, setYoutubeEmbedPlayerOpts] =
     useState<Options | null>(null);
+  const [soundCloudUrl, setSoundCloudUrl] = useState<string>('');
 
   function switchVolume() {
     setVolume(!volume);
@@ -95,12 +96,26 @@ const VideoBox: FC = () => {
     if (player) {
       player.setVolume(volume ? 100 : 0);
     }
-  }, [volume, player]);
+    if (soundCloudUrl) {
+      const iframeElement = document.getElementById('soundcloud');
+      const widget = SC.Widget(iframeElement);
+      widget.setVolume(volume ? 100 : 0);
+    }
+  }, [volume, player, soundCloudUrl]);
 
   useEffect(() => {
     if (playing) {
-      setYoutubeEmbedPlayerOpts(generateYoutubeEmbedOption(startAt));
+      if (playing.platform === 'youtube') {
+        setYoutubeEmbedPlayerOpts(generateYoutubeEmbedOption(startAt));
+        setSoundCloudUrl('');
+      } else {
+        setYoutubeEmbedPlayerOpts(null);
+        setSoundCloudUrl(
+          `https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/${playing.id}&color=%23e53935&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true`,
+        );
+      }
     } else {
+      setSoundCloudUrl('');
       setYoutubeEmbedPlayerOpts(null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -108,7 +123,7 @@ const VideoBox: FC = () => {
 
   return (
     <Box display="flex" flexDirection="column" className={classes.videoBox}>
-      {!youtubeEmbedPlayerOpts ? (
+      {!youtubeEmbedPlayerOpts && !soundCloudUrl ? (
         <Box
           display="flex"
           flexDirection="column"
@@ -164,6 +179,18 @@ const VideoBox: FC = () => {
                 videoId={playing?.id}
                 opts={youtubeEmbedPlayerOpts}
                 onReady={onReady}
+              />
+            )}
+            {soundCloudUrl && (
+              <iframe
+                id="soundcloud"
+                title="SoundCloud"
+                width="100%"
+                height="450"
+                scrolling="no"
+                frameBorder="no"
+                allow="autoplay"
+                src={soundCloudUrl}
               />
             )}
           </Box>

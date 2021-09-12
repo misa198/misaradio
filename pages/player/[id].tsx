@@ -178,6 +178,7 @@ const Player: NextPage = () => {
     <>
       <Head>
         <title>{t.title} - Misa Radio</title>
+        <script src="https://w.soundcloud.com/player/api.js" />
       </Head>
       {socket && room && (
         <>
