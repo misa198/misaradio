@@ -29,3 +29,19 @@ export const search = async (query: string) => {
   }
   return result;
 };
+
+export const getSongById = async (id: string) => {
+  const nId = parseInt(id);
+  const res = await scdl.tracks.getTracksByIds([nId]);
+  const song = res[0];
+  if (!song) throw { message: 'Song not found' };
+  const result: Song = {
+    id,
+    title: song.title,
+    duration: song.duration,
+    author: song.user.username,
+    platform: 'soundcloud',
+    cover: song.artwork_url || '',
+  };
+  return result;
+};

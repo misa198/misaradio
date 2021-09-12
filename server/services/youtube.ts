@@ -1,4 +1,5 @@
 import ytsr, { Video } from 'ytsr';
+import ytdl from 'ytdl-core';
 import { Song } from '../types/Song';
 import { timeStringToMilliseconds } from '../utils/time';
 
@@ -20,5 +21,19 @@ export const search = async (query: string) => {
       }
     } else break;
   }
+  return result;
+};
+
+export const getVideoById = async (id: string) => {
+  const res = await ytdl.getInfo(id);
+  if (!res) throw { message: 'Video not found' };
+  const result: Song = {
+    id,
+    title: res.videoDetails.title,
+    duration: parseInt(res.videoDetails.lengthSeconds) * 1000,
+    author: res.videoDetails.author.name,
+    cover: res.thumbnail_url,
+    platform: 'youtube',
+  };
   return result;
 };

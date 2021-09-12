@@ -1,6 +1,8 @@
 import { Socket } from 'socket.io';
 import { httpServer } from '../index';
 import * as roomsService from '../services/rooms';
+import * as youtubeService from '../services/youtube';
+import * as soundcloundService from '../services/soundcloud';
 import { Song } from '../types/Song';
 import { orderSongValidator } from '../validators/rooms/orderSong';
 import { createRoomValidator } from '../validators/rooms/createRoom';
@@ -62,17 +64,31 @@ io.on('connection', (socket: Socket) => {
   });
 
   // Order song
-  socket.on('order-song', (payload: { roomId: string; song: Song }) => {
-    const user = authSocket(socket);
-    if (!user) return socket.emit('error', 'Unauthorized');
-    try {
-      const { roomId, song } = orderSongValidator(payload);
-      const room = roomsService.orderSong(roomId, user.id, song);
-      io.in(roomId).emit('order-song-success', {
-        room,
-      });
-    } catch (e: any) {
-      socket.emit('error', e.message);
-    }
-  });
+  socket.on(
+    'order-song',
+    async (payload: {
+      roomId: string;
+      type: 'youtube' | 'soundcloud';
+      id: string;
+    }) => {
+      const user = authSocket(socket);
+      if (!user) return socket.emit('error', 'Unauthorized');
+      try {
+        const { roomId } = orderSongValidator(payload);
+        let song: Song;
+        if (payload.type === 'youtube') {
+          song = await youtubeService.getVideoById(payload.id);
+        } else {
+          song = await soundcloundService.getSongById(payload.id);
+        }
+        song.orderBy = user.name;
+        roomsService.orderSong(roomId, user.id, song);
+        io.to(roomId).emit('order-song-success', {
+          song,
+        });
+      } catch (e: any) {
+        socket.emit('error', e.message);
+      }
+    },
+  );
 });
