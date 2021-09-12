@@ -88,15 +88,15 @@ const Player: NextPage = () => {
             >
               <Box display="flex" alignItems="center">
                 <Typography className={classes.roomName}>MisaRoom</Typography>
+              </Box>
+              <Box>
                 <Tooltip title={t.copyRoomCode}>
-                  <IconButton aria-label="copy">
+                  <IconButton aria-label="copy" size="middle">
                     <FilterNone fontSize="small" />
                   </IconButton>
                 </Tooltip>
-              </Box>
-              <Box>
                 <Tooltip title={t.people}>
-                  <IconButton aria-label="people">
+                  <IconButton aria-label="people" size="middle">
                     <PeopleAlt fontSize="middle" />
                   </IconButton>
                 </Tooltip>
