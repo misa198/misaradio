@@ -113,10 +113,19 @@ const Player: NextPage = () => {
       socket.on('join-room', (payload: { user: RoomUser }) => {
         if (currentUser?.id !== payload.user.userId) {
           toast.info(`${payload.user.name} ${t.joinedRoom}`);
-          dispatch(playerActions.addUser(payload.user));
         }
+        dispatch(playerActions.addUser(payload.user));
       });
       return () => socket.off('join-room');
+    }
+  }, [socket, router, t.joinedRoom, dispatch, currentUser]);
+
+  useEffect((): any => {
+    if (socket) {
+      socket.on('leave-room', (payload: { userId: string }) => {
+        dispatch(playerActions.removeUser(payload.userId));
+      });
+      return () => socket.off('leave-room');
     }
   }, [socket, router, t.joinedRoom, dispatch, currentUser]);
 

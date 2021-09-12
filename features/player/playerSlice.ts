@@ -35,6 +35,13 @@ const playerSlice = createSlice({
     addUser(state, action: PayloadAction<RoomUser>) {
       if (state.room) state.room.users.push(action.payload);
     },
+    removeUser(state, action: PayloadAction<string>) {
+      if (state.room) {
+        state.room.users = state.room.users.filter(
+          (user) => user.id !== action.payload,
+        );
+      }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(searchSongs.pending, (state) => {
