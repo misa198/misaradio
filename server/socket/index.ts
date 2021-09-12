@@ -74,7 +74,7 @@ io.on('connection', (socket: Socket) => {
       const song = await youtubeService.getVideoById(payload.id);
       song.orderBy = user.name;
       const room = roomsService.orderSong(roomId, user.id, song);
-      if (room) {
+      if (room && room.getPlaying().playing) {
         io.to(roomId).emit('order-song-success', {
           queue: room.queue,
         });
