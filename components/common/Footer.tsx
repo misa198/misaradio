@@ -70,13 +70,24 @@ export const Footer: FC = () => {
         >
           <Box className={classes.footerItem}>
             <Box p={0}>
-              {/* <Image src={logo} alt="misa-radio-logo" width={120} height={50} /> */}
-              <IconButton aria-label="volume" size="medium" color="inherit">
-                <GitHub fontSize="medium" />
-              </IconButton>
-              <IconButton aria-label="volume" size="medium" color="inherit">
-                <Link fontSize="medium" />
-              </IconButton>
+              <a
+                href="https://github.com/misa198/misa-radio"
+                rel="noreferrer"
+                target="_blank"
+              >
+                <IconButton aria-label="volume" size="medium" color="inherit">
+                  <GitHub fontSize="medium" />
+                </IconButton>
+              </a>
+              <a
+                href="https://github.com/misa198/misa-radio"
+                rel="noreferrer"
+                target="_blank"
+              >
+                <IconButton aria-label="volume" size="medium" color="inherit">
+                  <Link fontSize="medium" />
+                </IconButton>
+              </a>
             </Box>
           </Box>
           <Box className={classes.footerItem}>
