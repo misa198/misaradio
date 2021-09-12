@@ -10,4 +10,6 @@ export default {
   people: 'People',
   joinRoomFail: 'Failed to join room, something wrong',
   joinedRoom: 'joined room',
+  leftRoom:
+    'Are you sure you want to leave this page. After you leave, if the room is empty, it will be deleted.',
 };

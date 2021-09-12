@@ -11,11 +11,15 @@ import {
   Typography,
 } from '@material-ui/core';
 import { FilterNone, PeopleAlt } from '@material-ui/icons';
+import { useAppDispatch, useAppSelector } from 'app/hooks';
 import useSocket from 'app/socket';
 import { wrapper } from 'app/store';
 import { VideoBox, VideoCardListBox } from 'components/pages/player';
 import { ModalPopup } from 'features/player/components/ModalPopup';
+import { playerActions } from 'features/player/playerSlice';
 import { authSSR } from 'libs/authSSR';
+import { Room } from 'models/Room';
+import { RoomUser } from 'models/RoomUser';
 import { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -23,10 +27,6 @@ import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import en from 'translations/en/player';
 import vi from 'translations/vi/player';
-import { Room } from 'models/Room';
-import { RoomUser } from 'models/RoomUser';
-import { useAppDispatch, useAppSelector } from 'app/hooks';
-import { playerActions } from 'features/player/playerSlice';
 
 const useStyles = makeStyles((theme) => ({
   pageRoot: {
