@@ -2,7 +2,7 @@ import ytsr, { Video } from 'ytsr';
 import { Song } from '../types/Song';
 import { timeStringToMilliseconds } from '../utils/time';
 
-export const search = async (query: string, user: string) => {
+export const search = async (query: string) => {
   const res = await ytsr(query, { pages: 1 });
   const videos = res.items.filter((e) => e.type === 'video') as Video[];
   const result: Song[] = [];
@@ -16,7 +16,6 @@ export const search = async (query: string, user: string) => {
           platform: 'youtube',
           cover: videos[i].bestThumbnail.url || '',
           duration: timeStringToMilliseconds(videos[0].duration || '0'),
-          orderBy: user,
         });
       }
     } else break;

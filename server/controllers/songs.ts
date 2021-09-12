@@ -11,10 +11,10 @@ export const searchSongs = async (req: Request, res: Response) => {
     let result: Song[] = [];
     switch (type) {
       case 'youtube':
-        result = await youtubeService.search(query as string, user.name);
+        result = await youtubeService.search(query as string);
         break;
       case 'soundcloud':
-        result = await soundcloudService.search(query as string, user.name);
+        result = await soundcloudService.search(query as string);
         break;
       default:
         break;

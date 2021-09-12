@@ -5,5 +5,5 @@ export interface Song {
   author: string;
   platform: 'youtube' | 'soundcloud';
   cover: string;
-  orderBy: string;
+  orderBy?: string;
 }

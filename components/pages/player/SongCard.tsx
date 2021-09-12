@@ -90,9 +90,20 @@ export const SongCard: FC<PropTypes> = ({ song }) => {
           </Box>
           <Box textAlign="left" mt={0.65}>
             <Typography variant="body2" noWrap className={classes.songCardUser}>
-              Add by VTV24
+              {song.author}
             </Typography>
           </Box>
+          {song.orderBy && (
+            <Box textAlign="left" mt={0.65}>
+              <Typography
+                variant="body2"
+                noWrap
+                className={classes.songCardUser}
+              >
+                Ordered by {song.orderBy}
+              </Typography>
+            </Box>
+          )}
         </Grid>
       </Grid>
     </Box>

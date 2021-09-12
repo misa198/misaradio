@@ -5,7 +5,7 @@ const scdl = new SoundCloud();
 
 scdl.connect().then(() => console.log('> Connected to Soundcloud'));
 
-export const search = async (query: string, user: string) => {
+export const search = async (query: string) => {
   const res = await scdl.search({
     query,
     filter: 'tracks',
@@ -23,7 +23,6 @@ export const search = async (query: string, user: string) => {
           platform: 'soundcloud',
           cover: song.artwork_url || '',
           duration: song.duration,
-          orderBy: user,
         });
       }
     } else break;
