@@ -1,27 +1,27 @@
 import {
   Box,
   Container,
-  Grid,
-  makeStyles,
-  Paper,
-  Modal,
   Fade,
-  Typography,
+  Grid,
   IconButton,
+  makeStyles,
+  Modal,
+  Paper,
   Tooltip,
+  Typography,
 } from '@material-ui/core';
 import { FilterNone, PeopleAlt } from '@material-ui/icons';
+import useSocket from 'app/socket';
 import { wrapper } from 'app/store';
 import { VideoBox, VideoCardListBox } from 'components/pages/player';
+import { ModalPopup } from 'features/player/components/ModalPopup';
 import { authSSR } from 'libs/authSSR';
 import { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import en from 'translations/en/player';
 import vi from 'translations/vi/player';
-import useSocket from 'app/socket';
-import { ModalPopup } from 'features/player/components/ModalPopup';
 
 const useStyles = makeStyles((theme) => ({
   pageRoot: {
@@ -71,12 +71,6 @@ const Player: NextPage = () => {
   function handleClose() {
     setOpen(false);
   }
-
-  useEffect(() => {
-    if (!socket) {
-      router.push('/lobby');
-    }
-  }, [router, socket]);
 
   return (
     <>

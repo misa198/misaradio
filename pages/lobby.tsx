@@ -11,6 +11,7 @@ import bannerBackground from 'public/banner.jpeg';
 import React from 'react';
 import en from 'translations/en/lobby';
 import vi from 'translations/vi/lobby';
+import useSocket from 'app/socket';
 
 const useStyles = makeStyles((theme) => ({
   pageRoot: {
@@ -43,6 +44,7 @@ const Lobby: NextPage = () => {
   const t = locale === 'vi' ? vi : en;
   const classes = useStyles();
   const option = useAppSelector((state) => state.lobby.option);
+  const socket = useSocket();
 
   return (
     <>
@@ -55,7 +57,8 @@ const Lobby: NextPage = () => {
         alignItems="center"
         justifyContent="center"
       >
-        {option === 'join' ? <JoinForm /> : <CreateForm />}
+        {socket && option === 'join' && <JoinForm />}
+        {socket && option !== 'join' && <CreateForm />}
       </Box>
     </>
   );
