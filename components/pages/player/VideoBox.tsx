@@ -99,6 +99,7 @@ const VideoBox: FC = () => {
   useEffect(() => {
     if (player) {
       player.setVolume(volume ? 100 : 0);
+      player.playVideo();
     }
   }, [volume, player]);
 

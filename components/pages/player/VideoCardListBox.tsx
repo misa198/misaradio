@@ -43,7 +43,13 @@ export const VideoCardListBox: FC<PropTypes> = ({ handleOpen }) => {
 
   return (
     <Box display="flex" flexDirection="column" className={classes.videoListBox}>
-      <Box flexGrow={1} width="100%" className={classes.itemsWrapper}>
+      <Box
+        flexGrow={1}
+        width="100%"
+        pb={1}
+        pt={1}
+        className={classes.itemsWrapper}
+      >
         {!queue || queue?.length === 0 ? (
           <Box width="100%" pt={2} pb={2}>
             <MusicNote />
@@ -53,10 +59,6 @@ export const VideoCardListBox: FC<PropTypes> = ({ handleOpen }) => {
           <>
             {queue.map((song) => (
               <>
-                <SongCard song={song} key={song.uniqueId} />
-                <SongCard song={song} key={song.uniqueId} />
-                <SongCard song={song} key={song.uniqueId} />
-                <SongCard song={song} key={song.uniqueId} />
                 <SongCard song={song} key={song.uniqueId} />
               </>
             ))}
