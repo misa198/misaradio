@@ -35,9 +35,8 @@ export const joinRoom = (roomId: string, user: User) => {
   const room = getRoom(roomId);
   if (room) {
     const foundUser = room.findUser(user.id);
-    if (foundUser) throw { message: 'User already in room' };
-    room.addUser(user);
-    return room;
+    if (!foundUser) room.addUser(user);
+    return { room, existed: foundUser };
   }
   throw { message: 'Room not found' };
 };

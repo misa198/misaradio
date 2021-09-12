@@ -46,8 +46,8 @@ io.on('connection', (socket: Socket) => {
       if (!foundRoom) {
         socket.emit('join-room-fail');
       } else {
-        const room = roomsService.joinRoom(_payload.roomId, user);
-        socket.join(room.id);
+        const { room, existed } = roomsService.joinRoom(_payload.roomId, user);
+        if (!existed) socket.join(room.id);
         const { playing, startAt } = room.getPlaying();
         socket.emit('join-room-success', {
           room,

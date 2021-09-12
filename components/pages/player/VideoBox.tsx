@@ -105,10 +105,12 @@ const VideoBox: FC = () => {
   }
 
   function onSkip() {
-    toast.info(t.orderSongPending);
-    socket.emit('skip', {
-      roomId: router.query.id,
-    });
+    if (socket) {
+      toast.info(t.orderSongPending);
+      socket.emit('skip', {
+        roomId: router.query.id,
+      });
+    }
   }
 
   useEffect(() => {
