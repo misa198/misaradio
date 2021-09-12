@@ -31,7 +31,8 @@ export const getVideoById = async (id: string) => {
     title: res.videoDetails.title,
     duration: parseInt(res.videoDetails.lengthSeconds) * 1000,
     author: res.videoDetails.author.name,
-    cover: res.thumbnail_url,
+    cover:
+      res.videoDetails.thumbnails[res.videoDetails.thumbnails.length - 1].url,
   };
   return result;
 };
