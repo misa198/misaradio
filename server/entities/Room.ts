@@ -5,20 +5,16 @@ import { io } from '../socket';
 export class Room {
   id: string;
   name: string;
-  users: User[];
-  queue: Song[];
-  playing?: {
-    song: Song;
-    startTime: number;
-  };
+  users: User[] = [];
+  queue: Song[] = [];
+  startedTime: number = 0;
   creatorId: string;
+  private playing?: Song;
 
   constructor(name: string, roomId: string, creatorId: string) {
     this.id = roomId;
     this.name = name;
     this.creatorId = creatorId;
-    this.users = [];
-    this.queue = [];
     this.pingPong();
   }
 
@@ -35,49 +31,38 @@ export class Room {
   }
 
   addSong(song: Song) {
-    if (!this.playing) {
-      this.playing = {
-        song,
-        startTime: Date.now(),
-      };
-    } else {
-      this.queue.push(song);
-    }
+    this.queue.push(song);
   }
 
   removeSong(song: Song) {
     this.queue = this.queue.filter((s) => s.id !== song.id);
   }
 
+  getPlaying() {
+    return {
+      playing: this.playing,
+      startAt: Date.now() - this.startedTime,
+    };
+  }
+
   private pingPong() {
     setInterval(() => {
-      if (this.playing) {
-        const playedTime = Date.now() - this.playing.startTime;
-        if (playedTime > this.playing.song.duration) {
-          if (this.queue.length === 0) {
-            this.playing = undefined;
-          } else {
-            this.playing = {
-              song: this.queue[0],
-              startTime: Date.now(),
-            };
-            this.queue.shift();
-          }
-        }
-        if (this.playing) {
-          io.to(this.id).emit('playing', {
-            playing: this.playing,
-            startAt: playedTime,
-          });
-        } else {
-          io.to(this.id).emit('playing', {
-            playing: undefined,
-            startAt: 0,
-          });
-        }
-      } else {
+      const playedTime = Date.now() - this.startedTime;
+      if (
+        this.playing &&
+        playedTime > this.playing.duration &&
+        this.queue.length === 0
+      ) {
+        this.playing = undefined;
+      }
+      if (
+        !this.playing ||
+        (playedTime > this.playing.duration && this.queue.length > 0)
+      ) {
+        this.playing = this.queue.shift();
+        this.startedTime = Date.now();
         io.to(this.id).emit('playing', {
-          playing: undefined,
+          playing: this.playing,
           startAt: 0,
         });
       }

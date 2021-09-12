@@ -14,18 +14,15 @@ import { FilterNone, PeopleAlt } from '@material-ui/icons';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import useSocket from 'app/socket';
 import { wrapper } from 'app/store';
-import {
-  PeopleModalPopup,
-  VideoBox,
-  VideoCardListBox,
-} from 'components/pages/player';
+import { PeopleModalPopup, VideoCardListBox } from 'components/pages/player';
 import { ModalPopup } from 'features/player/components/ModalPopup';
 import { playerActions } from 'features/player/playerSlice';
 import { authSSR } from 'libs/authSSR';
-import { Playing, Room } from 'models/Room';
+import { Room } from 'models/Room';
 import { RoomUser } from 'models/RoomUser';
 import { Song } from 'models/Song';
 import { GetServerSideProps, NextPage } from 'next';
+import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -33,6 +30,10 @@ import { toast } from 'react-toastify';
 import en from 'translations/en/player';
 import vi from 'translations/vi/player';
 import { useClipboard } from 'use-clipboard-copy';
+
+const VideoBox = dynamic(() => import('components/pages/player/VideoBox'), {
+  ssr: false,
+});
 
 const useStyles = makeStyles((theme) => ({
   pageRoot: {
@@ -124,10 +125,11 @@ const Player: NextPage = () => {
     if (socket) {
       socket.on(
         'join-room-success',
-        (payload: { room: Room; startAt: number }) => {
+        (payload: { room: Room; startAt: number; playing?: Song }) => {
+          dispatch(playerActions.updateRoom(payload.room));
           dispatch(
-            playerActions.setRoom({
-              room: payload.room,
+            playerActions.updatePlaying({
+              playing: payload.playing,
               startAt: payload.startAt,
             }),
           );
@@ -160,36 +162,17 @@ const Player: NextPage = () => {
 
   useEffect((): any => {
     if (socket) {
-      socket.on(
-        'order-song-success',
-        (payload: { queue: Song[]; playing: Playing }) => {
-          toast.success(t.orderSongSuccess);
-          dispatch(playerActions.updateQueue(payload.queue));
-          if (payload.playing.song.uniqueId !== room?.playing?.song.uniqueId) {
-            dispatch(playerActions.updatePlaying(payload.playing));
-          }
-        },
-      );
-      return () => socket.off('order-song-success');
-    }
-  }, [dispatch, room?.playing?.song.uniqueId, socket, t.orderSongSuccess]);
-
-  useEffect((): any => {
-    if (socket) {
-      socket.on('playing', (payload: { playing: Playing; startAt: number }) => {
-        if (payload.playing) {
-          if (room?.playing?.song.uniqueId !== payload.playing.song.uniqueId) {
-            dispatch(playerActions.updatePlaying(payload.playing));
-            dispatch(playerActions.updateStartAt(payload.startAt));
-          }
-        } else if (room?.playing) {
-          dispatch(playerActions.updatePlaying(undefined));
-          dispatch(playerActions.updateStartAt(0));
-        }
+      socket.on('playing', (payload: { playing: Song; startAt: number }) => {
+        dispatch(
+          playerActions.updatePlaying({
+            playing: payload.playing,
+            startAt: payload.startAt,
+          }),
+        );
       });
       return () => socket.off('playing');
     }
-  }, [socket, room?.playing?.song.uniqueId, dispatch, room?.playing]);
+  }, [dispatch, socket]);
 
   return (
     <>

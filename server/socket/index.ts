@@ -51,12 +51,10 @@ io.on('connection', (socket: Socket) => {
       } else {
         const room = roomsService.joinRoom(_payload.roomId, user);
         socket.join(room.id);
-        let startAt = 0;
-        if (room.playing) {
-          startAt = Date.now() - room.playing.startTime;
-        }
+        const { playing, startAt } = room.getPlaying();
         socket.emit('join-room-success', {
           room,
+          playing,
           startAt,
         });
         socket.to(_payload.roomId).emit('join-room', {
@@ -91,7 +89,6 @@ io.on('connection', (socket: Socket) => {
         if (room) {
           io.to(roomId).emit('order-song-success', {
             queue: room.queue,
-            playing: room.playing,
           });
         }
       } catch (e: any) {

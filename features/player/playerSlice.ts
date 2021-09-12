@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Song } from 'models/Song';
-import { Playing, Room } from 'models/Room';
+import { Room } from 'models/Room';
 import { RoomUser } from 'models/RoomUser';
 import { toast } from 'react-toastify';
 import { searchSongs, SearchResponse } from './playerThunk';
@@ -12,6 +12,7 @@ export interface PlayerState {
     data: Song[];
   };
   room?: Room;
+  playing?: Song;
   startAt: number;
 }
 
@@ -31,11 +32,8 @@ const playerSlice = createSlice({
     clearSearchResult(state) {
       state.search.data = [];
     },
-    setRoom(state, action: PayloadAction<{ room: Room; startAt: number }>) {
-      if (action.payload.room.playing) {
-        state.startAt = action.payload.startAt;
-      }
-      state.room = action.payload.room;
+    updateRoom(state, action: PayloadAction<Room>) {
+      state.room = action.payload;
     },
     addUser(state, action: PayloadAction<RoomUser>) {
       if (state.room) state.room.users.push(action.payload);
@@ -52,13 +50,12 @@ const playerSlice = createSlice({
         state.room.queue = action.payload;
       }
     },
-    updatePlaying(state, action: PayloadAction<Playing | undefined>) {
-      if (state.room) {
-        state.room.playing = action.payload;
-      }
-    },
-    updateStartAt(state, action: PayloadAction<number>) {
-      state.startAt = action.payload;
+    updatePlaying(
+      state,
+      action: PayloadAction<{ playing?: Song; startAt: number }>,
+    ) {
+      state.playing = action.payload.playing;
+      state.startAt = action.payload.startAt;
     },
   },
   extraReducers: (builder) => {

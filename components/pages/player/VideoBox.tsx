@@ -1,13 +1,13 @@
 import { Box, IconButton, makeStyles, Typography } from '@material-ui/core';
-import { VolumeOff, VolumeUp, TvOff } from '@material-ui/icons';
+import { TvOff, VolumeOff, VolumeUp } from '@material-ui/icons';
+import { useAppSelector } from 'app/hooks';
 import { baseUrl } from 'constants/config';
 import { useRouter } from 'next/router';
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import Youtube, { Options } from 'react-youtube';
-import { YouTubePlayer } from 'youtube-player/dist/types';
-import { useAppSelector } from 'app/hooks';
 import en from 'translations/en/player';
 import vi from 'translations/vi/player';
+import { YouTubePlayer } from 'youtube-player/dist/types';
 
 const useStyles = makeStyles(() => ({
   videoBox: {
@@ -46,28 +46,34 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const youtubeEmbedPlayerOpts: Options = {
-  width: '640',
-  height: '400',
-  playerVars: {
-    autoplay: 1,
-    controls: 0,
-    mute: 0,
-    start: 1,
-    enablejsapi: 1,
-    showinfo: 0,
-    origin: baseUrl,
-  },
+const generateYoutubeEmbedOption = (start: number) => {
+  const youtubeEmbedPlayerOpts: Options = {
+    width: '640',
+    height: '400',
+    playerVars: {
+      autoplay: 1,
+      controls: 0,
+      mute: 0,
+      enablejsapi: 1,
+      showinfo: 0,
+      origin: baseUrl,
+      start: Math.round(start / 1000),
+    },
+  };
+  return youtubeEmbedPlayerOpts;
 };
 
-export const VideoBox: FC = () => {
+const VideoBox: FC = () => {
   const { locale } = useRouter();
   const t = locale === 'vi' ? vi : en;
   const classes = useStyles();
   const [hovering, setHovering] = useState(false);
   const [volume, setVolume] = useState(true);
   const [player, setPlayer] = useState<YouTubePlayer | null>(null);
-  const playing = useAppSelector((state) => state.player.room?.playing);
+  const playing = useAppSelector((state) => state.player.playing);
+  const startAt = useAppSelector((state) => state.player.startAt);
+  const [youtubeEmbedPlayerOpts, setYoutubeEmbedPlayerOpts] =
+    useState<Options | null>(null);
 
   function switchVolume() {
     setVolume(!volume);
@@ -91,9 +97,18 @@ export const VideoBox: FC = () => {
     }
   }, [volume, player]);
 
+  useEffect(() => {
+    if (playing) {
+      setYoutubeEmbedPlayerOpts(generateYoutubeEmbedOption(startAt));
+    } else {
+      setYoutubeEmbedPlayerOpts(null);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [playing]);
+
   return (
     <Box display="flex" flexDirection="column" className={classes.videoBox}>
-      {!playing ? (
+      {!youtubeEmbedPlayerOpts ? (
         <Box
           display="flex"
           flexDirection="column"
@@ -143,32 +158,32 @@ export const VideoBox: FC = () => {
                 </IconButton>
               )}
             </Box>
-            <Youtube
-              className={classes.youtubeEmbed}
-              videoId="jXpdAJcrTVs"
-              opts={youtubeEmbedPlayerOpts}
-              onReady={onReady}
-            />
+            {youtubeEmbedPlayerOpts && (
+              <Youtube
+                className={classes.youtubeEmbed}
+                videoId={playing?.id}
+                opts={youtubeEmbedPlayerOpts}
+                onReady={onReady}
+              />
+            )}
           </Box>
 
           <Box width="100%" mt={2} textAlign="left">
             <Box>
-              <Typography variant="h6">{playing?.song.title}</Typography>
+              <Typography variant="h6">{playing?.title}</Typography>
             </Box>
             <Box mt={1}>
               <Typography variant="body2">{t.duration}: 04:06</Typography>
             </Box>
             <Box mt={1}>
               <Typography variant="body2">
-                {t.channel}: {playing?.song.author} |{' '}
-                {playing?.song.platform === 'youtube'
-                  ? 'Youtube'
-                  : 'SoundCloud'}
+                {t.channel}: {playing?.author} |{' '}
+                {playing?.platform === 'youtube' ? 'Youtube' : 'SoundCloud'}
               </Typography>
             </Box>
             <Box mt={1} mb={1}>
               <Typography variant="body2">
-                {t.member} <b>{playing?.song.orderBy}</b>
+                {t.member} <b>{playing?.orderBy}</b>
               </Typography>
             </Box>
           </Box>
@@ -177,3 +192,5 @@ export const VideoBox: FC = () => {
     </Box>
   );
 };
+
+export default VideoBox;
