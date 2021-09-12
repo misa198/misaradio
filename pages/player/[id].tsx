@@ -253,7 +253,7 @@ const Player: NextPage = () => {
           >
             <Fade in={searchModalOpen}>
               <div>
-                <ModalPopup />
+                <ModalPopup handleClose={handleSearchModalClose} />
               </div>
             </Fade>
           </Modal>

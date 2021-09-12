@@ -67,7 +67,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const ModalPopup: FC = () => {
+interface PropTypes {
+  handleClose: () => any;
+}
+
+export const ModalPopup: FC<PropTypes> = ({ handleClose }) => {
   const router = useRouter();
   const { locale } = router;
   const t = locale === 'vi' ? vi : en;
@@ -155,7 +159,10 @@ export const ModalPopup: FC = () => {
               key={song.id}
               width="100%"
               className={classes.resultItem}
-              onClick={() => onSelect(song.id)}
+              onClick={() => {
+                onSelect(song.id);
+                handleClose();
+              }}
             >
               <SongCard song={song} />
             </Box>
