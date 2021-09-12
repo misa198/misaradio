@@ -7,4 +7,5 @@ export default {
   search: 'Tìm kiếm',
   searchSomething: 'Tìm kiếm gì đó',
   copyRoomCode: 'Sao chép mã phòng',
+  people: 'Mọi người',
 };

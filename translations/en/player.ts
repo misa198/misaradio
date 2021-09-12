@@ -7,4 +7,5 @@ export default {
   search: 'Search',
   searchSomething: 'Search for a song',
   copyRoomCode: 'Copy room code',
+  people: 'People',
 };

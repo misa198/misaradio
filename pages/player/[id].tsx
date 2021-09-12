@@ -10,7 +10,7 @@ import {
   IconButton,
   Tooltip,
 } from '@material-ui/core';
-import { FilterNone } from '@material-ui/icons';
+import { FilterNone, PeopleAlt } from '@material-ui/icons';
 import { wrapper } from 'app/store';
 import { VideoBox, VideoCardListBox } from 'components/pages/player';
 import { authSSR } from 'libs/authSSR';
@@ -80,13 +80,27 @@ const Player: NextPage = () => {
       {socket && (
         <>
           <Container className={classes.pageRoot}>
-            <Box mb={2.2} display="flex" alignItems="center">
-              <Typography className={classes.roomName}>MisaRoom</Typography>
-              <Tooltip title={t.copyRoomCode}>
-                <IconButton aria-label="copy">
-                  <FilterNone fontSize="small" />
-                </IconButton>
-              </Tooltip>
+            <Box
+              mb={2.2}
+              display="flex"
+              alignItems="center"
+              justifyContent="space-between"
+            >
+              <Box display="flex" alignItems="center">
+                <Typography className={classes.roomName}>MisaRoom</Typography>
+                <Tooltip title={t.copyRoomCode}>
+                  <IconButton aria-label="copy">
+                    <FilterNone fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+              <Box>
+                <Tooltip title={t.people}>
+                  <IconButton aria-label="people">
+                    <PeopleAlt fontSize="middle" />
+                  </IconButton>
+                </Tooltip>
+              </Box>
             </Box>
             <Box display="flex" justifyContent="center" alignItems="center">
               <Grid container spacing={3} className={classes.container}>
