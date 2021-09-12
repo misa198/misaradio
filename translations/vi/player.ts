@@ -8,4 +8,5 @@ export default {
   searchSomething: 'Tìm kiếm gì đó',
   copyRoomCode: 'Sao chép mã phòng',
   people: 'Mọi người',
+  joinRoomFail: 'Vào phòng thất bại, có lỗi xảy ra',
 };

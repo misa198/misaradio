@@ -8,4 +8,5 @@ export default {
   searchSomething: 'Search for a song',
   copyRoomCode: 'Copy room code',
   people: 'People',
+  joinRoomFail: 'Failed to join room, something wrong',
 };

@@ -19,9 +19,13 @@ import { authSSR } from 'libs/authSSR';
 import { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import en from 'translations/en/player';
 import vi from 'translations/vi/player';
+import { Room } from 'models/Room';
+import { useAppDispatch, useAppSelector } from 'app/hooks';
+import { playerActions } from 'features/player/playerSlice';
 
 const useStyles = makeStyles((theme) => ({
   pageRoot: {
@@ -63,6 +67,8 @@ const Player: NextPage = () => {
   const classes = useStyles();
   const socket = useSocket();
   const [open, setOpen] = useState(false);
+  const dispatch = useAppDispatch();
+  const room = useAppSelector((state) => state.player.room);
 
   function handleOpen() {
     setOpen(true);
@@ -72,12 +78,40 @@ const Player: NextPage = () => {
     setOpen(false);
   }
 
+  useEffect(() => {
+    const { id } = router.query;
+    if (socket) {
+      socket.emit('join-room', {
+        roomId: id,
+      });
+    }
+  }, [router, socket]);
+
+  useEffect((): any => {
+    if (socket) {
+      socket.on('join-room-fail', () => {
+        router.push('/lobby');
+        toast.error(t.joinRoomFail);
+      });
+      return () => socket.off('join-room-fail');
+    }
+  }, [socket, router, t.joinRoomFail]);
+
+  useEffect((): any => {
+    if (socket) {
+      socket.on('join-room-success', (payload: { room: Room }) => {
+        dispatch(playerActions.setRoom(payload.room));
+      });
+      return () => socket.off('join-room-success');
+    }
+  }, [socket, router, dispatch]);
+
   return (
     <>
       <Head>
         <title>{t.title} - Misa Radio</title>
       </Head>
-      {socket && (
+      {socket && room && (
         <>
           <Container className={classes.pageRoot}>
             <Box

@@ -5,7 +5,7 @@ import {
   makeStyles,
   Paper,
   TextField,
-  Typography,
+  Typography
 } from '@material-ui/core';
 import { useAppDispatch } from 'app/hooks';
 import useSocket from 'app/socket';

@@ -1,5 +1,6 @@
 import { Box, makeStyles } from '@material-ui/core';
 import { useAppSelector } from 'app/hooks';
+import useSocket from 'app/socket';
 import { wrapper } from 'app/store';
 import { CreateForm } from 'features/lobby/components/CreateForm';
 import { JoinForm } from 'features/lobby/components/JoinForm';
@@ -11,7 +12,6 @@ import bannerBackground from 'public/banner.jpeg';
 import React from 'react';
 import en from 'translations/en/lobby';
 import vi from 'translations/vi/lobby';
-import useSocket from 'app/socket';
 
 const useStyles = makeStyles((theme) => ({
   pageRoot: {

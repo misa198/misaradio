@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Song } from 'models/Song';
+import { Room } from 'models/Room';
 import { toast } from 'react-toastify';
 import { searchSongs, SearchResponse } from './playerThunk';
 
@@ -9,6 +10,7 @@ export interface PlayerState {
     error: boolean;
     data: Song[];
   };
+  room?: Room;
 }
 
 const initialState: PlayerState = {
@@ -25,6 +27,9 @@ const playerSlice = createSlice({
   reducers: {
     clearSearchResult(state) {
       state.search.data = [];
+    },
+    setRoom(state, action: PayloadAction<Room>) {
+      state.room = action.payload;
     },
   },
   extraReducers: (builder) => {
