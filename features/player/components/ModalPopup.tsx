@@ -46,6 +46,8 @@ const useStyles = makeStyles((theme) => ({
     height: '50vh',
     overflowY: 'auto',
     overflowX: 'hidden',
+    paddingTop: '1rem',
+    paddingBottom: '1rem',
 
     '&::-webkit-scrollbar': {
       width: '3px',
@@ -59,6 +61,9 @@ const useStyles = makeStyles((theme) => ({
       outline: 'none',
       borderRadius: '10px',
     },
+  },
+  resultItem: {
+    cursor: 'pointer',
   },
 }));
 
@@ -163,7 +168,12 @@ export const ModalPopup: FC = () => {
         >
           {loading && <CircularProgress />}
           {result.map((song) => (
-            <Box mb={1.5} key={song.id} width="100%">
+            <Box
+              mb={1.5}
+              key={song.id}
+              width="100%"
+              className={classes.resultItem}
+            >
               <SongCard song={song} />
             </Box>
           ))}

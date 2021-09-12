@@ -5,8 +5,15 @@ import { defaultCoverUrl } from 'constants/config';
 
 const useStyles = makeStyles(() => ({
   songCardRoot: {
+    padding: 0,
     userSelect: 'none',
     width: '100%',
+    borderRadius: '5px',
+    transition: 'all 200ms',
+
+    '&:hover': {
+      backgroundColor: '#313131',
+    },
   },
   songCardImgWrapper: {
     width: '100%',
