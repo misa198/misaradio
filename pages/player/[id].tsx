@@ -176,12 +176,20 @@ const Player: NextPage = () => {
 
   useEffect((): any => {
     if (socket) {
-      socket.on('playing', (payload: { userId: string }) => {
-        dispatch(playerActions.removeUser(payload.userId));
+      socket.on('playing', (payload: { playing: Playing; startAt: number }) => {
+        if (payload.playing) {
+          if (room?.playing?.song.uniqueId !== payload.playing.song.uniqueId) {
+            dispatch(playerActions.updatePlaying(payload.playing));
+            dispatch(playerActions.updateStartAt(payload.startAt));
+          }
+        } else if (room?.playing) {
+          dispatch(playerActions.updatePlaying(undefined));
+          dispatch(playerActions.updateStartAt(0));
+        }
       });
       return () => socket.off('playing');
     }
-  }, [socket, router, t.joinedRoom, dispatch, currentUser]);
+  }, [socket, room?.playing?.song.uniqueId, dispatch, room?.playing]);
 
   return (
     <>

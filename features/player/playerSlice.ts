@@ -52,10 +52,13 @@ const playerSlice = createSlice({
         state.room.queue = action.payload;
       }
     },
-    updatePlaying(state, action: PayloadAction<Playing>) {
+    updatePlaying(state, action: PayloadAction<Playing | undefined>) {
       if (state.room) {
         state.room.playing = action.payload;
       }
+    },
+    updateStartAt(state, action: PayloadAction<number>) {
+      state.startAt = action.payload;
     },
   },
   extraReducers: (builder) => {
