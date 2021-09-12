@@ -12,4 +12,5 @@ export default {
   joinedRoom: 'joined room',
   leftRoom:
     'Are you sure you want to leave this page. After you leave, if the room is empty, it will be deleted.',
+  roomCodeCopied: 'Copied room code',
 };

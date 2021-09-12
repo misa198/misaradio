@@ -12,4 +12,5 @@ export default {
   joinedRoom: 'đã vào phòng',
   leftRoom:
     'Bạn có chắc chắn muốn rời khỏi trang này?. Sau khi bạn rời đi, nếu phòng không còn người, nó sẽ bị xoá.',
+  roomCodeCopied: 'Đã sao chép mã phòng',
 };

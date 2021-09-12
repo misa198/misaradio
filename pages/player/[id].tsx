@@ -27,6 +27,7 @@ import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import en from 'translations/en/player';
 import vi from 'translations/vi/player';
+import { useClipboard } from 'use-clipboard-copy';
 
 const useStyles = makeStyles((theme) => ({
   pageRoot: {
@@ -68,6 +69,7 @@ const Player: NextPage = () => {
   const classes = useStyles();
   const socket = useSocket();
   const [open, setOpen] = useState(false);
+  const clipboard = useClipboard();
   const dispatch = useAppDispatch();
   const room = useAppSelector((state) => state.player.room);
   const currentUser = useAppSelector((state) => state.auth.login.user);
@@ -78,6 +80,11 @@ const Player: NextPage = () => {
 
   function handleClose() {
     setOpen(false);
+  }
+
+  function copyRoomCode() {
+    clipboard.copy(router.query.id);
+    toast.success(t.roomCodeCopied);
   }
 
   useEffect(() => {
@@ -150,12 +157,16 @@ const Player: NextPage = () => {
                 className={classes.roomNameWrapper}
               >
                 <Typography className={classes.roomName}>
-                  Những con người văn minh
+                  {room && room.name}
                 </Typography>
               </Box>
               <Box display="flex" width="fit-content">
                 <Tooltip title={t.copyRoomCode}>
-                  <IconButton aria-label="copy" size="medium">
+                  <IconButton
+                    aria-label="copy"
+                    size="medium"
+                    onClick={copyRoomCode}
+                  >
                     <FilterNone fontSize="small" />
                   </IconButton>
                 </Tooltip>
