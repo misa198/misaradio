@@ -14,7 +14,6 @@ export const search = async (query: string) => {
           id: videos[i].id,
           title: videos[i].title,
           author: videos[i].author?.name || '',
-          platform: 'youtube',
           cover: videos[i].bestThumbnail.url || '',
           duration: timeStringToMilliseconds(videos[0].duration || '0'),
         });
@@ -33,7 +32,6 @@ export const getVideoById = async (id: string) => {
     duration: parseInt(res.videoDetails.lengthSeconds) * 1000,
     author: res.videoDetails.author.name,
     cover: res.thumbnail_url,
-    platform: 'youtube',
   };
   return result;
 };

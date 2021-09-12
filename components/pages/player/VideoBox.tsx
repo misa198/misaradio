@@ -74,7 +74,6 @@ const VideoBox: FC = () => {
   const startAt = useAppSelector((state) => state.player.startAt);
   const [youtubeEmbedPlayerOpts, setYoutubeEmbedPlayerOpts] =
     useState<Options | null>(null);
-  const [soundCloudUrl, setSoundCloudUrl] = useState<string>('');
 
   function switchVolume() {
     setVolume(!volume);
@@ -96,26 +95,12 @@ const VideoBox: FC = () => {
     if (player) {
       player.setVolume(volume ? 100 : 0);
     }
-    if (soundCloudUrl) {
-      const iframeElement = document.getElementById('soundcloud');
-      const widget = SC.Widget(iframeElement);
-      widget.setVolume(volume ? 100 : 0);
-    }
-  }, [volume, player, soundCloudUrl]);
+  }, [volume, player]);
 
   useEffect(() => {
     if (playing) {
-      if (playing.platform === 'youtube') {
-        setYoutubeEmbedPlayerOpts(generateYoutubeEmbedOption(startAt));
-        setSoundCloudUrl('');
-      } else {
-        setYoutubeEmbedPlayerOpts(null);
-        setSoundCloudUrl(
-          `https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/${playing.id}&color=%23e53935&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true`,
-        );
-      }
+      setYoutubeEmbedPlayerOpts(generateYoutubeEmbedOption(startAt));
     } else {
-      setSoundCloudUrl('');
       setYoutubeEmbedPlayerOpts(null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -123,7 +108,7 @@ const VideoBox: FC = () => {
 
   return (
     <Box display="flex" flexDirection="column" className={classes.videoBox}>
-      {!youtubeEmbedPlayerOpts && !soundCloudUrl ? (
+      {!youtubeEmbedPlayerOpts ? (
         <Box
           display="flex"
           flexDirection="column"
@@ -181,18 +166,6 @@ const VideoBox: FC = () => {
                 onReady={onReady}
               />
             )}
-            {soundCloudUrl && (
-              <iframe
-                id="soundcloud"
-                title="SoundCloud"
-                width="100%"
-                height="450"
-                scrolling="no"
-                frameBorder="no"
-                allow="autoplay"
-                src={soundCloudUrl}
-              />
-            )}
           </Box>
 
           <Box width="100%" mt={2} textAlign="left">
@@ -204,8 +177,7 @@ const VideoBox: FC = () => {
             </Box>
             <Box mt={1}>
               <Typography variant="body2">
-                {t.channel}: {playing?.author} |{' '}
-                {playing?.platform === 'youtube' ? 'Youtube' : 'SoundCloud'}
+                {t.channel}: {playing?.author}
               </Typography>
             </Box>
             <Box mt={1} mb={1}>

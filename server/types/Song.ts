@@ -3,7 +3,6 @@ export interface Song {
   title: string;
   duration: number;
   author: string;
-  platform: 'youtube' | 'soundcloud';
   cover: string;
   orderBy?: string;
   uniqueId?: string;

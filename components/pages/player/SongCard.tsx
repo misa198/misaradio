@@ -85,7 +85,7 @@ export const SongCard: FC<PropTypes> = ({ song }) => {
               noWrap
               className={classes.songCardDuration}
             >
-              04:06 | {song.platform === 'youtube' ? 'YouTube' : 'SoundCloud'}
+              04:06
             </Typography>
           </Box>
           <Box textAlign="left" mt={0.65}>

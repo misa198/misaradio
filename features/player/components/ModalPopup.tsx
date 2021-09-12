@@ -6,8 +6,6 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core';
-import ToggleButton from '@material-ui/lab/ToggleButton';
-import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import useSocket from 'app/socket';
 import { SongCard } from 'components/pages/player';
@@ -74,19 +72,11 @@ export const ModalPopup: FC = () => {
   const { locale } = router;
   const t = locale === 'vi' ? vi : en;
   const classes = useStyles();
-  const [type, setType] = useState('youtube');
   const [query, setQuery] = useState('');
   const dispatch = useAppDispatch();
   const loading = useAppSelector((state) => state.player.search.loading);
   const result = useAppSelector((state) => state.player.search.data);
   const socket = useSocket();
-
-  const handleChange = (
-    _event: React.MouseEvent<HTMLElement>,
-    nextValue: string,
-  ) => {
-    setType(nextValue);
-  };
 
   function handleQueryChange(e: ChangeEvent<HTMLInputElement>) {
     setQuery(e.target.value);
@@ -97,7 +87,6 @@ export const ModalPopup: FC = () => {
     if (query) {
       dispatch(
         searchSongs({
-          type,
           query,
         }),
       );
@@ -111,7 +100,6 @@ export const ModalPopup: FC = () => {
       toast.info(t.orderSongPending);
       socket.emit('order-song', {
         roomId: router.query.id,
-        type,
         id,
       });
     }
@@ -122,7 +110,6 @@ export const ModalPopup: FC = () => {
       const timeOutId = setTimeout(() => {
         dispatch(
           searchSongs({
-            type,
             query,
           }),
         );
@@ -130,36 +117,17 @@ export const ModalPopup: FC = () => {
       return () => clearTimeout(timeOutId);
     }
     dispatch(playerActions.clearSearchResult());
-  }, [query, dispatch, type]);
+  }, [query, dispatch]);
 
   return (
     <Container>
       <Box className={classes.modalRoot}>
         <Box mb={2}>
           <form className={classes.formContainer} onSubmit={onSubmit}>
-            <Box
-              display="flex"
-              flexDirection="row"
-              justifyContent="space-between"
-              alignItems="center"
-              mb={1}
-            >
+            <Box display="flex" flexDirection="row" alignItems="center" mb={1}>
               <Typography variant="h5" className={classes.modalHeader}>
                 {t.search}
               </Typography>
-              <ToggleButtonGroup
-                value={type}
-                exclusive
-                onChange={handleChange}
-                size="small"
-              >
-                <ToggleButton value="youtube" aria-label="youtube">
-                  Youtube
-                </ToggleButton>
-                <ToggleButton value="soundcloud" aria-label="soundcloud">
-                  SoundCloud
-                </ToggleButton>
-              </ToggleButtonGroup>
             </Box>
             <Box>
               <TextField
