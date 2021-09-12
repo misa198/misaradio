@@ -1,3 +1,4 @@
+import { Seo } from 'components/common';
 import { AuthContainer } from 'components/pages/auth';
 import { ResetPasswordForm } from 'features/auth/components/ResetPasswordForm';
 import { NextPage } from 'next';
@@ -19,7 +20,7 @@ const ForgotPassword: NextPage = () => {
   return (
     <>
       <Head>
-        <title>{t.resetPassword}</title>
+        <Seo title={t.resetPassword} />
       </Head>
       <AuthContainer>
         <AuthPageMiddleware>

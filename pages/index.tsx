@@ -4,12 +4,13 @@ import { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import React from 'react';
 import { wrapper } from 'app/store';
+import { Seo } from 'components/common';
 
 const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Misa Radio</title>
+        <Seo title="Misa Radio" />
       </Head>
       <Banner />
     </>

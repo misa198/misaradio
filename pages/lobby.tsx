@@ -2,6 +2,7 @@ import { Box, makeStyles } from '@material-ui/core';
 import { useAppSelector } from 'app/hooks';
 import useSocket from 'app/socket';
 import { wrapper } from 'app/store';
+import { Seo } from 'components/common';
 import { CreateForm } from 'features/lobby/components/CreateForm';
 import { JoinForm } from 'features/lobby/components/JoinForm';
 import { authSSR } from 'libs/authSSR';
@@ -49,7 +50,7 @@ const Lobby: NextPage = () => {
   return (
     <>
       <Head>
-        <title>{t.title} - Misa Radio</title>
+        <Seo title={`${t.title} - Misa Radio`} />
       </Head>
       <Box
         className={classes.pageRoot}

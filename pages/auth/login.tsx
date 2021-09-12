@@ -1,3 +1,4 @@
+import { Seo } from 'components/common';
 import { AuthContainer } from 'components/pages/auth';
 import { LoginForm } from 'features/auth/components/LoginForm';
 import { NextPage } from 'next';
@@ -19,7 +20,7 @@ const Login: NextPage = () => {
   return (
     <>
       <Head>
-        <title>{t.login}</title>
+        <Seo title={t.login} />
       </Head>
       <AuthContainer>
         <AuthPageMiddleware>
