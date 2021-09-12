@@ -17,4 +17,11 @@ export const theme = createTheme({
       color: '#fff',
     },
   },
+  overrides: {
+    MuiTooltip: {
+      tooltip: {
+        fontSize: '1em',
+      },
+    },
+  },
 });
