@@ -36,6 +36,9 @@ const useStyles = makeStyles((theme) => ({
   selectEmpty: {
     marginTop: theme.spacing(2),
   },
+  footerLink: {
+    color: theme.palette.text.primary,
+  },
 }));
 
 export const Footer: FC = () => {
@@ -74,15 +77,17 @@ export const Footer: FC = () => {
                 href="https://github.com/misa198/misa-radio"
                 rel="noreferrer"
                 target="_blank"
+                className={classes.footerLink}
               >
                 <IconButton aria-label="volume" size="medium" color="inherit">
                   <GitHub fontSize="medium" />
                 </IconButton>
               </a>
               <a
-                href="https://github.com/misa198/misa-radio"
+                href="https://misa198.vercel.app/"
                 rel="noreferrer"
                 target="_blank"
+                className={classes.footerLink}
               >
                 <IconButton aria-label="volume" size="medium" color="inherit">
                   <Link fontSize="medium" />
