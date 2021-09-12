@@ -14,7 +14,11 @@ import { FilterNone, PeopleAlt } from '@material-ui/icons';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import useSocket from 'app/socket';
 import { wrapper } from 'app/store';
-import { VideoBox, VideoCardListBox } from 'components/pages/player';
+import {
+  PeopleModalPopup,
+  VideoBox,
+  VideoCardListBox,
+} from 'components/pages/player';
 import { ModalPopup } from 'features/player/components/ModalPopup';
 import { playerActions } from 'features/player/playerSlice';
 import { authSSR } from 'libs/authSSR';
@@ -68,18 +72,27 @@ const Player: NextPage = () => {
   const t = locale === 'vi' ? vi : en;
   const classes = useStyles();
   const socket = useSocket();
-  const [open, setOpen] = useState(false);
+  const [searchModalOpen, setSearchModelOpen] = useState(false);
+  const [peopleModalOpen, setPeopleModalOpen] = useState(false);
   const clipboard = useClipboard();
   const dispatch = useAppDispatch();
   const room = useAppSelector((state) => state.player.room);
   const currentUser = useAppSelector((state) => state.auth.login.user);
 
-  function handleOpen() {
-    setOpen(true);
+  function handleSearchModalOpen() {
+    setSearchModelOpen(true);
   }
 
-  function handleClose() {
-    setOpen(false);
+  function handleSearchModalClose() {
+    setSearchModelOpen(false);
+  }
+
+  function handlePeopleModalOpen() {
+    setPeopleModalOpen(true);
+  }
+
+  function handlePeopleModalClose() {
+    setPeopleModalOpen(false);
   }
 
   function copyRoomCode() {
@@ -171,7 +184,11 @@ const Player: NextPage = () => {
                   </IconButton>
                 </Tooltip>
                 <Tooltip title={t.people}>
-                  <IconButton aria-label="people" size="medium">
+                  <IconButton
+                    aria-label="people"
+                    size="medium"
+                    onClick={handlePeopleModalOpen}
+                  >
                     <PeopleAlt fontSize="medium" />
                   </IconButton>
                 </Tooltip>
@@ -186,7 +203,7 @@ const Player: NextPage = () => {
                 </Grid>
                 <Grid item xs={12} md={4}>
                   <Paper className={classes.paper}>
-                    <VideoCardListBox handleOpen={handleOpen} />
+                    <VideoCardListBox handleOpen={handleSearchModalOpen} />
                   </Paper>
                 </Grid>
               </Grid>
@@ -196,13 +213,27 @@ const Player: NextPage = () => {
             aria-labelledby="transition-modal-title"
             aria-describedby="transition-modal-description"
             className={classes.modal}
-            open={open}
-            onClose={handleClose}
+            open={searchModalOpen}
+            onClose={handleSearchModalClose}
             closeAfterTransition
           >
-            <Fade in={open}>
+            <Fade in={searchModalOpen}>
               <div>
                 <ModalPopup />
+              </div>
+            </Fade>
+          </Modal>
+          <Modal
+            aria-labelledby="transition-modal-title"
+            aria-describedby="transition-modal-description"
+            className={classes.modal}
+            open={peopleModalOpen}
+            onClose={handlePeopleModalClose}
+            closeAfterTransition
+          >
+            <Fade in={peopleModalOpen}>
+              <div>
+                <PeopleModalPopup />
               </div>
             </Fade>
           </Modal>
