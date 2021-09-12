@@ -4,7 +4,7 @@ import { baseUrl } from 'constants/config';
 import { useRouter } from 'next/router';
 import React, { FC, useState, useEffect } from 'react';
 import Youtube, { Options } from 'react-youtube';
-import { YouTubePlayer } from 'youtube-player';
+import { YouTubePlayer } from 'youtube-player/dist/types';
 import en from 'translations/en/player';
 import vi from 'translations/vi/player';
 
