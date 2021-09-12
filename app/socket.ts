@@ -1,7 +1,6 @@
 import { baseUrl } from 'constants/config';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
 import { io, Socket } from 'socket.io-client';
 import { useAppSelector } from './hooks';
 
@@ -29,14 +28,6 @@ export const useInitSocket = () => {
       initialSocket = null;
     }
   }, [isLoggedIn]);
-
-  useEffect(() => {
-    if (socket) {
-      socket.on('error', (e) => {
-        toast.error(e);
-      });
-    }
-  }, [socket]);
 };
 
 const useSocket = () => {
