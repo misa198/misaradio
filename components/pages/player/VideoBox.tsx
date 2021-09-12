@@ -58,7 +58,7 @@ export const VideoBox: FC = () => {
   const classes = useStyles();
   const [hovering, setHovering] = useState(false);
   const [volume, setVolume] = useState(true);
-  const [player, setPlayer] = useState<YouTubePlayer>(null);
+  const [player, setPlayer] = useState<YouTubePlayer | null>(null);
 
   function switchVolume() {
     setVolume(!volume);

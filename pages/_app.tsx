@@ -28,6 +28,16 @@ const useStyles = makeStyles(() =>
       a: {
         textDecoration: 'none',
       },
+
+      '.Toastify__toast': {
+        background: '#313131 !important',
+        color: '#fff !important',
+      },
+
+      '.Toastify__close-button': {
+        color: '#fff !important',
+        opacity: '1',
+      },
     },
   }),
 );
