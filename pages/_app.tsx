@@ -8,13 +8,17 @@ import { useInitSocket } from 'app/socket';
 import { wrapper } from 'app/store';
 import { DefaultLayout } from 'components/layout';
 import { ConnectedRouter } from 'connected-next-router';
+import { baseUrl, seoImage } from 'constants/config';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import NextNprogress from 'nextjs-progressbar';
 import React, { FC } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { theme } from 'themes';
+import en from 'translations/en/app';
+import vi from 'translations/vi/app';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -45,6 +49,8 @@ const useStyles = makeStyles(() =>
 const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
   useStyles();
   useInitSocket();
+  const { locale } = useRouter();
+  const t = locale === 'vi' ? vi : en;
 
   return (
     <>
@@ -53,6 +59,16 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
           name="viewport"
           content="width=device-width, initial-scale=1.0, maximum-scale=5"
         />
+        <meta name="description" content={t.description} />
+        <meta property="og:description" content={t.description} />
+        <meta property="twitter:description" content={t.description} />
+
+        <meta property="og:url" content={baseUrl} />
+        <meta property="twitter:url" content={baseUrl} />
+
+        <meta property="og:image" content={seoImage} />
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:image" content={seoImage} />
       </Head>
       <ThemeProvider theme={theme}>
         <CssBaseline />

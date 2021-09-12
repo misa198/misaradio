@@ -4,13 +4,15 @@ import { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import React from 'react';
 import { wrapper } from 'app/store';
-import { Seo } from 'components/common';
 
 const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <Seo title="Misa Radio" />
+        <title>Misa Radio</title>
+        <meta name="title" content="Misa Radio" />
+        <meta property="og:title" content="Misa Radio" />
+        <meta property="twitter:title" content="Misa Radio" />
       </Head>
       <Banner />
     </>

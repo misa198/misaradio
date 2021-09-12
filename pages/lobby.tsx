@@ -2,7 +2,6 @@ import { Box, makeStyles } from '@material-ui/core';
 import { useAppSelector } from 'app/hooks';
 import useSocket from 'app/socket';
 import { wrapper } from 'app/store';
-import { Seo } from 'components/common';
 import { CreateForm } from 'features/lobby/components/CreateForm';
 import { JoinForm } from 'features/lobby/components/JoinForm';
 import { authSSR } from 'libs/authSSR';
@@ -43,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
 const Lobby: NextPage = () => {
   const { locale } = useRouter();
   const t = locale === 'vi' ? vi : en;
+  const { title } = t;
   const classes = useStyles();
   const option = useAppSelector((state) => state.lobby.option);
   const socket = useSocket();
@@ -50,7 +50,10 @@ const Lobby: NextPage = () => {
   return (
     <>
       <Head>
-        <Seo title={`${t.title} - Misa Radio`} />
+        <title>{title}</title>
+        <meta name="title" content={title} />
+        <meta property="og:title" content={title} />
+        <meta property="twitter:title" content={title} />
       </Head>
       <Box
         className={classes.pageRoot}

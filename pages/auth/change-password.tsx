@@ -1,4 +1,3 @@
-import { Seo } from 'components/common';
 import { AuthContainer } from 'components/pages/auth';
 import { ChangePasswordForm } from 'features/auth/components/ChangePasswordForm';
 import { NextPage } from 'next';
@@ -16,11 +15,15 @@ const AuthPageMiddleware = dynamic(
 const ChangePassword: NextPage = () => {
   const { locale } = useRouter();
   const t = locale === 'vi' ? vi : en;
+  const title = t.changePassword;
 
   return (
     <>
       <Head>
-        <Seo title={t.changePassword} />
+        <title>{title}</title>
+        <meta name="title" content={title} />
+        <meta property="og:title" content={title} />
+        <meta property="twitter:title" content={title} />
       </Head>
       <AuthContainer>
         <AuthPageMiddleware>

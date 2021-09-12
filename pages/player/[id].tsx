@@ -14,7 +14,6 @@ import { FilterNone, PeopleAlt } from '@material-ui/icons';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import useSocket from 'app/socket';
 import { wrapper } from 'app/store';
-import { Seo } from 'components/common';
 import { PeopleModalPopup, VideoCardListBox } from 'components/pages/player';
 import { ModalPopup } from 'features/player/components/ModalPopup';
 import { playerActions } from 'features/player/playerSlice';
@@ -73,6 +72,7 @@ const Player: NextPage = () => {
   const router = useRouter();
   const { locale } = router;
   const t = locale === 'vi' ? vi : en;
+  const { title } = t;
   const classes = useStyles();
   const socket = useSocket();
   const [searchModalOpen, setSearchModelOpen] = useState(false);
@@ -191,7 +191,10 @@ const Player: NextPage = () => {
   return (
     <>
       <Head>
-        <Seo title={`${t.title} - Misa Radio`} />
+        <title>{title}</title>
+        <meta name="title" content={title} />
+        <meta property="og:title" content={title} />
+        <meta property="twitter:title" content={title} />
       </Head>
       {socket && room && (
         <>
