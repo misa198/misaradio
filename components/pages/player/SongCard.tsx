@@ -20,15 +20,16 @@ const useStyles = makeStyles(() => ({
     paddingBottom: '56.25%',
     position: 'relative',
     overflow: 'hidden',
+    borderRadius: '0.25rem',
   },
   songCardImg: {
     width: '100%',
     height: 'auto',
-    borderRadius: '0.25rem',
     objectFit: 'cover',
     position: 'absolute',
     top: 0,
     lef: 0,
+    borderRadius: '0.25rem',
   },
   songCardTitle: {
     fontWeight: 700,
