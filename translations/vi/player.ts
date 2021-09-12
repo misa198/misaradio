@@ -9,4 +9,5 @@ export default {
   copyRoomCode: 'Sao chép mã phòng',
   people: 'Mọi người',
   joinRoomFail: 'Vào phòng thất bại, có lỗi xảy ra',
+  joinedRoom: 'đã vào phòng',
 };

@@ -9,4 +9,5 @@ export default {
   copyRoomCode: 'Copy room code',
   people: 'People',
   joinRoomFail: 'Failed to join room, something wrong',
+  joinedRoom: 'joined room',
 };

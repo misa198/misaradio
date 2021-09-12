@@ -52,7 +52,7 @@ io.on('connection', (socket: Socket) => {
         socket.emit('join-room-success', {
           room,
         });
-        io.to(_payload.roomId).emit('join-room', {
+        socket.to(_payload.roomId).emit('join-room', {
           user,
         });
       }

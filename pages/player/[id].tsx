@@ -24,6 +24,7 @@ import { toast } from 'react-toastify';
 import en from 'translations/en/player';
 import vi from 'translations/vi/player';
 import { Room } from 'models/Room';
+import { RoomUser } from 'models/RoomUser';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { playerActions } from 'features/player/playerSlice';
 
@@ -69,6 +70,7 @@ const Player: NextPage = () => {
   const [open, setOpen] = useState(false);
   const dispatch = useAppDispatch();
   const room = useAppSelector((state) => state.player.room);
+  const currentUser = useAppSelector((state) => state.auth.login.user);
 
   function handleOpen() {
     setOpen(true);
@@ -105,6 +107,18 @@ const Player: NextPage = () => {
       return () => socket.off('join-room-success');
     }
   }, [socket, router, dispatch]);
+
+  useEffect((): any => {
+    if (socket) {
+      socket.on('join-room', (payload: { user: RoomUser }) => {
+        if (currentUser?.id !== payload.user.userId) {
+          toast.info(`${payload.user.name} ${t.joinedRoom}`);
+          dispatch(playerActions.addUser(payload.user));
+        }
+      });
+      return () => socket.off('join-room');
+    }
+  }, [socket, router, t.joinedRoom, dispatch, currentUser]);
 
   return (
     <>

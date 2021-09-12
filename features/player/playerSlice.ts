@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Song } from 'models/Song';
 import { Room } from 'models/Room';
+import { RoomUser } from 'models/RoomUser';
 import { toast } from 'react-toastify';
 import { searchSongs, SearchResponse } from './playerThunk';
 
@@ -30,6 +31,9 @@ const playerSlice = createSlice({
     },
     setRoom(state, action: PayloadAction<Room>) {
       state.room = action.payload;
+    },
+    addUser(state, action: PayloadAction<RoomUser>) {
+      if (state.room) state.room.users.push(action.payload);
     },
   },
   extraReducers: (builder) => {
