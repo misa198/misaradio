@@ -1,7 +1,8 @@
 import { Box, Grid, makeStyles, Typography } from '@material-ui/core';
 import { Song } from 'models/Song';
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 import { defaultCoverUrl } from 'constants/config';
+import { timeNumberToString } from 'utils/formatTime';
 
 const useStyles = makeStyles(() => ({
   songCardRoot: {
@@ -48,6 +49,10 @@ interface PropTypes {
 
 export const SongCard: FC<PropTypes> = ({ song }) => {
   const classes = useStyles();
+  const time = useMemo(
+    () => timeNumberToString(song.duration),
+    [song.duration],
+  );
 
   return (
     <Box className={classes.songCardRoot}>
@@ -85,7 +90,7 @@ export const SongCard: FC<PropTypes> = ({ song }) => {
               noWrap
               className={classes.songCardDuration}
             >
-              04:06
+              {time}
             </Typography>
           </Box>
           <Box textAlign="left" mt={0.65}>
