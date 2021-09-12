@@ -1,7 +1,10 @@
 import { Box, IconButton, makeStyles, Typography } from '@material-ui/core';
-import { VolumeUp, VolumeOff } from '@material-ui/icons';
+import { VolumeOff, VolumeUp } from '@material-ui/icons';
+import { baseUrl } from 'constants/config';
 import { useRouter } from 'next/router';
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect } from 'react';
+import Youtube, { Options } from 'react-youtube';
+import { YouTubePlayer } from 'youtube-player';
 import en from 'translations/en/player';
 import vi from 'translations/vi/player';
 
@@ -18,6 +21,14 @@ const useStyles = makeStyles(() => ({
     zIndex: 2,
     transition: 'all 200ms',
   },
+  youtubeEmbed: {
+    width: '100%',
+    pointerEvents: 'none',
+
+    '& iframe': {
+      width: '100%',
+    },
+  },
   onButton: {
     backgroundColor: 'red !important',
   },
@@ -27,24 +38,49 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+const youtubeEmbedPlayerOpts: Options = {
+  width: '640',
+  height: '400',
+  playerVars: {
+    autoplay: 1,
+    controls: 0,
+    mute: 0,
+    start: 1,
+    enablejsapi: 1,
+    showinfo: 0,
+    origin: baseUrl,
+  },
+};
+
 export const VideoBox: FC = () => {
   const { locale } = useRouter();
   const t = locale === 'vi' ? vi : en;
   const classes = useStyles();
-  const [volumeOn, setVolumeOn] = useState(true);
   const [hovering, setHovering] = useState(false);
+  const [volume, setVolume] = useState(true);
+  const [player, setPlayer] = useState<YouTubePlayer>(null);
 
-  const switchVolume = () => {
-    setVolumeOn(!volumeOn);
-  };
+  function switchVolume() {
+    setVolume(!volume);
+  }
 
-  const onHover = () => {
+  function onHover() {
     setHovering(true);
-  };
+  }
 
-  const onOut = () => {
+  function onOut() {
     setHovering(false);
-  };
+  }
+
+  function onReady(event: { target: YouTubePlayer }) {
+    setPlayer(event.target);
+  }
+
+  useEffect(() => {
+    if (player) {
+      player.setVolume(volume ? 100 : 0);
+    }
+  }, [volume, player]);
 
   return (
     <Box display="flex" flexDirection="column" className={classes.videoBox}>
@@ -61,11 +97,10 @@ export const VideoBox: FC = () => {
           justifyContent="center"
           className={classes.iframeOverlay}
           style={{
-            // visibility: hovering ? 'visible' : 'hidden',
             opacity: hovering ? 1 : 0,
           }}
         >
-          {volumeOn ? (
+          {volume ? (
             <IconButton
               aria-label="volume"
               size="medium"
@@ -85,17 +120,13 @@ export const VideoBox: FC = () => {
             </IconButton>
           )}
         </Box>
+        <Youtube
+          className={classes.youtubeEmbed}
+          videoId="jXpdAJcrTVs"
+          opts={youtubeEmbedPlayerOpts}
+          onReady={onReady}
+        />
         {/* <iframe
-          style={{ width: '100%', pointerEvents: 'none' }}
-          frameBorder="0"
-          allowFullScreen
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          title="YouTube video player"
-          width="640"
-          height="400"
-          src="https://www.youtube.com/embed/jXpdAJcrTVs?autoplay=1&amp;controls=0&amp;mute=0&amp;start=1&amp;enablejsapi=1&amp;widgetid=1"
-        /> */}
-        <iframe
           title="SoundCloud"
           width="100%"
           height="450"
@@ -103,7 +134,7 @@ export const VideoBox: FC = () => {
           frameBorder="no"
           allow="autoplay"
           src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/556627674&color=%23e53935&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
-        />
+        /> */}
       </Box>
 
       <Box width="100%" mt={2} textAlign="left">
