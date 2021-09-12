@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     lineHeight: 1.3,
 
     [theme.breakpoints.down('xs')]: {
-      fonSize: '3.2rem !important',
+      fontSize: '3.2rem !important',
     },
   },
 }));
