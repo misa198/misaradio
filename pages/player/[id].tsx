@@ -162,14 +162,18 @@ const Player: NextPage = () => {
 
   useEffect((): any => {
     if (socket) {
-      socket.on('playing', (payload: { playing: Song; startAt: number }) => {
-        dispatch(
-          playerActions.updatePlaying({
-            playing: payload.playing,
-            startAt: payload.startAt,
-          }),
-        );
-      });
+      socket.on(
+        'playing',
+        (payload: { playing: Song; startAt: number; queue: Song[] }) => {
+          dispatch(
+            playerActions.updatePlaying({
+              playing: payload.playing,
+              startAt: payload.startAt,
+            }),
+          );
+          dispatch(playerActions.updateQueue(payload.queue));
+        },
+      );
       return () => socket.off('playing');
     }
   }, [dispatch, socket]);

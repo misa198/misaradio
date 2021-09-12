@@ -64,6 +64,7 @@ export class Room {
         io.to(this.id).emit('playing', {
           playing: this.playing,
           startAt: 0,
+          queue: this.queue,
         });
       }
     }, 2000);
