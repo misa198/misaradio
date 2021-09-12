@@ -7,7 +7,7 @@ import Link from 'next/link';
 import en from 'translations/en/banner';
 import vi from 'translations/vi/banner';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   rootBanner: {
     paddingTop: '120px',
     paddingBottom: '120px',
@@ -25,6 +25,10 @@ const useStyles = makeStyles(() => ({
   bannerTitle: {
     fontWeight: 500,
     lineHeight: 1.3,
+
+    [theme.breakpoints.down('xs')]: {
+      fonSize: '3.2rem !important',
+    },
   },
 }));
 
