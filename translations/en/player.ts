@@ -15,4 +15,7 @@ export default {
   roomCodeCopied: 'Copied room code',
   orderSongPending: 'Request has been sent, please wait a few second',
   orderSongSuccess: 'A song has just been added to the queue',
+  mute: 'Mute',
+  unmute: 'Unmute',
+  skip: 'Skip',
 };

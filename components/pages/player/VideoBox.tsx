@@ -1,4 +1,10 @@
-import { Box, IconButton, makeStyles, Typography } from '@material-ui/core';
+import {
+  Box,
+  IconButton,
+  makeStyles,
+  Typography,
+  Tooltip,
+} from '@material-ui/core';
 import { FastForward, TvOff, VolumeOff, VolumeUp } from '@material-ui/icons';
 import { useAppSelector } from 'app/hooks';
 import useSocket from 'app/socket';
@@ -161,33 +167,39 @@ const VideoBox: FC = () => {
                 opacity: hovering ? 1 : 0,
               }}
             >
-              {volume ? (
-                <IconButton
-                  aria-label="volume"
-                  size="medium"
-                  className={classes.onButton}
-                  onClick={switchVolume}
-                >
-                  <VolumeUp fontSize="inherit" />
-                </IconButton>
+              {!volume ? (
+                <Tooltip title={t.unmute}>
+                  <IconButton
+                    aria-label="volume"
+                    size="medium"
+                    className={classes.onButton}
+                    onClick={switchVolume}
+                  >
+                    <VolumeUp fontSize="inherit" />
+                  </IconButton>
+                </Tooltip>
               ) : (
-                <IconButton
-                  aria-label="volume"
-                  size="medium"
-                  className={classes.offButton}
-                  onClick={switchVolume}
-                >
-                  <VolumeOff fontSize="inherit" />
-                </IconButton>
+                <Tooltip title={t.mute}>
+                  <IconButton
+                    aria-label="volume"
+                    size="medium"
+                    className={classes.offButton}
+                    onClick={switchVolume}
+                  >
+                    <VolumeOff fontSize="inherit" />
+                  </IconButton>
+                </Tooltip>
               )}
-              <IconButton
-                aria-label="forward"
-                size="medium"
-                className={classes.forwardButton}
-                onClick={onSkip}
-              >
-                <FastForward fontSize="inherit" />
-              </IconButton>
+              <Tooltip title={t.skip}>
+                <IconButton
+                  aria-label="forward"
+                  size="medium"
+                  className={classes.forwardButton}
+                  onClick={onSkip}
+                >
+                  <FastForward fontSize="inherit" />
+                </IconButton>
+              </Tooltip>
             </Box>
             {youtubeEmbedPlayerOpts && (
               <Youtube

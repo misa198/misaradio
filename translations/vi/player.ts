@@ -15,4 +15,7 @@ export default {
   roomCodeCopied: 'Đã sao chép mã phòng',
   orderSongPending: 'Yêu cầu đã được gửi, vui lòng đợi trong giây lát',
   orderSongSuccess: 'Một bài hát vừa được thêm vào hàng đợi',
+  mute: 'Tắt tiếng',
+  unmute: 'Bật tiếng',
+  skip: 'Chuyển bài',
 };
