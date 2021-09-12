@@ -12,7 +12,6 @@ import useSocket from 'app/socket';
 import { useRouter } from 'next/router';
 import React, { FC, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
 import en from 'translations/en/lobby';
 import vi from 'translations/vi/lobby';
 import * as yup from 'yup';
@@ -68,9 +67,6 @@ export const CreateForm: FC = () => {
       socket.emit('create-room', {
         name: value.name,
       });
-    else {
-      toast.info(t.socketNull);
-    }
   }
 
   useEffect((): any => {

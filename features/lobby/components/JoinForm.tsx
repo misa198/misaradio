@@ -13,7 +13,6 @@ import { push } from 'connected-next-router';
 import { useRouter } from 'next/router';
 import React, { FC } from 'react';
 import { useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
 import en from 'translations/en/lobby';
 import vi from 'translations/vi/lobby';
 import * as yup from 'yup';
@@ -67,8 +66,6 @@ export const JoinForm: FC = () => {
   function onSubmit(value: JoinFormProps) {
     if (socket) {
       dispatch(push(`/player/${value.code}`));
-    } else {
-      toast.info(t.socketNull);
     }
   }
 
