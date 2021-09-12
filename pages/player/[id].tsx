@@ -32,10 +32,16 @@ const useStyles = makeStyles((theme) => ({
   container: {
     padding: 0,
   },
+  roomNameWrapper: {
+    overflow: 'hidden',
+  },
   roomName: {
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
     fontSize: '1.5rem',
     fontWeight: 'bold',
     marginRight: '5px',
+    textOverflow: 'ellipsis',
   },
   paper: {
     textAlign: 'center',
@@ -86,18 +92,25 @@ const Player: NextPage = () => {
               alignItems="center"
               justifyContent="space-between"
             >
-              <Box display="flex" alignItems="center">
-                <Typography className={classes.roomName}>MisaRoom</Typography>
+              <Box
+                display="flex"
+                alignItems="center"
+                flexGrow={1}
+                className={classes.roomNameWrapper}
+              >
+                <Typography className={classes.roomName}>
+                  Những con người văn minh
+                </Typography>
               </Box>
-              <Box>
+              <Box display="flex" width="fit-content">
                 <Tooltip title={t.copyRoomCode}>
-                  <IconButton aria-label="copy" size="middle">
+                  <IconButton aria-label="copy" size="medium">
                     <FilterNone fontSize="small" />
                   </IconButton>
                 </Tooltip>
                 <Tooltip title={t.people}>
-                  <IconButton aria-label="people" size="middle">
-                    <PeopleAlt fontSize="middle" />
+                  <IconButton aria-label="people" size="medium">
+                    <PeopleAlt fontSize="medium" />
                   </IconButton>
                 </Tooltip>
               </Box>
