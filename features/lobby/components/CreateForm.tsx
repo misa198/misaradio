@@ -76,7 +76,6 @@ export const CreateForm: FC = () => {
   useEffect((): any => {
     if (socket) {
       socket.on('create-room-success', (payload: { roomId: string }) => {
-        toast.success(t.createRoomSuccess);
         router.push(`/player/${payload.roomId}`);
       });
       return () => socket.off('create-room-success');
