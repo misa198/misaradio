@@ -1,13 +1,11 @@
-import { Socket } from 'socket.io';
+import socketIO, { Socket } from 'socket.io';
 import { httpServer } from '../index';
 import * as roomsService from '../services/rooms';
 import * as youtubeService from '../services/youtube';
-import { Song } from '../types/Song';
-import { orderSongValidator } from '../validators/rooms/orderSong';
 import { createRoomValidator } from '../validators/rooms/createRoom';
 import { joinRoomValidator } from '../validators/rooms/joinRoom';
+import { orderSongValidator } from '../validators/rooms/orderSong';
 import { authSocket } from './socketAuth';
-import socketIO from 'socket.io';
 
 export const io = new socketIO.Server();
 io.attach(httpServer);
@@ -79,6 +77,16 @@ io.on('connection', (socket: Socket) => {
           queue: room.queue,
         });
       }
+    } catch (e: any) {
+      socket.emit('error', e.message);
+    }
+  });
+
+  socket.on('skip', async (payload: { roomId: string }) => {
+    const user = authSocket(socket);
+    if (!user) return socket.emit('error', 'Unauthorized');
+    try {
+      roomsService.skip(payload.roomId, user.id);
     } catch (e: any) {
       socket.emit('error', e.message);
     }

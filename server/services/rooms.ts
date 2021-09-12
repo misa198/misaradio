@@ -11,6 +11,14 @@ export const getRoom = (roomId: string) => {
   return room;
 };
 
+const validateUser = (roomId: string, userId: string) => {
+  let room = getRoom(roomId);
+  if (!room) throw { message: 'Room not found' };
+  const user = room.findUser(userId);
+  if (!user) throw { message: 'User not in room' };
+  return { user, room };
+};
+
 export const createRoom = (name: string, user: User) => {
   const roomId = nanoid(roomCodeLength);
   const foundRoom = getRoom(roomId);
@@ -56,12 +64,13 @@ export const leaveRooms = (userId: string) => {
 };
 
 export const orderSong = (roomId: string, userId: string, song: Song) => {
-  let room = getRoom(roomId);
-  if (!room) throw { message: 'Room not found' };
-  const user = room.findUser(userId);
-  if (!user) throw { message: 'User not in room' };
+  const { room } = validateUser(roomId, userId);
   song.uniqueId = nanoid(12);
   room.addSong(song);
-  room = getRoom(roomId);
-  return room;
+  return getRoom(roomId);
+};
+
+export const skip = (roomId: string, userId: string) => {
+  const { room } = validateUser(roomId, userId);
+  room.skip();
 };

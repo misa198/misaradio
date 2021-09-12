@@ -45,6 +45,11 @@ export class Room {
     };
   }
 
+  skip() {
+    this.playing = undefined;
+    this.startedTime = 0;
+  }
+
   private pingPong() {
     setInterval(() => {
       const playedTime = Date.now() - this.startedTime;

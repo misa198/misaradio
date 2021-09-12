@@ -1,14 +1,16 @@
 import { Box, IconButton, makeStyles, Typography } from '@material-ui/core';
-import { TvOff, VolumeOff, VolumeUp } from '@material-ui/icons';
+import { FastForward, TvOff, VolumeOff, VolumeUp } from '@material-ui/icons';
 import { useAppSelector } from 'app/hooks';
+import useSocket from 'app/socket';
 import { baseUrl } from 'constants/config';
 import { useRouter } from 'next/router';
-import React, { FC, useEffect, useState, useMemo } from 'react';
+import React, { FC, useEffect, useMemo, useState } from 'react';
+import { toast } from 'react-toastify';
 import Youtube, { Options } from 'react-youtube';
 import en from 'translations/en/player';
 import vi from 'translations/vi/player';
-import { YouTubePlayer } from 'youtube-player/dist/types';
 import { timeNumberToString } from 'utils/formatTime';
+import { YouTubePlayer } from 'youtube-player/dist/types';
 
 const useStyles = makeStyles(() => ({
   videoBox: {
@@ -45,6 +47,10 @@ const useStyles = makeStyles(() => ({
     backgroundColor: '#f2f2f2 !important',
     color: '#313131',
   },
+  forwardButton: {
+    marginLeft: '1rem',
+    backgroundColor: 'red !important',
+  },
 }));
 
 const generateYoutubeEmbedOption = (start: number) => {
@@ -65,9 +71,11 @@ const generateYoutubeEmbedOption = (start: number) => {
 };
 
 const VideoBox: FC = () => {
-  const { locale } = useRouter();
+  const router = useRouter();
+  const { locale } = router;
   const t = locale === 'vi' ? vi : en;
   const classes = useStyles();
+  const socket = useSocket();
   const [hovering, setHovering] = useState(false);
   const [volume, setVolume] = useState(true);
   const [player, setPlayer] = useState<YouTubePlayer | null>(null);
@@ -94,6 +102,13 @@ const VideoBox: FC = () => {
 
   function onReady(event: { target: YouTubePlayer }) {
     setPlayer(event.target);
+  }
+
+  function onSkip() {
+    toast.info(t.orderSongPending);
+    socket.emit('skip', {
+      roomId: router.query.id,
+    });
   }
 
   useEffect(() => {
@@ -163,6 +178,14 @@ const VideoBox: FC = () => {
                   <VolumeOff fontSize="inherit" />
                 </IconButton>
               )}
+              <IconButton
+                aria-label="forward"
+                size="medium"
+                className={classes.forwardButton}
+                onClick={onSkip}
+              >
+                <FastForward fontSize="inherit" />
+              </IconButton>
             </Box>
             {youtubeEmbedPlayerOpts && (
               <Youtube
