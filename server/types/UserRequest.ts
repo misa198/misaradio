@@ -4,5 +4,6 @@ export interface UserRequest extends Request {
   user: {
     email: string;
     name: string;
+    id: string;
   };
 }

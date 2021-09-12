@@ -6,8 +6,8 @@ const jwtForgotPasswordSecret = process.env.JWT_FORGOT_PASSWORD_SECRET || 'fp';
 const expiresIn = process.env.JWT_EXPIRE || '7d';
 const emailExpiresIn = process.env.JWT_EMAIL_TEMP_EXPIRE || '5m';
 
-export const signToken = (email: string, name: string) => {
-  return jwt.sign({ email, name }, jwtSecret, {
+export const signToken = (email: string, name: string, id: string) => {
+  return jwt.sign({ email, name, id }, jwtSecret, {
     expiresIn,
   });
 };

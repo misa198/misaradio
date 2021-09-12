@@ -8,7 +8,8 @@ export const authSocket = (socket: Socket) => {
       if (user) {
         return {
           id: socket.id,
-          name: (user as { email: string; name: string }).name,
+          name: (user as { id: string; name: string }).name,
+          userId: (user as { id: string; name: string }).id,
         };
       }
     }

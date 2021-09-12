@@ -43,14 +43,19 @@ io.on('connection', (socket: Socket) => {
     if (!user) return socket.emit('error', 'Unauthorized');
     try {
       const _payload = joinRoomValidator(payload);
-      const room = roomsService.joinRoom(_payload.roomId, user);
-      socket.join(room.id);
-      socket.emit('join-room-success', {
-        room,
-      });
-      io.to(_payload.roomId).emit('join-room', {
-        user,
-      });
+      const foundRoom = roomsService.getRoom(_payload.roomId);
+      if (!foundRoom) {
+        socket.emit('join-room-fail');
+      } else {
+        const room = roomsService.joinRoom(_payload.roomId, user);
+        socket.join(room.id);
+        socket.emit('join-room-success', {
+          room,
+        });
+        io.to(_payload.roomId).emit('join-room', {
+          user,
+        });
+      }
     } catch (e: any) {
       socket.emit('error', e.message);
     }

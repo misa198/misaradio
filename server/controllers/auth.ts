@@ -14,11 +14,14 @@ export const googleAuth = async (req: Request, res: Response) => {
         return res.status(401).send({ message: 'Unauthorized' });
       } else {
         const existedUser = await User.findOne({ email });
+        let token = '';
         if (!existedUser) {
           const user = new User({ email, name, verified: true });
-          await user.save();
+          const savedUser = await user.save();
+          token = jwtService.signToken(email, name, savedUser._id);
+        } else {
+          token = jwtService.signToken(email, name, existedUser._id);
         }
-        const token = jwtService.signToken(email, name);
         return res.send({ data: token });
       }
     });
@@ -42,7 +45,7 @@ export const login = async (req: Request, res: Response) => {
     if (!isMatch) {
       return res.status(401).send({ message: 'Wrong password' });
     }
-    const token = jwtService.signToken(email, user.name);
+    const token = jwtService.signToken(email, user.name, user._id);
     return res.send({ data: token });
   } catch (e) {
     return res.status(401).send({ message: 'Unauthorized' });
