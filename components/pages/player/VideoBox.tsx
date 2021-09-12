@@ -3,11 +3,12 @@ import { TvOff, VolumeOff, VolumeUp } from '@material-ui/icons';
 import { useAppSelector } from 'app/hooks';
 import { baseUrl } from 'constants/config';
 import { useRouter } from 'next/router';
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState, useMemo } from 'react';
 import Youtube, { Options } from 'react-youtube';
 import en from 'translations/en/player';
 import vi from 'translations/vi/player';
 import { YouTubePlayer } from 'youtube-player/dist/types';
+import { timeNumberToString } from 'utils/formatTime';
 
 const useStyles = makeStyles(() => ({
   videoBox: {
@@ -74,6 +75,10 @@ const VideoBox: FC = () => {
   const startAt = useAppSelector((state) => state.player.startAt);
   const [youtubeEmbedPlayerOpts, setYoutubeEmbedPlayerOpts] =
     useState<Options | null>(null);
+  const time = useMemo(
+    () => timeNumberToString(playing?.duration || 0),
+    [playing?.duration],
+  );
 
   function switchVolume() {
     setVolume(!volume);
@@ -173,7 +178,9 @@ const VideoBox: FC = () => {
               <Typography variant="h6">{playing?.title}</Typography>
             </Box>
             <Box mt={1}>
-              <Typography variant="body2">{t.duration}: 04:06</Typography>
+              <Typography variant="body2">
+                {t.duration}: {time}
+              </Typography>
             </Box>
             <Box mt={1}>
               <Typography variant="body2">

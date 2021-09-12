@@ -1,7 +1,7 @@
 import { Box, Grid, makeStyles, Typography } from '@material-ui/core';
+import { defaultCoverUrl } from 'constants/config';
 import { Song } from 'models/Song';
 import React, { FC, useMemo } from 'react';
-import { defaultCoverUrl } from 'constants/config';
 import { timeNumberToString } from 'utils/formatTime';
 
 const useStyles = makeStyles(() => ({
