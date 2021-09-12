@@ -60,6 +60,7 @@ export const orderSong = (roomId: string, userId: string, song: Song) => {
   if (!room) throw { message: 'Room not found' };
   const user = room.findUser(userId);
   if (!user) throw { message: 'User not in room' };
+  song.uniqueId = nanoid(12);
   room.addSong(song);
   room = getRoom(roomId);
   return room;

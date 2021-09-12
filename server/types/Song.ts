@@ -6,4 +6,5 @@ export interface Song {
   platform: 'youtube' | 'soundcloud';
   cover: string;
   orderBy?: string;
+  uniqueId?: string;
 }

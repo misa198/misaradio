@@ -82,10 +82,13 @@ io.on('connection', (socket: Socket) => {
           song = await soundcloundService.getSongById(payload.id);
         }
         song.orderBy = user.name;
-        roomsService.orderSong(roomId, user.id, song);
-        io.to(roomId).emit('order-song-success', {
-          song,
-        });
+        const room = roomsService.orderSong(roomId, user.id, song);
+        if (room) {
+          io.to(roomId).emit('order-song-success', {
+            queue: room.queue,
+            playing: room.playing,
+          });
+        }
       } catch (e: any) {
         socket.emit('error', e.message);
       }
