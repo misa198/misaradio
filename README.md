@@ -25,6 +25,7 @@ Create a room and listen to music with friends.
 
 - [Next.js](https://github.com/vercel/next.js/)
 - [Material UI](https://github.com/mui-org/material-ui)
+- [Socket.IO](https://github.com/socketio/socket.io)
 - [MongoDB](https://github.com/mongodb/mongo)
 
 ## Install
