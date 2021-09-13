@@ -1,9 +1,49 @@
- <iframe
-          title="SoundCloud"
-          width="100%"
-          height="450"
-          scrolling="no"
-          frameBorder="no"
-          allow="autoplay"
-          src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/556627674&color=%23e53935&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
-        />
+# Misa Radio
+
+<p align="center">
+  <img src="./docs/logo.png" align="center" width="600px" />
+</p>
+
+## Overview
+
+Create a room and listen to music with friends.
+
+<p align="center">
+  <img src="./docs/screenshot.png" align="center" />
+</p>
+
+## Features.
+
+- Register / login by email or Google.
+- Create room.
+- Add music from Youtube.
+- Mute and unmute.
+- Skip.
+- Language selection.
+
+## Technologies
+
+- [Next.js](https://github.com/vercel/next.js/)
+- [Material UI](https://github.com/mui-org/material-ui)
+- [MongoDB](https://github.com/mongodb/mongo)
+
+## Install
+
+```
+  $ git clone
+  $ yarn install
+  $ yarn build
+  $ yarn start
+```
+
+## Data sources
+
+- [Youtube](https://youtube.com/)
+
+## Demo
+
+- [Website](https://misaradio.herokuapp.com/)
+
+## License
+
+- [MIT](./LICENSE)
