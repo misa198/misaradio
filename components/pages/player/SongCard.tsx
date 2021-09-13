@@ -63,7 +63,11 @@ export const SongCard: FC<PropTypes> = ({ song, inQueue = false }) => {
   );
 
   return (
-    <Tooltip title={`${song.title} | ${song.author}`}>
+    <Tooltip
+      title={`${song.title} | ${song.author}`}
+      enterDelay={1000}
+      enterNextDelay={1000}
+    >
       <Box className={classes.songCardRoot}>
         <Grid container spacing={2}>
           <Grid item xs={4}>
