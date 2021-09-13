@@ -83,8 +83,8 @@ const VideoBox: FC = () => {
   const classes = useStyles();
   const socket = useSocket();
   const [hovering, setHovering] = useState(false);
-  const [volume, setVolume] = useState(false);
   const [player, setPlayer] = useState<YouTubePlayer | null>(null);
+  const [volume, setVolume] = useState(false);
   const playing = useAppSelector((state) => state.player.playing);
   const startAt = useAppSelector((state) => state.player.startAt);
   const [youtubeEmbedPlayerOpts, setYoutubeEmbedPlayerOpts] =
@@ -95,7 +95,15 @@ const VideoBox: FC = () => {
   );
 
   function switchVolume() {
-    setVolume(!volume);
+    if (player) {
+      if (player.isMuted()) {
+        player.unMute();
+        setVolume(true);
+      } else {
+        player.mute();
+        setVolume(false);
+      }
+    }
   }
 
   function onHover() {
@@ -126,17 +134,6 @@ const VideoBox: FC = () => {
   }
 
   useEffect(() => {
-    if (player) {
-      if (volume) {
-        player.unMute();
-      } else {
-        player.mute();
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [volume]);
-
-  useEffect(() => {
     if (playing) {
       if (!player) {
         setYoutubeEmbedPlayerOpts(generateYoutubeEmbedOption(startAt));
@@ -146,7 +143,6 @@ const VideoBox: FC = () => {
     } else {
       setYoutubeEmbedPlayerOpts(null);
       setPlayer(null);
-      setVolume(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [playing]);
