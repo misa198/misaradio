@@ -17,7 +17,6 @@ import React, { FC } from 'react';
 import { GoogleLogin } from 'react-google-login';
 import { useForm } from 'react-hook-form';
 import { FcGoogle } from 'react-icons/fc';
-import { toast } from 'react-toastify';
 import en from 'translations/en/auth';
 import vi from 'translations/vi/auth';
 import * as yup from 'yup';
@@ -90,10 +89,6 @@ export const LoginForm: FC = () => {
     dispatch(loginByGoogle(response.accessToken));
   };
 
-  const onLoginByGoogleRejected = () => {
-    toast.error(t.commonErrorMessage);
-  };
-
   function onLoginByEmail(data: LoginFormFields) {
     dispatch(login(data));
   }
@@ -164,7 +159,6 @@ export const LoginForm: FC = () => {
               </Button>
             )}
             onSuccess={onLoginByGoogleFulfilled}
-            onFailure={onLoginByGoogleRejected}
             cookiePolicy="single_host_origin"
           />
         </Box>
