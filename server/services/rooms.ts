@@ -46,8 +46,12 @@ const leaveRoom = (room: Room, userId: string) => {
   if (!foundUser) throw { message: 'User not in room' };
   room.removeUser(userId);
   if (room.users.length === 0) {
-    const index = rooms.indexOf(room);
-    rooms.splice(index, 1);
+    // Delete room after 5 mins
+    const timeoutId = setTimeout(() => {
+      const index = rooms.indexOf(room);
+      rooms.splice(index, 1);
+    }, 5 * 60 * 1000);
+    room.setDeleteTimeoutId(timeoutId);
   }
 };
 

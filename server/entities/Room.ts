@@ -9,6 +9,7 @@ export class Room {
   queue: Song[] = [];
   startedTime: number = 0;
   creatorId: string;
+  deleteTimeoutId: NodeJS.Timer | null = null;
   private playing?: Song;
 
   constructor(name: string, roomId: string, creatorId: string) {
@@ -19,6 +20,9 @@ export class Room {
   }
 
   addUser(user: User) {
+    if (this.deleteTimeoutId) {
+      clearTimeout(this.deleteTimeoutId);
+    }
     this.users.push(user);
   }
 
@@ -48,6 +52,10 @@ export class Room {
   skip() {
     this.playing = undefined;
     this.startedTime = 0;
+  }
+
+  setDeleteTimeoutId(id: NodeJS.Timer) {
+    this.deleteTimeoutId = id;
   }
 
   private pingPong() {
