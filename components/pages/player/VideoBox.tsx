@@ -61,8 +61,8 @@ const useStyles = makeStyles(() => ({
 
 const generateYoutubeEmbedOption = (start: number) => {
   const youtubeEmbedPlayerOpts: Options = {
-    width: '640',
-    height: '400',
+    width: '720',
+    height: '405',
     playerVars: {
       autoplay: 1,
       controls: 0,
