@@ -10,6 +10,7 @@ import { DefaultLayout } from 'components/layout';
 import { ConnectedRouter } from 'connected-next-router';
 import { baseUrl, seoImage } from 'constants/config';
 import { AppProps } from 'next/app';
+import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import NextNprogress from 'nextjs-progressbar';
@@ -19,6 +20,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import { theme } from 'themes';
 import en from 'translations/en/app';
 import vi from 'translations/vi/app';
+
+const DisableContextMenu = dynamic(
+  () => import('components/common/DisableContextMenu'),
+  {
+    ssr: false,
+  },
+);
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -73,6 +81,7 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <DefaultLayout>
+          <DisableContextMenu />
           <ConnectedRouter>
             <Component {...pageProps} />
           </ConnectedRouter>
