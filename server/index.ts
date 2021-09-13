@@ -30,7 +30,7 @@ export const httpServer = http.createServer(server);
   server.all('*', (req: Request, res: Response) => handler(req, res));
 
   httpServer.listen(port, () => {
-    herokuAwake(process.env.APP_URL || '');
+    herokuAwake(process.env.NEXT_PUBLIC_BASE_URL || '');
     console.log(`> Ready on http://localhost:${port}`);
   });
 })();

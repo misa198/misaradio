@@ -72,7 +72,7 @@ export const register = async (req: Request, res: Response) => {
         email,
         'Verify email',
         `${
-          process.env.APP_URL
+          process.env.NEXT_PUBLIC_BASE_URL
         }/api/auth/verify-email?t=${jwtService.signEmailToken(email)}`,
       );
     } catch (e) {}
@@ -139,7 +139,7 @@ export const forgotPasswordRequest = async (req: Request, res: Response) => {
       mailService.sendMail(
         email,
         'Reset password',
-        `${process.env.APP_URL}/auth/forgot-password/${token}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/auth/forgot-password/${token}`,
       );
     } catch (e) {}
     return res.send({ message: 'Email was be sent' });

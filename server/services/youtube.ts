@@ -1,10 +1,14 @@
+import axios from 'axios';
 import ytsr, { Video } from 'ytsr';
-import ytdl from 'ytdl-core';
+import { googleAPIKey } from '../constants/config';
 import { Song } from '../types/Song';
-import { timeStringToMilliseconds } from '../utils/time';
+import {
+  timeStringToMilliseconds,
+  ytDurationToMilliseconds,
+} from '../utils/time';
 
 export const search = async (query: string) => {
-  const res = await ytsr(query, { pages: 1 });
+  const res = await ytsr(query, { pages: 1, gl: 'VN' });
   const videos = res.items.filter((e) => e.type === 'video') as Video[];
   const result: Song[] = [];
   for (let i = 0; i < 10; i++) {
@@ -24,15 +28,17 @@ export const search = async (query: string) => {
 };
 
 export const getVideoById = async (id: string) => {
-  const res = await ytdl.getInfo(id);
-  if (!res) throw { message: 'Video not found' };
+  const res = await axios.get(
+    `https://www.googleapis.com/youtube/v3/videos?part=snippet&part=contentDetails&id=${id}&key=${googleAPIKey}`,
+  );
+  const item = res.data.items[0];
+  if (!item) throw { message: 'Video not found' };
   const result: Song = {
     id,
-    title: res.videoDetails.title,
-    duration: parseInt(res.videoDetails.lengthSeconds) * 1000,
-    author: res.videoDetails.author.name,
-    cover:
-      res.videoDetails.thumbnails[res.videoDetails.thumbnails.length - 1].url,
+    title: item.snippet.title,
+    duration: ytDurationToMilliseconds(item.lengthSeconds),
+    author: item.snippet.channelTitle,
+    cover: item.snippet.thumbnails.standard.url,
   };
   return result;
 };
