@@ -18,4 +18,5 @@ export default {
   mute: 'Tắt tiếng',
   unmute: 'Bật tiếng',
   skip: 'Chuyển bài',
+  orderedBy: 'Thêm bởi',
 };

@@ -1,7 +1,10 @@
 import { Box, Grid, makeStyles, Typography } from '@material-ui/core';
 import { defaultCoverUrl } from 'constants/config';
 import { Song } from 'models/Song';
+import { useRouter } from 'next/router';
 import React, { FC, useMemo } from 'react';
+import en from 'translations/en/player';
+import vi from 'translations/vi/player';
 import { timeNumberToString } from 'utils/formatTime';
 
 const useStyles = makeStyles(() => ({
@@ -45,10 +48,14 @@ const useStyles = makeStyles(() => ({
 
 interface PropTypes {
   song: Song;
+  inQueue?: boolean;
 }
 
-export const SongCard: FC<PropTypes> = ({ song }) => {
+export const SongCard: FC<PropTypes> = ({ song, inQueue = false }) => {
   const classes = useStyles();
+  const router = useRouter();
+  const { locale } = router;
+  const t = locale === 'vi' ? vi : en;
   const time = useMemo(
     () => timeNumberToString(song.duration),
     [song.duration],
@@ -93,11 +100,17 @@ export const SongCard: FC<PropTypes> = ({ song }) => {
               {time}
             </Typography>
           </Box>
-          <Box textAlign="left" mt={0.65}>
-            <Typography variant="body2" noWrap className={classes.songCardUser}>
-              {song.author}
-            </Typography>
-          </Box>
+          {!inQueue && (
+            <Box textAlign="left" mt={0.65}>
+              <Typography
+                variant="body2"
+                noWrap
+                className={classes.songCardUser}
+              >
+                {song.author}
+              </Typography>
+            </Box>
+          )}
           {song.orderBy && (
             <Box textAlign="left" mt={0.65}>
               <Typography
@@ -105,7 +118,7 @@ export const SongCard: FC<PropTypes> = ({ song }) => {
                 noWrap
                 className={classes.songCardUser}
               >
-                Ordered by {song.orderBy}
+                {t.orderedBy} <b>{song.orderBy}</b>
               </Typography>
             </Box>
           )}

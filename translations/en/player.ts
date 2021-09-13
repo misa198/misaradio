@@ -18,4 +18,5 @@ export default {
   mute: 'Mute',
   unmute: 'Unmute',
   skip: 'Skip',
+  orderedBy: 'Ordered by',
 };

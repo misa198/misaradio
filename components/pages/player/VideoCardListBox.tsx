@@ -59,7 +59,7 @@ export const VideoCardListBox: FC<PropTypes> = ({ handleOpen }) => {
           <>
             {queue.map((song) => (
               <>
-                <SongCard song={song} key={song.uniqueId} />
+                <SongCard song={song} inQueue key={song.uniqueId} />
               </>
             ))}
           </>

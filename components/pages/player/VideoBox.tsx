@@ -83,7 +83,7 @@ const VideoBox: FC = () => {
   const classes = useStyles();
   const socket = useSocket();
   const [hovering, setHovering] = useState(false);
-  const [volume, setVolume] = useState(true);
+  const [volume, setVolume] = useState(false);
   const [player, setPlayer] = useState<YouTubePlayer | null>(null);
   const playing = useAppSelector((state) => state.player.playing);
   const startAt = useAppSelector((state) => state.player.startAt);
@@ -107,8 +107,9 @@ const VideoBox: FC = () => {
   }
 
   function onReady(event: { target: YouTubePlayer }) {
-    setPlayer(event.target);
+    event.target.setVolume(100);
     event.target.playVideo();
+    setPlayer(event.target);
   }
 
   function onPause(event: { target: YouTubePlayer }) {
@@ -126,7 +127,11 @@ const VideoBox: FC = () => {
 
   useEffect(() => {
     if (player) {
-      player.setVolume(volume ? 100 : 0);
+      if (volume) {
+        player.unMute();
+      } else {
+        player.mute();
+      }
     }
   }, [volume, player]);
 
