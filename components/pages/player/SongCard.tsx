@@ -22,7 +22,7 @@ const useStyles = makeStyles(() => ({
   },
   songCardImgWrapper: {
     width: '100%',
-    paddingBottom: '56.25%',
+    paddingBottom: '75%',
     position: 'relative',
     overflow: 'hidden',
     borderRadius: '0.25rem',
