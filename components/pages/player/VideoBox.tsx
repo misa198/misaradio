@@ -66,7 +66,7 @@ const generateYoutubeEmbedOption = (start: number) => {
     playerVars: {
       autoplay: 1,
       controls: 0,
-      mute: 0,
+      mute: 1,
       enablejsapi: 1,
       showinfo: 0,
       origin: baseUrl,
@@ -108,6 +108,11 @@ const VideoBox: FC = () => {
 
   function onReady(event: { target: YouTubePlayer }) {
     setPlayer(event.target);
+    event.target.playVideo();
+  }
+
+  function onPause(event: { target: YouTubePlayer }) {
+    event.target.playVideo();
   }
 
   function onSkip() {
@@ -122,7 +127,6 @@ const VideoBox: FC = () => {
   useEffect(() => {
     if (player) {
       player.setVolume(volume ? 100 : 0);
-      player.playVideo();
     }
   }, [volume, player]);
 
@@ -207,6 +211,7 @@ const VideoBox: FC = () => {
                 videoId={playing?.id}
                 opts={youtubeEmbedPlayerOpts}
                 onReady={onReady}
+                onPause={onPause}
               />
             )}
           </Box>
