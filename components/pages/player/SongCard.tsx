@@ -25,6 +25,7 @@ const useStyles = makeStyles(() => ({
     position: 'relative',
     overflow: 'hidden',
     borderRadius: '0.25rem',
+    paddingBottom: '56.25%',
   },
   songCardImg: {
     width: '100%',
@@ -76,7 +77,6 @@ export const SongCard: FC<PropTypes> = ({ song, inQueue = false }) => {
               justifyContent="space-between"
               alignItems="center"
               className={classes.songCardImgWrapper}
-              style={{ paddingBottom: inQueue ? '75%' : '56.25%' }}
             >
               <img
                 src={song.cover || defaultCoverUrl}
