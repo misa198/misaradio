@@ -195,6 +195,7 @@ const Player: NextPage = () => {
         <meta name="title" content={title} />
         <meta property="og:title" content={title} />
         <meta property="twitter:title" content={title} />
+        <script src="https://www.youtube.com/iframe_api" />
       </Head>
       {socket && room && (
         <>
