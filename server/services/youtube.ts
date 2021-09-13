@@ -32,6 +32,7 @@ export const getVideoById = async (id: string) => {
     `https://www.googleapis.com/youtube/v3/videos?part=snippet&part=contentDetails&id=${id}&key=${googleAPIKey}`,
   );
   const item = res.data.items[0];
+  console.log(item);
   if (!item) throw { message: 'Video not found' };
   const result: Song = {
     id,

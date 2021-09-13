@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-export default () => {
+const DisableContextMenu = () => {
   useEffect(() => {
     document.addEventListener('contextmenu', (e) => {
       e.preventDefault();
@@ -9,3 +9,5 @@ export default () => {
 
   return null;
 };
+
+export default DisableContextMenu;
