@@ -1,9 +1,9 @@
 import { Box, Button, makeStyles, Typography } from '@material-ui/core';
 import { useAppSelector } from 'app/hooks';
-import { useRouter } from 'next/router';
-import bannerBackground from 'public/banner.jpeg';
-import React, { FC } from 'react';
+import { bannerImage } from 'constants/config';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import React, { FC } from 'react';
 import en from 'translations/en/banner';
 import vi from 'translations/vi/banner';
 
@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
       rgba(0,0,0,0.6) 50%,
       rgba(0,0,0,0.85) 90%,
       rgba(0,0,0,0.9) 100%
-    ), url(${bannerBackground.src})`,
+    ), url('${bannerImage}')`,
     backgroundPosition: 'center',
     width: '100vw',
     minHeight: '100vh',

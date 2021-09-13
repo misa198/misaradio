@@ -6,4 +6,7 @@ module.exports = {
     defaultLocale: 'en',
     localeDetection: true,
   },
+  images: {
+    domains: ['*'],
+  },
 };

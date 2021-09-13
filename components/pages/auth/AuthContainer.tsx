@@ -1,5 +1,5 @@
 import { Box, makeStyles } from '@material-ui/core';
-import bannerBackground from 'public/banner.jpeg';
+import { bannerImage } from 'constants/config';
 import React, { FC } from 'react';
 
 const useStyles = makeStyles(() => ({
@@ -10,7 +10,7 @@ const useStyles = makeStyles(() => ({
       rgba(0,0,0,0.6) 50%,
       rgba(0,0,0,0.85) 90%,
       rgba(0,0,0,0.9) 100%
-    ), url(${bannerBackground.src})`,
+    ), url('${bannerImage}')`,
     backgroundPosition: 'center',
     paddingTop: '120px',
     paddingBottom: '120px',
