@@ -138,7 +138,7 @@ const VideoBox: FC = () => {
       if (!player) {
         setYoutubeEmbedPlayerOpts(generateYoutubeEmbedOption(startAt));
       } else {
-        player.loadVideoById(playing.id, Math.round(startAt / 1000));
+        player.loadVideoById(playing.id);
       }
     } else {
       setYoutubeEmbedPlayerOpts(null);
