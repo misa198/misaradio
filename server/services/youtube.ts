@@ -32,12 +32,15 @@ export const getVideoById = async (id: string) => {
   const res = await axios.get(url);
   const item = res.data.items[0];
   if (!item) throw { message: 'Video not found' };
+  const thumbnails = item.snippet.thumbnails;
   const result: Song = {
     id,
     title: item.snippet.title,
     duration: ytDurationToMilliseconds(item.contentDetails.duration),
     author: item.snippet.channelTitle,
-    cover: item.snippet.thumbnails.standard.url,
+    cover:
+      thumbnails[Object.keys(thumbnails)[Object.keys(thumbnails).length - 1]]
+        .url,
   };
   return result;
 };
