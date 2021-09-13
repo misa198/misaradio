@@ -51,7 +51,7 @@ export const VideoCardListBox: FC<PropTypes> = ({ handleOpen }) => {
         className={classes.itemsWrapper}
       >
         {!queue || queue?.length === 0 ? (
-          <Box width="100%" pt={2} pb={2}>
+          <Box width="100%" pt={2}>
             <MusicNote />
             <Typography variant="body1">{t.addMessage}</Typography>
           </Box>

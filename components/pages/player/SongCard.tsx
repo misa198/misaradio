@@ -1,4 +1,4 @@
-import { Box, Grid, makeStyles, Typography } from '@material-ui/core';
+import { Box, Grid, makeStyles, Typography, Tooltip } from '@material-ui/core';
 import { defaultCoverUrl } from 'constants/config';
 import { Song } from 'models/Song';
 import { useRouter } from 'next/router';
@@ -14,6 +14,7 @@ const useStyles = makeStyles(() => ({
     width: '100%',
     borderRadius: '5px',
     transition: 'all 200ms',
+    marginBottom: '0.5rem',
 
     '&:hover': {
       backgroundColor: '#313131',
@@ -62,68 +63,70 @@ export const SongCard: FC<PropTypes> = ({ song, inQueue = false }) => {
   );
 
   return (
-    <Box className={classes.songCardRoot}>
-      <Grid container spacing={2}>
-        <Grid item xs={4}>
-          <Box
-            display="flex"
-            flexDirection="row"
-            justifyContent="space-between"
-            alignItems="center"
-            className={classes.songCardImgWrapper}
-          >
-            <img
-              src={song.cover || defaultCoverUrl}
-              className={classes.songCardImg}
-              alt="song"
-              width="100%"
-              height="auto"
-            />
-          </Box>
-        </Grid>
-        <Grid item xs={8}>
-          <Box textAlign="left">
-            <Typography
-              variant="subtitle2"
-              noWrap
-              className={classes.songCardTitle}
+    <Tooltip title={`${song.title} | ${song.author}`}>
+      <Box className={classes.songCardRoot}>
+        <Grid container spacing={2}>
+          <Grid item xs={4}>
+            <Box
+              display="flex"
+              flexDirection="row"
+              justifyContent="space-between"
+              alignItems="center"
+              className={classes.songCardImgWrapper}
             >
-              {song.title}
-            </Typography>
-          </Box>
-          <Box textAlign="left" mt={0.2}>
-            <Typography
-              variant="body2"
-              noWrap
-              className={classes.songCardDuration}
-            >
-              {time}
-            </Typography>
-          </Box>
-          {!inQueue && (
-            <Box textAlign="left" mt={0.65}>
+              <img
+                src={song.cover || defaultCoverUrl}
+                className={classes.songCardImg}
+                alt="song"
+                width="100%"
+                height="auto"
+              />
+            </Box>
+          </Grid>
+          <Grid item xs={8}>
+            <Box textAlign="left">
+              <Typography
+                variant="subtitle2"
+                noWrap
+                className={classes.songCardTitle}
+              >
+                {song.title}
+              </Typography>
+            </Box>
+            <Box textAlign="left" mt={0.2}>
               <Typography
                 variant="body2"
                 noWrap
-                className={classes.songCardUser}
+                className={classes.songCardDuration}
               >
-                {song.author}
+                {time}
               </Typography>
             </Box>
-          )}
-          {song.orderBy && (
-            <Box textAlign="left" mt={0.65}>
-              <Typography
-                variant="body2"
-                noWrap
-                className={classes.songCardUser}
-              >
-                {t.orderedBy} <b>{song.orderBy}</b>
-              </Typography>
-            </Box>
-          )}
+            {!inQueue && (
+              <Box textAlign="left" mt={0.65}>
+                <Typography
+                  variant="body2"
+                  noWrap
+                  className={classes.songCardUser}
+                >
+                  {song.author}
+                </Typography>
+              </Box>
+            )}
+            {song.orderBy && (
+              <Box textAlign="left" mt={0.65}>
+                <Typography
+                  variant="body2"
+                  noWrap
+                  className={classes.songCardUser}
+                >
+                  {t.orderedBy} <b>{song.orderBy}</b>
+                </Typography>
+              </Box>
+            )}
+          </Grid>
         </Grid>
-      </Grid>
-    </Box>
+      </Box>
+    </Tooltip>
   );
 };
