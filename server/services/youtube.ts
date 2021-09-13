@@ -28,16 +28,14 @@ export const search = async (query: string) => {
 };
 
 export const getVideoById = async (id: string) => {
-  const res = await axios.get(
-    `https://www.googleapis.com/youtube/v3/videos?part=snippet&part=contentDetails&id=${id}&key=${googleAPIKey}`,
-  );
+  const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet&part=contentDetails&id=${id}&key=${googleAPIKey}`;
+  const res = await axios.get(url);
   const item = res.data.items[0];
-  console.log(item);
   if (!item) throw { message: 'Video not found' };
   const result: Song = {
     id,
     title: item.snippet.title,
-    duration: ytDurationToMilliseconds(item.lengthSeconds),
+    duration: ytDurationToMilliseconds(item.contentDetails.duration),
     author: item.snippet.channelTitle,
     cover: item.snippet.thumbnails.standard.url,
   };
