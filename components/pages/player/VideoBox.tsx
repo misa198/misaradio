@@ -2,8 +2,8 @@ import {
   Box,
   IconButton,
   makeStyles,
-  Typography,
   Tooltip,
+  Typography,
 } from '@material-ui/core';
 import { FastForward, TvOff, VolumeOff, VolumeUp } from '@material-ui/icons';
 import { useAppSelector } from 'app/hooks';
@@ -17,6 +17,7 @@ import en from 'translations/en/player';
 import vi from 'translations/vi/player';
 import { timeNumberToString } from 'utils/formatTime';
 import { YouTubePlayer } from 'youtube-player/dist/types';
+import ReactPlayer from 'react-player/youtube';
 
 const useStyles = makeStyles(() => ({
   videoBox: {
@@ -210,13 +211,34 @@ const VideoBox: FC = () => {
                 </IconButton>
               </Tooltip>
             </Box>
-            {youtubeEmbedPlayerOpts && (
+            {/* {youtubeEmbedPlayerOpts && (
               <Youtube
                 className={classes.youtubeEmbed}
                 videoId={playing?.id}
                 opts={youtubeEmbedPlayerOpts}
                 onReady={onReady}
                 onPause={onPause}
+              />
+            )} */}
+
+            {playing && (
+              <ReactPlayer
+                className={classes.youtubeEmbed}
+                url={`https://www.youtube.com/watch?v=${playing.id}`}
+                muted={volume}
+                autoplay
+                volume={1}
+                config={{
+                  playerVars: {
+                    autoplay: 1,
+                    controls: 0,
+                    mute: 1,
+                    enablejsapi: 1,
+                    showinfo: 0,
+                    origin: baseUrl,
+                    start: Math.round((startAt || 0) / 1000),
+                  },
+                }}
               />
             )}
           </Box>
