@@ -1,6 +1,7 @@
 import {
   Box,
   IconButton,
+  LinearProgress,
   makeStyles,
   Tooltip,
   Typography,
@@ -57,6 +58,12 @@ const useStyles = makeStyles(() => ({
     marginLeft: '1rem',
     backgroundColor: 'red !important',
   },
+  progressBar: {
+    position: 'absolute',
+    bottom: '2.5px',
+    left: 0,
+    width: '100%',
+  },
 }));
 
 const generateYoutubeEmbedOption = (start: number) => {
@@ -85,6 +92,7 @@ const VideoBox: FC = () => {
   const [hovering, setHovering] = useState(false);
   const [player, setPlayer] = useState<YouTubePlayer | null>(null);
   const [volume, setVolume] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
   const playing = useAppSelector((state) => state.player.playing);
   const startAt = useAppSelector((state) => state.player.startAt);
   const [youtubeEmbedPlayerOpts, setYoutubeEmbedPlayerOpts] =
@@ -93,6 +101,15 @@ const VideoBox: FC = () => {
     () => timeNumberToString(playing?.duration || 0),
     [playing?.duration],
   );
+
+  useEffect(() => {
+    if (player) {
+      const intervalId = setInterval(() => {
+        setCurrentTime(player.getCurrentTime());
+      }, 1000);
+      return () => clearInterval(intervalId);
+    }
+  }, [player]);
 
   function switchVolume() {
     if (player) {
@@ -135,15 +152,12 @@ const VideoBox: FC = () => {
 
   useEffect(() => {
     if (playing) {
-      if (!player) {
-        setYoutubeEmbedPlayerOpts(generateYoutubeEmbedOption(startAt));
-      } else {
-        player.loadVideoById(playing.id, Math.round(startAt / 1000));
-      }
+      setYoutubeEmbedPlayerOpts(generateYoutubeEmbedOption(startAt));
     } else {
       setYoutubeEmbedPlayerOpts(null);
       setPlayer(null);
     }
+    setCurrentTime(0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [playing]);
 
@@ -214,13 +228,22 @@ const VideoBox: FC = () => {
               </Tooltip>
             </Box>
             {youtubeEmbedPlayerOpts && (
-              <Youtube
-                className={classes.youtubeEmbed}
-                videoId={playing?.id}
-                opts={youtubeEmbedPlayerOpts}
-                onReady={onReady}
-                onPause={onPause}
-              />
+              <Box>
+                <Youtube
+                  className={classes.youtubeEmbed}
+                  videoId={playing?.id}
+                  opts={youtubeEmbedPlayerOpts}
+                  onReady={onReady}
+                  onPause={onPause}
+                />
+                <LinearProgress
+                  className={classes.progressBar}
+                  variant="determinate"
+                  value={
+                    (currentTime / ((playing?.duration || 0) / 1000)) * 100
+                  }
+                />
+              </Box>
             )}
           </Box>
 
